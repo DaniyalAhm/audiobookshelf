@@ -17,8 +17,8 @@ const branding = {
   icon: normalizeBrandingPath(process.env.BRAND_ICON || '/icon.png'),
   favicon: normalizeBrandingPath(process.env.BRAND_FAVICON || '/favicon.ico'),
   appleIcon: normalizeBrandingPath(process.env.BRAND_APPLE_ICON || '/apple_icon.png'),
-  pwaIcon: normalizeBrandingPath(process.env.BRAND_PWA_ICON || process.env.BRAND_ICON || '/icon.svg'),
-  pwaIcon192: normalizeBrandingPath(process.env.BRAND_PWA_ICON_192 || '/icon192.png'),
+  pwaIcon: normalizeBrandingPath(process.env.BRAND_PWA_ICON || process.env.BRAND_ICON || '/icon.png'),
+  pwaIcon192: normalizeBrandingPath(process.env.BRAND_PWA_ICON_192 || '/icon.png'),
   themeColor: process.env.BRAND_THEME_COLOR || '#232323'
 }
 
