@@ -141,11 +141,6 @@ export default {
         this.$store.commit('globals/setRawCoverPreviewModal', this.rawCoverUrl)
       }
     },
-    setCoverBg() {
-      if (this.$refs.coverBg) {
-        this.$refs.coverBg.style.backgroundImage = `url("${this.fullCoverUrl}")`
-      }
-    },
     imageLoaded() {
       this.loading = false
       this.$nextTick(() => {
@@ -164,6 +159,11 @@ export default {
         } else {
           this.showCoverBg = false
         }
+      }
+    },
+    setCoverBg() {
+      if (this.$refs.coverBg) {
+        this.$refs.coverBg.style.backgroundImage = `url("${this.fullCoverUrl}")`
       }
     },
     imageError(err) {

@@ -52,13 +52,40 @@ class Scanner {
       const searchISBN = options.isbn || libraryItem.media.isbn
       const searchASIN = options.asin || libraryItem.media.asin
 
-      const results = await BookFinder.search(libraryItem, provider, searchTitle, searchAuthor, searchISBN, searchASIN, { maxFuzzySearches: 2 })
-      if (!results.length) {
-        return {
-          warning: `No ${provider} match found`
+      let results = []
+      let matchedProvider = provider
+      let matchData = null
+
+      const builtinProviders = BookFinder.providers.filter((p) => p !== 'audiobookcovers')
+
+      if (provider.startsWith('custom-')) {
+        results = await BookFinder.search(libraryItem, provider, searchTitle, searchAuthor, searchISBN, searchASIN, { maxFuzzySearches: 2 })
+        if (!results.length) {
+          for (const tryProvider of builtinProviders) {
+            results = await BookFinder.search(libraryItem, tryProvider, searchTitle, searchAuthor, searchISBN, searchASIN, { maxFuzzySearches: 2 })
+            if (results.length) {
+              matchedProvider = tryProvider
+              break
+            }
+          }
+        }
+      } else {
+        const providersToTry = [provider, ...builtinProviders.filter((p) => p !== provider)]
+        for (const tryProvider of providersToTry) {
+          results = await BookFinder.search(libraryItem, tryProvider, searchTitle, searchAuthor, searchISBN, searchASIN, { maxFuzzySearches: 2 })
+          if (results.length) {
+            matchedProvider = tryProvider
+            break
+          }
         }
       }
-      const matchData = results[0]
+
+      if (!results.length) {
+        return {
+          warning: `No match found from any provider`
+        }
+      }
+      matchData = results[0]
 
       // Update cover if not set OR overrideCover flag
       if (matchData.cover && (!libraryItem.media.coverPath || options.overrideCover)) {
