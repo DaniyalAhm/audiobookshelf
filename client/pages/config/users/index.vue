@@ -2,13 +2,13 @@
   <div>
     <app-settings-content :header-text="$strings.HeaderUsers">
       <template #header-items>
-        <div v-if="numUsers" class="mx-2 px-1.5 rounded-lg bg-primary/50 text-gray-300/90 text-sm inline-flex items-center justify-center">
+        <div v-if="numUsers" class="mx-2 px-1.5 rounded-lg bg-primary/50 text-secondary-text/90 text-sm inline-flex items-center justify-center">
           <span>{{ numUsers }}</span>
         </div>
 
         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
           <a href="https://www.audiobookshelf.org/guides/users" target="_blank" class="inline-flex">
-            <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+            <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
           </a>
         </ui-tooltip>
 

@@ -3,13 +3,13 @@
     <app-settings-content :header-text="$strings.HeaderBackups" :description="$strings.MessageBackupsDescription">
       <div v-if="backupLocation" class="mb-4 max-w-full overflow-hidden">
         <div class="flex items-center mb-0.5">
-          <span class="material-symbols text-2xl text-black-50 mr-2">folder</span>
+          <span class="material-symbols text-2xl text-secondary-text mr-2">folder</span>
           <span class="text-white/60 uppercase text-sm whitespace-nowrap">{{ $strings.LabelBackupLocation }}:</span>
         </div>
         <div v-if="!showEditBackupPath" class="inline-flex items-center w-full overflow-hidden">
-          <p class="text-gray-100 max-w-[calc(100%-40px)] text-sm sm:text-base break-words">{{ backupLocation }}</p>
+          <p class="text-black-500 max-w-[calc(100%-40px)] text-sm sm:text-base break-words">{{ backupLocation }}</p>
           <div class="w-10 min-w-10 flex items-center justify-center">
-            <button class="text-black-50 hover:text-yellow-500 inline-flex" type="button" @click="showEditBackupPath = !showEditBackupPath">
+            <button class="text-secondary-text hover:text-primary inline-flex" type="button" @click="showEditBackupPath = !showEditBackupPath">
               <span class="material-symbols text-lg">edit</span>
             </button>
           </div>
@@ -33,22 +33,22 @@
 
       <div v-if="enableBackups" class="mb-6">
         <div class="flex items-center pl-0 sm:pl-6 mb-2">
-          <span class="material-symbols text-xl sm:text-2xl text-black-50 mr-2">schedule</span>
+          <span class="material-symbols text-xl sm:text-2xl text-secondary-text mr-2">schedule</span>
           <div class="w-32 min-w-32 sm:w-40 sm:min-w-40">
             <span class="text-white/60 uppercase text-sm">{{ $strings.HeaderSchedule }}:</span>
           </div>
-          <div class="text-gray-100 text-sm sm:text-base">{{ scheduleDescription }}</div>
-          <button class="ml-2 text-black-50 hover:text-yellow-500 inline-flex" type="button" @click="showCronBuilder = !showCronBuilder">
+          <div class="text-black-500 text-sm sm:text-base">{{ scheduleDescription }}</div>
+          <button class="ml-2 text-secondary-text hover:text-primary inline-flex" type="button" @click="showCronBuilder = !showCronBuilder">
             <span class="material-symbols text-lg">edit</span>
           </button>
         </div>
 
         <div v-if="nextBackupDate" class="flex items-center pl-0 sm:pl-6 py-0.5">
-          <span class="material-symbols text-xl sm:text-2xl text-black-50 mr-2">event</span>
+          <span class="material-symbols text-xl sm:text-2xl text-secondary-text mr-2">event</span>
           <div class="w-32 min-w-32 sm:w-40 sm:min-w-40">
             <span class="text-white/60 uppercase text-sm">{{ $strings.LabelNextBackupDate }}:</span>
           </div>
-          <div class="text-gray-100 text-sm sm:text-base">{{ nextBackupDate }}</div>
+          <div class="text-black-500 text-sm sm:text-base">{{ nextBackupDate }}</div>
         </div>
       </div>
 

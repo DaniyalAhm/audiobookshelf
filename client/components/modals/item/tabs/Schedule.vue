@@ -186,9 +186,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#scheduleWrapper {
-  height: calc(100% - 80px);
-  max-height: calc(100% - 80px);
-}
-</style>

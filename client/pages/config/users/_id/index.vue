@@ -22,21 +22,21 @@
       <div class="py-2">
         <h1 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderListeningStats }}</h1>
         <div class="flex items-center">
-          <p class="text-sm text-gray-300">{{ listeningSessions.total }} {{ $strings.HeaderListeningSessions }}</p>
+          <p class="text-sm text-secondary-text">{{ listeningSessions.total }} {{ $strings.HeaderListeningSessions }}</p>
           <ui-btn :to="`/config/users/${user.id}/sessions`" class="text-xs mx-2" :padding-x="1.5" :padding-y="1">{{ $strings.ButtonViewAll }}</ui-btn>
         </div>
-        <p class="text-sm text-gray-300">
+        <p class="text-sm text-secondary-text">
           {{ $strings.LabelTotalTimeListened }}:&nbsp;
           <span class="font-mono text-base">{{ listeningTimePretty }}</span>
         </p>
-        <p v-if="timeListenedToday" class="text-sm text-gray-300">
+        <p v-if="timeListenedToday" class="text-sm text-secondary-text">
           {{ $strings.LabelTimeListenedToday }}:&nbsp;
           <span class="font-mono text-base">{{ $elapsedPrettyExtended(timeListenedToday) }}</span>
         </p>
 
         <div v-if="latestSession" class="mt-4">
           <h1 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderLastListeningSession }}</h1>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-secondary-text">
             <strong>{{ latestSession.displayTitle }}</strong> {{ $dateDistanceFromNow(latestSession.updatedAt) }} for <span class="font-mono text-base">{{ $elapsedPrettyExtended(this.latestSession.timeListening) }}</span>
           </p>
         </div>
@@ -56,7 +56,7 @@
           <tr v-for="item in mediaProgress" :key="item.id" :class="!item.isFinished ? '' : 'isFinished'">
             <td>
               <covers-preview-cover v-if="item.coverPath" :width="50" :src="$store.getters['globals/getLibraryItemCoverSrcById'](item.libraryItemId, item.mediaUpdatedAt)" :book-cover-aspect-ratio="bookCoverAspectRatio" :show-resolution="false" />
-              <div v-else class="bg-primary flex items-center justify-center text-center text-xs text-gray-400 p-1" :style="{ width: '50px', height: 50 * bookCoverAspectRatio + 'px' }">No Cover</div>
+              <div v-else class="bg-primary flex items-center justify-center text-center text-xs text-secondary-text p-1" :style="{ width: '50px', height: 50 * bookCoverAspectRatio + 'px' }">No Cover</div>
             </td>
             <td>
               <p>{{ item.displayTitle || 'Unknown' }}</p>
@@ -164,29 +164,3 @@ export default {
 }
 </script>
 
-<style>
-.userAudiobooksTable {
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #474747;
-}
-.userAudiobooksTable tr:nth-child(even) {
-  background-color: #2e2e2e;
-}
-.userAudiobooksTable tr:not(:first-child) {
-  background-color: #373838;
-}
-.userAudiobooksTable tr:hover:not(:first-child) {
-  background-color: #474747;
-}
-.userAudiobooksTable tr.isFinished {
-  background-color: rgba(76, 175, 80, 0.1);
-}
-.userAudiobooksTable td {
-  padding: 4px 8px;
-}
-.userAudiobooksTable th {
-  padding: 4px 8px;
-  font-size: 0.75rem;
-}
-</style>

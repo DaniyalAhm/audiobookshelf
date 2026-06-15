@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center px-1 overflow-hidden">
+  <div class="search-card items-center">
     <div class="w-8 flex items-center justify-center">
       <span v-if="isFinished" :class="taskIconStatus" class="material-symbols text-base">{{ actionIcon }}</span>
       <widgets-loading-spinner v-else />
@@ -132,12 +132,3 @@ export default {
 }
 </script>
 
-<style>
-.taskRunningCardContent {
-  width: calc(100% - 84px);
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-</style>

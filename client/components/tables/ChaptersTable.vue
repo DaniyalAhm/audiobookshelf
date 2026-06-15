@@ -1,16 +1,16 @@
 <template>
-  <div class="w-full my-2">
-    <div class="w-full bg-primary px-6 py-2 flex items-center cursor-pointer" @click.stop="clickBar">
-      <p class="pr-4">{{ $strings.HeaderChapters }}</p>
-      <span class="bg-black-400 rounded-xl py-1 px-2 text-sm font-mono">{{ chapters.length }}</span>
-      <div class="grow" />
-      <ui-btn v-if="userCanUpdate" small :to="`/audiobook/${libraryItemId}/chapters`" color="bg-primary" class="mr-2" @click="clickEditChapters">{{ $strings.ButtonEditChapters }}</ui-btn>
-      <div v-if="!keepOpen" class="cursor-pointer h-10 w-10 rounded-full hover:bg-black-400 flex justify-center items-center duration-500" :class="expanded ? 'transform rotate-180' : ''">
-        <span class="material-symbols text-4xl">&#xe313;</span>
+  <div class="chapters-table w-full my-2">
+    <div class="tables__bar chapters-table__bar w-full bg-primary px-6 py-2 flex items-center cursor-pointer" @click.stop="clickBar">
+      <p class="chapters-table__title pr-4">{{ $strings.HeaderChapters }}</p>
+      <span class="chapters-table__count bg-black-400 rounded-xl py-1 px-2 text-sm font-mono">{{ chapters.length }}</span>
+      <div class="chapters-table__spacer grow" />
+      <ui-btn v-if="userCanUpdate" small :to="`/audiobook/${libraryItemId}/chapters`" color="bg-primary" class="chapters-table__edit mr-2" @click="clickEditChapters">{{ $strings.ButtonEditChapters }}</ui-btn>
+      <div v-if="!keepOpen" class="chapters-table__toggle cursor-pointer h-10 w-10 rounded-full hover:bg-black-400 flex justify-center items-center duration-500" :class="expanded ? 'transform rotate-180' : ''">
+        <span class="chapters-table__toggle-icon material-symbols text-4xl">&#xe313;</span>
       </div>
     </div>
     <transition name="slide">
-      <table class="text-sm tracksTable" v-show="expanded || keepOpen">
+      <table class="chapters-table__table text-sm tracksTable" v-show="expanded || keepOpen">
         <tr>
           <th class="text-left w-16"><span class="px-4">Id</span></th>
           <th class="text-left">{{ $strings.LabelTitle }}</th>
@@ -24,10 +24,10 @@
           <td dir="auto">
             {{ chapter.title }}
           </td>
-          <td class="font-mono text-center hover:underline cursor-pointer" @click.stop="goToTimestamp(chapter.start)">
+          <td class="chapters-table__timestamp font-mono text-center hover:underline cursor-pointer" @click.stop="goToTimestamp(chapter.start)">
             {{ $secondsToTimestamp(chapter.start) }}
           </td>
-          <td class="font-mono text-center">
+          <td class="chapters-table__duration font-mono text-center">
             {{ $secondsToTimestamp(Math.max(0, chapter.end - chapter.start)) }}
           </td>
         </tr>

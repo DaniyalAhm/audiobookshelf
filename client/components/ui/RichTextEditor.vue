@@ -1,6 +1,6 @@
 <template>
   <div class="default-style">
-    <p v-if="label" class="px-1 text-sm font-semibold" :class="{ 'text-gray-400': disabled }" style="margin-top: 0; margin-bottom: 0.125em">
+    <p v-if="label" class="px-1 text-sm font-semibold" :class="{ 'text-secondary-text': disabled }" style="margin-top: 0; margin-bottom: 0.125em">
       {{ label }}
     </p>
     <ui-vue-trix ref="input" v-model="content" :disabled-editor="disabled" @trix-file-accept="trixFileAccept" />

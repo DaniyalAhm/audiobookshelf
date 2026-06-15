@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-full px-1 overflow-hidden">
+  <div class="search-card items-center">
     <covers-book-cover :library-item="libraryItem" :width="coverWidth" :book-cover-aspect-ratio="bookCoverAspectRatio" />
     <div class="grow px-2 audiobookSearchCardContent">
       <p class="truncate text-sm">{{ title }}</p>
@@ -56,12 +56,3 @@ export default {
 }
 </script>
 
-<style>
-.audiobookSearchCardContent {
-  width: calc(100% - 80px);
-  height: 75px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-</style>

@@ -668,14 +668,3 @@ export default {
 }
 </script>
 
-<style>
-.matchListWrapper {
-  height: calc(100% - 124px);
-}
-
-@media (min-width: 768px) {
-  .matchListWrapper {
-    height: calc(100% - 80px);
-  }
-}
-</style>

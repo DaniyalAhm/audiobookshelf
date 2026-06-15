@@ -1,10 +1,10 @@
 <template>
   <div class="w-full py-2">
     <div class="flex -mb-px">
-      <div class="w-1/2 h-6 rounded-tl-md relative border border-black-200 flex items-center justify-center cursor-pointer" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
+      <div class="w-1/2 h-6 rounded-tl-md relative border border-black-200 flex items-center justify-center cursor-pointer" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
         <p class="text-sm">{{ $strings.HeaderRSSFeedGeneral }}</p>
       </div>
-      <div class="w-1/2 h-6 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px cursor-pointer" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
+      <div class="w-1/2 h-6 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px cursor-pointer" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
         <p class="text-sm">{{ $strings.HeaderAdvanced }}</p>
       </div>
     </div>

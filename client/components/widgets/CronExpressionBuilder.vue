@@ -1,10 +1,10 @@
 <template>
   <div class="w-full py-2">
     <div class="flex -mb-px">
-      <div class="w-1/2 h-8 rounded-tl-md relative border border-black-200 flex items-center justify-center cursor-pointer" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
+      <div class="w-1/2 h-8 rounded-tl-md relative border border-black-200 flex items-center justify-center cursor-pointer" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
         <p class="text-sm">{{ $strings.HeaderSchedule }}</p>
       </div>
-      <div class="w-1/2 h-8 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px cursor-pointer" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
+      <div class="w-1/2 h-8 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px cursor-pointer" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
         <p class="text-sm">{{ $strings.HeaderAdvanced }}</p>
       </div>
     </div>
@@ -21,7 +21,7 @@
         </div>
 
         <div v-if="description" class="w-full bg-primary/75 rounded-xl p-2 md:p-4 text-center mt-2">
-          <p class="text-base md:text-lg text-gray-200" v-html="description" />
+          <p class="text-base md:text-lg text-black-500" v-html="description" />
         </div>
       </template>
       <template v-else>
@@ -31,12 +31,12 @@
         <div class="flex items-center justify-center">
           <widgets-loading-spinner v-if="isValidating" class="mr-2" />
           <span v-else class="material-symbols mr-2 text-xl" :class="isValid ? 'text-success' : 'text-error'">{{ isValid ? 'check_circle_outline' : 'error_outline' }}</span>
-          <p v-if="isValidating" class="text-gray-300 text-base md:text-lg text-center">{{ $strings.MessageCheckingCron }}</p>
+          <p v-if="isValidating" class="text-secondary-text text-base md:text-lg text-center">{{ $strings.MessageCheckingCron }}</p>
           <p v-else-if="customCronError" class="text-error text-base md:text-lg text-center">{{ customCronError }}</p>
           <p v-else class="text-success text-base md:text-lg text-center">{{ $strings.MessageValidCronExpression }}</p>
         </div>
       </template>
-      <div v-if="cronExpression && isValid" class="flex items-center justify-center text-yellow-400 mt-2">
+      <div v-if="cronExpression && isValid" class="flex items-center justify-center text-primary mt-2">
         <span class="material-symbols mr-2 text-xl">event</span>
         <p>{{ $strings.LabelNextScheduledRun }}: {{ nextRun }}</p>
       </div>

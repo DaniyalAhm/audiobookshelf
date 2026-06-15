@@ -17,6 +17,8 @@ class Author extends Model {
     this.description
     /** @type {string} */
     this.imagePath
+    /** @type {string} */
+    this.wikipediaLink
     /** @type {UUIDV4} */
     this.libraryId
     /** @type {Date} */
@@ -140,7 +142,8 @@ class Author extends Model {
         lastFirst: DataTypes.STRING,
         asin: DataTypes.STRING,
         description: DataTypes.TEXT,
-        imagePath: DataTypes.STRING
+        imagePath: DataTypes.STRING,
+        wikipediaLink: DataTypes.STRING
       },
       {
         sequelize,
@@ -181,6 +184,7 @@ class Author extends Model {
       name: this.name,
       description: this.description,
       imagePath: this.imagePath,
+      wikipediaLink: this.wikipediaLink,
       libraryId: this.libraryId,
       addedAt: this.createdAt.valueOf(),
       updatedAt: this.updatedAt.valueOf()

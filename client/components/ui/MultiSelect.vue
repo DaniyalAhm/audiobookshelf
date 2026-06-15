@@ -1,9 +1,9 @@
 <template>
   <div class="w-full">
-    <label :for="identifier" class="px-1 text-sm font-semibold" :class="disabled ? 'text-gray-400' : ''">{{ label }}</label>
+    <label :for="identifier" class="px-1 text-sm font-semibold" :class="disabled ? 'text-secondary-text' : ''">{{ label }}</label>
     <div ref="wrapper" class="relative">
       <form @submit.prevent="submitForm">
-        <div ref="inputWrapper" role="list" style="min-height: 36px" class="flex-wrap relative w-full shadow-xs flex items-center border border-gray-600 rounded-sm px-2 py-1" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
+        <div ref="inputWrapper" role="list" style="min-height: 36px" class="flex-wrap relative w-full flex items-center border border-black-200 rounded-lg px-2 py-1" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
           <!-- Use index in v-for and key in case the same key exists multiple times -->
           <div v-for="(item, idx) in selected" :key="item + '-' + idx" role="listitem" class="rounded-full px-2 py-1 mx-0.5 my-0.5 text-xs bg-bg flex flex-nowrap break-all items-center relative">
             <div v-if="!disabled" class="w-full h-full rounded-full absolute top-0 left-0 px-1 bg-bg/75 flex items-center justify-end opacity-0 hover:opacity-100" :class="{ 'opacity-100': inputFocused }">
@@ -12,22 +12,22 @@
             </div>
             {{ item }}
           </div>
-          <input v-show="!readonly" v-model="textInput" ref="input" :id="identifier" :disabled="disabled" class="h-full bg-primary focus:outline-hidden px-1 w-6" @keydown="keydownInput" @focus="inputFocus" @blur="inputBlur" @paste="inputPaste" />
+          <input v-show="!readonly" v-model="textInput" ref="input" :id="identifier" :disabled="disabled" class="h-full bg-fg text-black-500 focus:outline-hidden px-1 w-6" @keydown="keydownInput" @focus="inputFocus" @blur="inputBlur" @paste="inputPaste" />
         </div>
       </form>
 
       <ul ref="menu" v-show="showMenu" class="absolute z-60 mt-1 w-full bg-bg border border-black-200 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black/5 overflow-auto focus:outline-hidden sm:text-sm" role="listbox" aria-labelledby="listbox-label">
         <template v-for="item in itemsToShow">
-          <li :key="item" class="text-gray-50 select-none relative py-2 pr-9 cursor-pointer hover:bg-black-400" :class="itemsToShow[selectedMenuItemIndex] === item ? 'text-yellow-300' : ''" role="option" @click="clickedOption($event, item)" @mouseup.stop.prevent @mousedown.prevent>
+          <li :key="item" class="text-black-500 select-none relative py-2 pr-9 cursor-pointer hover:bg-black-400" :class="itemsToShow[selectedMenuItemIndex] === item ? 'text-primary' : ''" role="option" @click="clickedOption($event, item)" @mouseup.stop.prevent @mousedown.prevent>
             <div class="flex items-center">
               <span class="font-normal ml-3 block truncate">{{ item }}</span>
             </div>
-            <span v-if="selected.includes(item)" class="text-yellow-400 absolute inset-y-0 right-0 flex items-center pr-4">
+            <span v-if="selected.includes(item)" class="text-primary absolute inset-y-0 right-0 flex items-center pr-4">
               <span class="material-symbols text-xl">check</span>
             </span>
           </li>
         </template>
-        <li v-if="!itemsToShow.length" class="text-gray-50 select-none relative py-2 pr-9" role="option">
+        <li v-if="!itemsToShow.length" class="text-black-500 select-none relative py-2 pr-9" role="option">
           <div class="flex items-center justify-center">
             <span class="font-normal">{{ $strings.MessageNoItems }}</span>
           </div>
@@ -92,7 +92,7 @@ export default {
     wrapperClass() {
       var classes = []
       if (this.disabled) classes.push('bg-black-300')
-      else classes.push('bg-primary')
+      else classes.push('bg-fg text-black-500')
       if (!this.readonly) classes.push('cursor-text')
       return classes.join(' ')
     },
@@ -319,12 +319,3 @@ export default {
 }
 </script>
 
-<style scoped>
-input {
-  border-style: inherit !important;
-}
-input:read-only {
-  color: #aaa;
-  background-color: #444;
-}
-</style>

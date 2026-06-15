@@ -1,7 +1,7 @@
 <template>
   <div class="relative rounded-xs overflow-hidden" :style="{ height: height + 'px', width: width + 'px', maxWidth: width + 'px', minWidth: width + 'px' }">
     <div class="w-full h-full relative bg-bg">
-      <div v-show="showCoverBg" class="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xs bg-primary">
+      <div v-show="showCoverBg" class="cover-bg-wrapper">
         <div class="absolute cover-bg" ref="coverBg" />
       </div>
 
@@ -17,7 +17,7 @@
 
     <div v-if="imageFailed" class="absolute top-0 left-0 right-0 bottom-0 w-full h-full bg-red-100" :style="{ padding: placeholderCoverPadding + 'rem' }">
       <div class="w-full h-full border-2 border-error flex flex-col items-center justify-center">
-        <img src="/Logo.png" loading="lazy" class="mb-2" :style="{ height: 64 * sizeMultiplier + 'px' }" />
+        <img :src="$branding.logo" loading="lazy" class="mb-2" :style="{ height: 64 * sizeMultiplier + 'px' }" />
         <p class="text-center text-error" :style="{ fontSize: titleFontSize + 'rem' }">Invalid Cover</p>
       </div>
     </div>

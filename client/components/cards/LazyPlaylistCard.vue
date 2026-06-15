@@ -1,5 +1,5 @@
 <template>
-  <div ref="card" :id="`playlist-card-${index}`" role="button" :style="{ width: cardWidth + 'px', fontSize: sizeMultiplier + 'rem' }" class="absolute top-0 left-0 rounded-xs z-30 cursor-pointer" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
+  <div ref="card" :id="`playlist-card-${index}`" role="button" :style="{ width: cardWidth + 'px', fontSize: sizeMultiplier + 'rem' }" class="entity-card absolute top-0 left-0 rounded-xs z-30 cursor-pointer" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
     <div class="relative" :style="{ height: coverHeight + 'px' }">
       <div class="absolute top-0 left-0 w-full box-shadow-book shadow-height" />
       <div class="w-full h-full bg-primary relative rounded-sm overflow-hidden">

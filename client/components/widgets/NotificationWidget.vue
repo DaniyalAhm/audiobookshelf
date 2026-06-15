@@ -19,11 +19,11 @@
             <template v-if="tasksToShow.length">
               <template v-for="task in tasksToShow">
                 <nuxt-link :key="task.id" v-if="actionLink(task)" :to="actionLink(task)">
-                  <li class="text-gray-50 select-none relative hover:bg-black-400 py-1 cursor-pointer">
+                  <li class="text-black-500 select-none relative hover:bg-black-400 py-1 cursor-pointer">
                     <cards-item-task-running-card :task="task" />
                   </li>
                 </nuxt-link>
-                <li v-else :key="task.id" class="text-gray-50 select-none relative hover:bg-black-400 py-1">
+                <li v-else :key="task.id" class="text-black-500 select-none relative hover:bg-black-400 py-1">
                   <cards-item-task-running-card :task="task" />
                 </li>
               </template>
@@ -111,8 +111,3 @@ export default {
 }
 </script>
 
-<style>
-.globalTaskRunningMenu {
-  max-height: 80vh;
-}
-</style>

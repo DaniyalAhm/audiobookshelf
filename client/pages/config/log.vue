@@ -4,7 +4,7 @@
       <template #header-items>
         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
           <a href="https://www.audiobookshelf.org/guides/server_logs" target="_blank" class="inline-flex">
-            <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+            <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
           </a>
         </ui-tooltip>
       </template>
@@ -19,7 +19,7 @@
         <div ref="container" id="log-container" class="relative w-full h-full bg-primary border-bg overflow-x-hidden overflow-y-auto text-red shadow-inner rounded-md" style="min-height: 550px">
           <template v-for="(log, index) in logs">
             <div :key="index" class="flex flex-nowrap px-2 py-1 items-start text-sm" :class="`${bgColors[log.level]}`">
-              <p class="text-gray-400 w-36 font-mono text-xs">{{ log.timestamp }}</p>
+              <p class="text-secondary-text w-36 font-mono text-xs">{{ log.timestamp }}</p>
               <p class="font-semibold w-12 text-right text-sm" :class="`${textColors[log.level]}`">{{ log.levelName }}</p>
               <p class="px-4 logmessage">{{ log.message }}</p>
             </div>
@@ -27,7 +27,7 @@
         </div>
 
         <div v-if="!logs.length" class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-center">
-          <p class="text-xl text-gray-200 mb-2">{{ $strings.MessageNoLogs }}</p>
+          <p class="text-xl text-black-500 mb-2">{{ $strings.MessageNoLogs }}</p>
         </div>
       </div>
     </app-settings-content>
@@ -47,8 +47,8 @@ export default {
       searchTimeout: null,
       searchText: null,
       newServerSettings: {},
-      textColors: ['text-yellow-200', 'text-gray-400', 'text-info', 'text-warning', 'text-error', 'text-red-800', 'text-blue-400'],
-      bgColors: ['bg-yellow-200/10', 'bg-gray-400/10', 'bg-info/10', 'bg-warning/10', 'bg-error/10', 'bg-red-800/10', 'bg-blue-400/10'],
+      textColors: ['text-primary', 'text-secondary-text', 'text-info', 'text-warning', 'text-error', 'text-red-800', 'text-blue-400'],
+      bgColors: ['bg-primary/10', 'bg-secondary-bg/60', 'bg-info/10', 'bg-warning/10', 'bg-error/10', 'bg-red-800/10', 'bg-blue-400/10'],
       loadedLogs: []
     }
   },
@@ -185,11 +185,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#log-container {
-  height: calc(100vh - 285px);
-}
-.logmessage {
-  width: calc(100% - 208px);
-}
-</style>

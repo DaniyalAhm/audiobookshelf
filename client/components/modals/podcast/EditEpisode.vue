@@ -211,11 +211,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.tab {
-  height: 40px;
-}
-.tab.tab-selected {
-  height: 41px;
-}
-</style>

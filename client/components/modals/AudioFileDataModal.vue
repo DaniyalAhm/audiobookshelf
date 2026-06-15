@@ -2,7 +2,7 @@
   <modals-modal v-model="show" name="audiofile-data-modal" :width="700" :height="'unset'">
     <div v-if="audioFile" ref="container" class="w-full rounded-lg bg-bg box-shadow-md overflow-y-auto overflow-x-hidden p-6" style="max-height: 80vh">
       <div class="flex items-center justify-between">
-        <p class="text-base text-gray-200 truncate">{{ metadata.filename }}</p>
+        <p class="text-base text-black-500 truncate">{{ metadata.filename }}</p>
         <ui-btn v-if="ffprobeData" small class="ml-2" @click="ffprobeData = null">{{ $strings.ButtonReset }}</ui-btn>
         <ui-btn v-else-if="userIsAdminOrUp" small :loading="probingFile" class="ml-2" @click="getFFProbeData">{{ $strings.ButtonProbeAudioFile }}</ui-btn>
       </div>
@@ -15,29 +15,29 @@
         <div class="flex flex-col sm:flex-row text-sm">
           <div class="w-full sm:w-1/2">
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelSize }}
               </p>
               <p>{{ $bytesPretty(metadata.size) }}</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelDuration }}
               </p>
               <p>{{ $secondsToTimestamp(audioFile.duration) }}</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">{{ $strings.LabelFormat }}</p>
+              <p class="w-32 text-secondary-text">{{ $strings.LabelFormat }}</p>
               <p>{{ audioFile.format }}</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelChapters }}
               </p>
               <p>{{ audioFile.chapters?.length || 0 }}</p>
             </div>
             <div v-if="audioFile.embeddedCoverArt" class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelEmbeddedCover }}
               </p>
               <p>{{ audioFile.embeddedCoverArt || '' }}</p>
@@ -45,29 +45,29 @@
           </div>
           <div class="w-full sm:w-1/2">
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelCodec }}
               </p>
               <p>{{ audioFile.codec }}</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelChannels }}
               </p>
               <p>{{ audioFile.channels }} ({{ audioFile.channelLayout }})</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelBitrate }}
               </p>
               <p>{{ $bytesPretty(audioFile.bitRate || 0, 0) }}</p>
             </div>
             <div class="flex mb-1">
-              <p class="w-32 text-black-50">{{ $strings.LabelTimeBase }}</p>
+              <p class="w-32 text-secondary-text">{{ $strings.LabelTimeBase }}</p>
               <p>{{ audioFile.timeBase }}</p>
             </div>
             <div v-if="audioFile.language" class="flex mb-1">
-              <p class="w-32 text-black-50">
+              <p class="w-32 text-secondary-text">
                 {{ $strings.LabelLanguage }}
               </p>
               <p>{{ audioFile.language || '' }}</p>
@@ -80,7 +80,7 @@
         <p class="font-bold mb-2">{{ $strings.LabelMetaTags }}</p>
 
         <div v-for="(value, key) in metaTags" :key="key" class="flex mb-1 text-sm">
-          <p class="w-32 min-w-32 text-black-50 mb-1">
+          <p class="w-32 min-w-32 text-secondary-text mb-1">
             {{ key.replace('tag', '') }}
           </p>
           <p>{{ value }}</p>
@@ -90,7 +90,7 @@
         <div class="relative">
           <ui-textarea-with-label :value="prettyFfprobeData" readonly :rows="30" class="text-xs" />
 
-          <button class="absolute top-4 right-4" :class="hasCopied ? 'text-success' : 'text-gray-400 hover:text-white'" @click.stop="copyToClipboard">
+          <button class="absolute top-4 right-4" :class="hasCopied ? 'text-success' : 'text-secondary-text hover:text-white'" @click.stop="copyToClipboard">
             <span class="material-symbols">{{ hasCopied ? 'done' : 'content_copy' }}</span>
           </button>
         </div>

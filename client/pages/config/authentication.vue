@@ -25,7 +25,7 @@
           <p class="text-lg pl-4">{{ $strings.HeaderOpenIDConnectAuthentication }}</p>
           <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
             <a href="https://www.audiobookshelf.org/guides/oidc_authentication" target="_blank" class="inline-flex">
-              <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+              <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
             </a>
           </ui-tooltip>
         </div>
@@ -62,15 +62,15 @@
             <ui-text-input-with-label v-else ref="openidTokenSigningAlgorithm" v-model="newAuthSettings.authOpenIDTokenSigningAlgorithm" :disabled="savingSettings" :label="'Signing Algorithm'" class="mb-2" />
 
             <ui-multi-select ref="redirectUris" v-model="newAuthSettings.authOpenIDMobileRedirectURIs" :items="newAuthSettings.authOpenIDMobileRedirectURIs" :label="$strings.LabelMobileRedirectURIs" class="mb-2" :menuDisabled="true" :disabled="savingSettings" />
-            <p class="sm:pl-4 text-sm text-gray-300 mb-2" v-html="$strings.LabelMobileRedirectURIsDescription" />
+            <p class="sm:pl-4 text-sm text-secondary-text mb-2" v-html="$strings.LabelMobileRedirectURIsDescription" />
 
             <div class="flex sm:items-center flex-col sm:flex-row pt-1 mb-2">
               <div class="w-44">
                 <ui-dropdown v-model="newAuthSettings.authOpenIDSubfolderForRedirectURLs" small :items="subfolderOptions" :label="$strings.LabelWebRedirectURLsSubfolder" :disabled="savingSettings" />
               </div>
               <div class="mt-2 sm:mt-5">
-                <p class="sm:pl-4 text-sm text-gray-300">{{ $strings.LabelWebRedirectURLsDescription }}</p>
-                <p class="sm:pl-4 text-sm text-gray-300 mb-2">
+                <p class="sm:pl-4 text-sm text-secondary-text">{{ $strings.LabelWebRedirectURLsDescription }}</p>
+                <p class="sm:pl-4 text-sm text-secondary-text mb-2">
                   <code>{{ webCallbackURL }}</code>
                   <br />
                   <code>{{ mobileAppCallbackURL }}</code>
@@ -84,19 +84,19 @@
               <div class="w-44">
                 <ui-dropdown v-model="newAuthSettings.authOpenIDMatchExistingBy" small :items="matchingExistingOptions" :label="$strings.LabelMatchExistingUsersBy" :disabled="savingSettings" />
               </div>
-              <p class="sm:pl-4 text-sm text-gray-300 mt-2 sm:mt-5">{{ $strings.LabelMatchExistingUsersByDescription }}</p>
+              <p class="sm:pl-4 text-sm text-secondary-text mt-2 sm:mt-5">{{ $strings.LabelMatchExistingUsersByDescription }}</p>
             </div>
 
             <div class="flex items-center py-4 px-1 w-full">
               <ui-toggle-switch labeledBy="auto-redirect-toggle" v-model="newAuthSettings.authOpenIDAutoLaunch" :disabled="savingSettings" />
               <p id="auto-redirect-toggle" class="pl-4 whitespace-nowrap">{{ $strings.LabelAutoLaunch }}</p>
-              <p class="pl-4 text-sm text-gray-300" v-html="$strings.LabelAutoLaunchDescription" />
+              <p class="pl-4 text-sm text-secondary-text" v-html="$strings.LabelAutoLaunchDescription" />
             </div>
 
             <div class="flex items-center py-4 px-1 w-full">
               <ui-toggle-switch labeledBy="auto-register-toggle" v-model="newAuthSettings.authOpenIDAutoRegister" :disabled="savingSettings" />
               <p id="auto-register-toggle" class="pl-4 whitespace-nowrap">{{ $strings.LabelAutoRegister }}</p>
-              <p class="pl-4 text-sm text-gray-300">{{ $strings.LabelAutoRegisterDescription }}</p>
+              <p class="pl-4 text-sm text-secondary-text">{{ $strings.LabelAutoRegisterDescription }}</p>
             </div>
 
             <p class="pt-6 mb-4 px-1">{{ $strings.LabelOpenIDClaims }}</p>
@@ -105,14 +105,14 @@
               <div class="w-44 min-w-44">
                 <ui-text-input-with-label ref="openidGroupClaim" v-model="newAuthSettings.authOpenIDGroupClaim" :disabled="savingSettings" :placeholder="'groups'" :label="'Group Claim'" />
               </div>
-              <p class="sm:pl-4 pt-2 sm:pt-0 text-sm text-gray-300" v-html="$strings.LabelOpenIDGroupClaimDescription"></p>
+              <p class="sm:pl-4 pt-2 sm:pt-0 text-sm text-secondary-text" v-html="$strings.LabelOpenIDGroupClaimDescription"></p>
             </div>
 
             <div class="flex flex-col sm:flex-row mb-4">
               <div class="w-44 min-w-44">
                 <ui-text-input-with-label ref="openidAdvancedPermsClaim" v-model="newAuthSettings.authOpenIDAdvancedPermsClaim" :disabled="savingSettings" :placeholder="'abspermissions'" :label="'Advanced Permission Claim'" />
               </div>
-              <div class="sm:pl-4 pt-2 sm:pt-0 text-sm text-gray-300">
+              <div class="sm:pl-4 pt-2 sm:pt-0 text-sm text-secondary-text">
                 <p v-html="$strings.LabelOpenIDAdvancedPermsClaimDescription"></p>
                 <pre class="text-pre-wrap mt-2"
                   >{{ newAuthSettings.authOpenIDSamplePermissions }}
@@ -375,13 +375,3 @@ export default {
 }
 </script>
 
-<style>
-#authentication-settings code {
-  font-size: 0.8rem;
-  border-radius: 6px;
-  background-color: rgb(82, 82, 82);
-  color: white;
-  padding: 2px 4px;
-  white-space: nowrap;
-}
-</style>

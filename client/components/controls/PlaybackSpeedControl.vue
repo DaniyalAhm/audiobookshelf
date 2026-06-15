@@ -1,7 +1,7 @@
 <template>
   <div ref="wrapper" class="relative ml-4 sm:ml-8" v-click-outside="clickOutside">
-    <div class="flex items-center justify-center text-gray-300 cursor-pointer h-full" @mousedown.prevent @mouseup.prevent @click="setShowMenu(true)">
-      <span class="text-gray-200 text-sm sm:text-base">{{ playbackRateDisplay }}<span class="text-base">x</span></span>
+    <div class="flex items-center justify-center text-secondary-text cursor-pointer h-full" @mousedown.prevent @mouseup.prevent @click="setShowMenu(true)">
+      <span class="text-black-500 text-sm sm:text-base">{{ playbackRateDisplay }}<span class="text-base">x</span></span>
     </div>
     <div v-show="showMenu" class="absolute -top-[5.5rem] z-20 bg-bg border-black-200 border shadow-xl rounded-lg" :style="{ left: menuLeft + 'px' }">
       <div class="absolute -bottom-1.5 right-0 w-full flex justify-center" :style="{ left: arrowLeft + 'px' }">

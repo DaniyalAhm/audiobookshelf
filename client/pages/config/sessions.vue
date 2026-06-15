@@ -55,8 +55,8 @@
                 <div class="absolute inset-0 w-full h-full" @click.stop="session.selected = !session.selected" />
               </td>
               <td class="py-1 grow sm:grow-0 sm:w-48 sm:max-w-48">
-                <p class="text-xs text-gray-200 truncate">{{ session.displayTitle }}</p>
-                <p class="text-xs text-gray-400 truncate">{{ session.displayAuthor }}</p>
+                <p class="text-xs text-black-500 truncate">{{ session.displayTitle }}</p>
+                <p class="text-xs text-secondary-text truncate">{{ session.displayAuthor }}</p>
               </td>
               <td class="hidden md:table-cell w-20 min-w-20">
                 <p v-if="filteredUserUsername" class="text-xs">{{ filteredUserUsername }}</p>
@@ -80,7 +80,7 @@
               </td>
               <td class="text-center hidden sm:table-cell">
                 <ui-tooltip v-if="session.updatedAt" direction="top" :text="$formatDatetime(session.updatedAt, dateFormat, timeFormat)">
-                  <p class="text-xs text-gray-200">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
+                  <p class="text-xs text-black-500">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
                 </ui-tooltip>
               </td>
             </tr>
@@ -124,8 +124,8 @@
 
           <tr v-for="session in openListeningSessions" :key="`open-${session.id}`" class="cursor-pointer" @click="showSession(session)">
             <td class="py-1 max-w-48">
-              <p class="text-xs text-gray-200 truncate">{{ session.displayTitle }}</p>
-              <p class="text-xs text-gray-400 truncate">{{ session.displayAuthor }}</p>
+              <p class="text-xs text-black-500 truncate">{{ session.displayTitle }}</p>
+              <p class="text-xs text-secondary-text truncate">{{ session.displayAuthor }}</p>
             </td>
             <td class="hidden md:table-cell">
               <p class="text-xs">{{ session.user ? session.user.username : 'N/A' }}</p>
@@ -148,7 +148,7 @@
             </td>
             <td class="text-center hidden sm:table-cell">
               <ui-tooltip v-if="session.updatedAt" direction="top" :text="$formatDatetime(session.updatedAt, dateFormat, timeFormat)">
-                <p class="text-xs text-gray-200">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
+                <p class="text-xs text-black-500">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
               </ui-tooltip>
             </td>
           </tr>
@@ -172,8 +172,8 @@
 
           <tr v-for="session in openShareListeningSessions" :key="`open-${session.id}`" class="cursor-pointer" @click="showSession(session)">
             <td class="py-1 max-w-48">
-              <p class="text-xs text-gray-200 truncate">{{ session.displayTitle }}</p>
-              <p class="text-xs text-gray-400 truncate">{{ session.displayAuthor }}</p>
+              <p class="text-xs text-black-500 truncate">{{ session.displayTitle }}</p>
+              <p class="text-xs text-secondary-text truncate">{{ session.displayAuthor }}</p>
             </td>
             <td class="hidden md:table-cell"></td>
             <td class="hidden md:table-cell">
@@ -191,7 +191,7 @@
             </td>
             <td class="text-center hidden sm:table-cell">
               <ui-tooltip v-if="session.updatedAt" direction="top" :text="$formatDatetime(session.updatedAt, dateFormat, timeFormat)">
-                <p class="text-xs text-gray-200">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
+                <p class="text-xs text-black-500">{{ $dateDistanceFromNow(session.updatedAt) }}</p>
               </ui-tooltip>
             </td>
           </tr>
@@ -522,33 +522,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.userSessionsTable {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 100%;
-  border: 1px solid #474747;
-}
-.userSessionsTable tr:first-child {
-  background-color: #272727;
-}
-.userSessionsTable tr:not(:first-child):not(.selected) {
-  background-color: #373838;
-}
-.userSessionsTable tr:not(:first-child):nth-child(odd):not(.selected):not(:hover) {
-  background-color: #2f2f2f;
-}
-.userSessionsTable tr:hover:not(:first-child) {
-  background-color: #474747;
-}
-.userSessionsTable tr.selected {
-  background-color: #474747;
-}
-.userSessionsTable td {
-  padding: 4px 8px;
-}
-.userSessionsTable th {
-  padding: 4px 8px;
-  font-size: 0.75rem;
-}
-</style>

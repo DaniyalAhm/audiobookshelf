@@ -1,6 +1,6 @@
 <template>
   <div tabindex="0" @focus="focusDigit('second0')" class="relative">
-    <div class="rounded-sm text-gray-200 border w-full px-3 py-2" :class="focusedDigit ? 'bg-primary/50 border-gray-300' : 'bg-primary border-gray-600'" @click="clickInput" v-click-outside="clickOutsideObj">
+    <div class="rounded-sm text-black-500 border w-full px-3 py-2" :class="focusedDigit ? 'bg-primary/50 border-primary' : 'bg-primary border-black-200'" @click="clickInput" v-click-outside="clickOutsideObj">
       <div class="flex items-center">
         <template v-for="(digit, index) in digitDisplay">
           <div v-if="digit == ':'" :key="index" class="px-px" @click.stop="clickMedian(index)">:</div>
@@ -205,8 +205,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.digit-focused {
-  background-color: #555;
-}
-</style>

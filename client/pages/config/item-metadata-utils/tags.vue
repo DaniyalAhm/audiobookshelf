@@ -12,8 +12,8 @@
 
     <div class="border border-white/10">
       <template v-for="(tag, index) in tags">
-        <div :key="tag" class="w-full p-2 flex items-center text-gray-400 hover:text-white" :class="{ 'bg-primary/20': index % 2 === 0 }">
-          <p v-if="editingTag !== tag" class="text-sm md:text-base text-gray-100">{{ tag }}</p>
+        <div :key="tag" class="w-full p-2 flex items-center text-secondary-text hover:text-white" :class="{ 'bg-primary/20': index % 2 === 0 }">
+          <p v-if="editingTag !== tag" class="text-sm md:text-base text-black-500">{{ tag }}</p>
           <ui-text-input v-else v-model="newTagName" />
           <div class="grow" />
           <template v-if="editingTag !== tag">

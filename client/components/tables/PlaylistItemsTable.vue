@@ -105,18 +105,3 @@ export default {
 }
 </script>
 
-<style>
-.playlist-item-item {
-  transition: all 0.4s ease;
-}
-
-.playlist-item-enter-from,
-.playlist-item-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.playlist-item-leave-active {
-  position: absolute;
-}
-</style>

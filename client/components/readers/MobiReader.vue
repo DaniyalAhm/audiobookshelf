@@ -126,8 +126,3 @@ export default {
 }
 </script>
 
-<style>
-.ebook-viewer {
-  height: calc(100% - 96px);
-}
-</style>

@@ -31,6 +31,9 @@
               </div>
             </div>
             <div class="p-2">
+              <ui-text-input-with-label v-model="authorCopy.wikipediaLink" :disabled="processing" label="Wikipedia Link" />
+            </div>
+            <div class="p-2">
               <ui-textarea-with-label v-model="authorCopy.description" :disabled="processing" :label="$strings.LabelDescription" :rows="8" />
             </div>
 
@@ -55,7 +58,8 @@ export default {
       authorCopy: {
         name: '',
         asin: '',
-        description: ''
+        description: '',
+        wikipediaLink: ''
       },
       imageUrl: '',
       processing: false
@@ -133,7 +137,7 @@ export default {
       this.$store.commit('globals/setConfirmPrompt', payload)
     },
     async submitForm() {
-      var keysToCheck = ['name', 'asin', 'description']
+      var keysToCheck = ['name', 'asin', 'description', 'wikipediaLink']
       var updatePayload = {}
       keysToCheck.forEach((key) => {
         if (this.authorCopy[key] !== this.author[key]) {

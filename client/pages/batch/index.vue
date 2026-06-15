@@ -4,15 +4,15 @@
       <div class="flex items-center px-4 py-4 cursor-pointer" @click="openMapOptions = !openMapOptions" @mousedown.prevent @mouseup.prevent>
         <span class="material-symbols text-2xl">{{ openMapOptions ? 'expand_less' : 'expand_more' }}</span>
 
-        <p class="ml-4 text-gray-200 text-lg">{{ $strings.HeaderMapDetails }}</p>
+        <p class="ml-4 text-black-500 text-lg">{{ $strings.HeaderMapDetails }}</p>
 
         <div class="grow" />
 
         <div class="w-64 flex">
-          <button class="w-32 h-8 rounded-l-md shadow-md border border-gray-600" :class="!isMapOverwrite ? 'bg-bg text-white/30' : 'bg-primary'" @click.stop.prevent="mapDetailsType = 'overwrite'">
+          <button class="w-32 h-8 rounded-l-md shadow-md border border-black-200" :class="!isMapOverwrite ? 'bg-bg text-white/30' : 'bg-primary'" @click.stop.prevent="mapDetailsType = 'overwrite'">
             <p class="text-sm">{{ $strings.LabelOverwrite }}</p>
           </button>
-          <button class="w-32 h-8 rounded-r-md shadow-md border border-gray-600" :class="!isMapAppend ? 'bg-bg text-white/30' : 'bg-primary'" @click.stop.prevent="mapDetailsType = 'append'">
+          <button class="w-32 h-8 rounded-r-md shadow-md border border-black-200" :class="!isMapAppend ? 'bg-bg text-white/30' : 'bg-primary'" @click.stop.prevent="mapDetailsType = 'append'">
             <p class="text-sm">{{ $strings.LabelAppend }}</p>
           </button>
         </div>
@@ -67,7 +67,7 @@
                   :checkbox-bg="!selectedBatchUsage.explicit ? 'bg' : 'primary'"
                   :check-color="!selectedBatchUsage.explicit ? 'gray-600' : 'green-500'"
                   border-color="gray-600"
-                  :label-class="!selectedBatchUsage.explicit ? 'pl-2 text-base text-gray-400 font-semibold' : 'pl-2 text-base font-semibold'"
+                  :label-class="!selectedBatchUsage.explicit ? 'pl-2 text-base text-secondary-text font-semibold' : 'pl-2 text-base font-semibold'"
                 />
               </div>
             </div>
@@ -81,7 +81,7 @@
                   :checkbox-bg="!selectedBatchUsage.abridged ? 'bg' : 'primary'"
                   :check-color="!selectedBatchUsage.abridged ? 'gray-600' : 'green-500'"
                   border-color="gray-600"
-                  :label-class="!selectedBatchUsage.abridged ? 'pl-2 text-base text-gray-400 font-semibold' : 'pl-2 text-base font-semibold'"
+                  :label-class="!selectedBatchUsage.abridged ? 'pl-2 text-base text-secondary-text font-semibold' : 'pl-2 text-base font-semibold'"
                 />
               </div>
             </div>
@@ -489,15 +489,3 @@ export default {
 }
 </script>
 
-<style>
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.2s ease;
-}
-
-.slide-enter,
-.slide-leave-to {
-  transform: translateY(-100%);
-  transition: all 150ms ease-in 0s;
-}
-</style>

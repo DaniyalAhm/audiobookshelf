@@ -210,9 +210,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#formWrapper {
-  height: calc(100% - 80px);
-  max-height: calc(100% - 80px);
-}
-</style>

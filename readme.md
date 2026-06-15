@@ -1,3 +1,37 @@
+# Audiobookshelf — Personal Fork
+
+This is a personal fork of [Audiobookshelf](https://github.com/advplyr/audiobookshelf), a self-hosted audiobook and podcast server.
+
+## What's Different
+
+### Author Metadata
+
+OpenLibrary is now the default API for author lookups (name and ASIN-based), with a **Wikidata/Wikipedia fallback** for biographies and author images. When OpenLibrary has no description or photo, the fallback fetches:
+
+- A **biography** from the English Wikipedia article
+- An **author portrait** from Wikimedia Commons
+- A **Wikipedia link** displayed on the author page
+
+### Frontend Styling
+
+CSS classes have been extracted from inline template utilities into a shared stylesheet for easier customization. See [`client/STYLING.md`](client/STYLING.md) for the full styling reference.
+
+To personalize the frontend:
+
+1. Edit `client/assets/tailwind.css` to change theme tokens (colors, fonts, spacing)
+2. Add or override global classes in `client/assets/app.css`
+3. For component-specific styles, add selectors to `client/assets/components.css`
+
+The app follows the operating system theme (dark/light) automatically via `prefers-color-scheme`.
+
+## Disclaimer
+
+These modifications were made with the assistance of AI. I do not have the time nor energy to maintain this without it — it takes a while, and I must put my personal life and mental health first. Use at your own risk; no guarantees of upstream compatibility or long-term support are implied.
+
+---
+
+*Original Audiobookshelf documentation follows below.*
+
 <br />
 <div align="center">
    <img alt="Audiobookshelf Banner" src="https://github.com/advplyr/audiobookshelf/raw/master/images/banner.svg" width="600">

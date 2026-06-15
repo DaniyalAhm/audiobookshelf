@@ -94,7 +94,7 @@ class AuthorController {
    * @param {Response} res
    */
   async update(req, res) {
-    const keysToUpdate = ['name', 'description', 'asin']
+    const keysToUpdate = ['name', 'description', 'asin', 'wikipediaLink']
     const payload = {}
     for (const key in req.body) {
       if (keysToUpdate.includes(key) && (typeof req.body[key] === 'string' || req.body[key] === null)) {
@@ -366,6 +366,11 @@ class AuthorController {
 
     if (authorData.description && req.author.description !== authorData.description) {
       req.author.description = authorData.description
+      hasUpdates = true
+    }
+
+    if (authorData.wikipediaLink && req.author.wikipediaLink !== authorData.wikipediaLink) {
+      req.author.wikipediaLink = authorData.wikipediaLink
       hasUpdates = true
     }
 

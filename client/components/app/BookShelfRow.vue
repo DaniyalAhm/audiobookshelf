@@ -35,8 +35,8 @@
       </div>
     </div>
     <div class="relative">
-      <div class="relative text-center categoryPlacard transform z-30 top-0 left-4e md:left-8e w-44e rounded-md">
-        <div class="w-full h-full shinyBlack flex items-center justify-center rounded-xs border" :style="{ padding: `0em 0.5em` }">
+      <div class="relative text-center categoryPlacard z-30 top-0 left-4e md:left-8e w-44e rounded-xl">
+        <div class="w-full h-full shinyBlack flex items-center justify-center rounded-xl border" :style="{ padding: `0em 0.5em` }">
           <h2 :style="{ fontSize: 0.9 + 'em' }">{{ $strings[shelf.labelStringKey] }}</h2>
         </div>
       </div>
@@ -184,27 +184,3 @@ export default {
 }
 </script>
 
-<style>
-.categorizedBookshelfRow {
-  scroll-behavior: smooth;
-  background-image: var(--bookshelf-texture-img);
-  background-repeat: repeat-x;
-}
-
-.bookshelfDividerCategorized {
-  background: rgb(149, 119, 90);
-  background: linear-gradient(180deg, rgb(122, 94, 68) 0%, rgb(92, 62, 31) 17%, rgb(82, 54, 26) 88%, rgba(71, 48, 25, 1) 100%);
-  box-shadow: 2px 14px 8px #111111aa;
-}
-
-.book-shelf-arrow-right {
-  height: calc(100% - 1.5em);
-  background: rgb(48, 48, 48);
-  background: linear-gradient(90deg, rgba(48, 48, 48, 0) 0%, rgba(25, 25, 25, 0.25) 8%, rgba(17, 17, 17, 0.4) 28%, rgba(17, 17, 17, 0.6) 71%, rgba(10, 10, 10, 0.6) 86%, rgba(0, 0, 0, 0.7) 100%);
-}
-.book-shelf-arrow-left {
-  height: calc(100% - 1.5em);
-  background: rgb(48, 48, 48);
-  background: linear-gradient(-90deg, rgba(48, 48, 48, 0) 0%, rgba(25, 25, 25, 0.25) 8%, rgba(17, 17, 17, 0.4) 28%, rgba(17, 17, 17, 0.6) 71%, rgba(10, 10, 10, 0.6) 86%, rgba(0, 0, 0, 0.7) 100%);
-}
-</style>

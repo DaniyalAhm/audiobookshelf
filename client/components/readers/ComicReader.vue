@@ -1,11 +1,11 @@
 <template>
   <div class="w-full h-full">
-    <div v-show="showPageMenu" v-click-outside="clickOutside" class="pagemenu absolute top-9 left-8 rounded-md overflow-y-auto bg-bg shadow-lg z-20 border border-gray-400" :style="{ width: pageMenuWidth + 'px' }">
+    <div v-show="showPageMenu" v-click-outside="clickOutside" class="pagemenu absolute top-9 left-8 rounded-md overflow-y-auto bg-bg shadow-lg z-20 border border-black-200" :style="{ width: pageMenuWidth + 'px' }">
       <div v-for="(file, index) in cleanedPageNames" :key="file" class="w-full cursor-pointer hover:bg-black-200 px-2 py-1" :class="page === index + 1 ? 'bg-black-200' : ''" @click="setPage(index + 1)">
         <p class="text-sm truncate">{{ file }}</p>
       </div>
     </div>
-    <div v-show="showInfoMenu" v-click-outside="clickOutside" class="pagemenu absolute top-9 left-20 rounded-md overflow-y-auto bg-bg shadow-lg z-20 border border-gray-400 w-96">
+    <div v-show="showInfoMenu" v-click-outside="clickOutside" class="pagemenu absolute top-9 left-20 rounded-md overflow-y-auto bg-bg shadow-lg z-20 border border-black-200 w-96">
       <div v-for="key in comicMetadataKeys" :key="key" class="w-full px-2 py-1">
         <p class="text-xs">
           <strong>{{ key }}</strong
@@ -14,20 +14,20 @@
       </div>
     </div>
 
-    <div v-if="numPages" class="absolute top-0 left-4 sm:left-8 bg-bg text-gray-100 border-b border-l border-r border-gray-400 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" @mousedown.prevent @click.stop.prevent="clickShowPageMenu">
+    <div v-if="numPages" class="absolute top-0 left-4 sm:left-8 bg-bg text-black-500 border-b border-l border-r border-black-200 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" @mousedown.prevent @click.stop.prevent="clickShowPageMenu">
       <span class="material-symbols text-xl">menu</span>
     </div>
-    <div v-if="comicMetadata" class="absolute top-0 left-16 sm:left-20 bg-bg text-gray-100 border-b border-l border-r border-gray-400 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" @mousedown.prevent @click.stop.prevent="clickShowInfoMenu">
+    <div v-if="comicMetadata" class="absolute top-0 left-16 sm:left-20 bg-bg text-black-500 border-b border-l border-r border-black-200 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" @mousedown.prevent @click.stop.prevent="clickShowInfoMenu">
       <span class="material-symbols text-xl">more</span>
     </div>
-    <a v-if="pages && numPages" :href="mainImg" :download="pages[page - 1]" class="absolute top-0 bg-bg text-gray-100 border-b border-l border-r border-gray-400 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" :class="comicMetadata ? 'left-28 sm:left-32' : 'left-16 sm:left-20'">
+    <a v-if="pages && numPages" :href="mainImg" :download="pages[page - 1]" class="absolute top-0 bg-bg text-black-500 border-b border-l border-r border-black-200 hover:bg-black-200 cursor-pointer rounded-b-md w-10 h-9 flex items-center justify-center text-center z-20" :class="comicMetadata ? 'left-28 sm:left-32' : 'left-16 sm:left-20'">
       <span class="material-symbols text-xl">download</span>
     </a>
 
-    <div v-if="numPages" class="absolute top-0 right-14 sm:right-16 bg-bg text-gray-100 border-b border-l border-r border-gray-400 rounded-b-md px-2 h-9 flex items-center text-center z-20">
+    <div v-if="numPages" class="absolute top-0 right-14 sm:right-16 bg-bg text-black-500 border-b border-l border-r border-black-200 rounded-b-md px-2 h-9 flex items-center text-center z-20">
       <p class="font-mono">{{ page }} / {{ numPages }}</p>
     </div>
-    <div v-if="mainImg" class="absolute top-0 right-36 sm:right-40 bg-bg text-gray-100 border-b border-l border-r border-gray-400 rounded-b-md px-2 h-9 flex items-center text-center z-20">
+    <div v-if="mainImg" class="absolute top-0 right-36 sm:right-40 bg-bg text-black-500 border-b border-l border-r border-black-200 rounded-b-md px-2 h-9 flex items-center text-center z-20">
       <ui-icon-btn icon="zoom_out" :size="8" :disabled="!canScaleDown" borderless class="mr-px" @click="zoomOut" />
       <ui-icon-btn icon="zoom_in" :size="8" :disabled="!canScaleUp" borderless class="ml-px" @click="zoomIn" />
     </div>
@@ -376,8 +376,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.pagemenu {
-  max-height: calc(100% - 48px);
-}
-</style>

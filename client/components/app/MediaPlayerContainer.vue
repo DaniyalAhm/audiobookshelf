@@ -1,5 +1,5 @@
 <template>
-  <div v-if="streamLibraryItem" id="mediaPlayerContainer" class="w-full fixed bottom-0 left-0 right-0 h-48 lg:h-40 z-50 bg-primary px-2 lg:px-4 pb-1 lg:pb-4 pt-2">
+  <div v-if="streamLibraryItem" id="mediaPlayerContainer" class="w-full fixed bottom-0 left-0 right-0 h-48 lg:h-40 z-50 bg-fg border-t border-black-200 px-2 lg:px-4 pb-1 lg:pb-4 pt-2">
     <div class="absolute left-2 top-2 lg:left-4 cursor-pointer">
       <covers-book-cover expand-on-click :library-item="streamLibraryItem" :width="bookCoverWidth" :book-cover-aspect-ratio="coverAspectRatio" />
     </div>
@@ -11,7 +11,7 @@
           </nuxt-link>
           <widgets-explicit-indicator v-if="isExplicit" />
         </div>
-        <div class="text-gray-400 flex items-center w-1/2 sm:w-4/5 lg:w-2/5">
+        <div class="text-secondary-text flex items-center w-1/2 sm:w-4/5 lg:w-2/5">
           <span class="material-symbols text-sm">person</span>
           <div v-if="podcastAuthor" class="pl-1 sm:pl-1.5 text-xs sm:text-base truncate">{{ podcastAuthor }}</div>
           <div v-else-if="authors.length" class="pl-1 sm:pl-1.5 text-xs sm:text-base truncate">
@@ -20,14 +20,14 @@
           <div v-else class="text-xs sm:text-base cursor-pointer pl-1 sm:pl-1.5">{{ $strings.LabelUnknown }}</div>
         </div>
 
-        <div class="text-gray-400 flex items-center">
+        <div class="text-secondary-text flex items-center">
           <span class="material-symbols text-xs">schedule</span>
           <p class="font-mono text-xs sm:text-sm pl-1 sm:pl-1.5 pb-px">{{ totalDurationPretty }}</p>
         </div>
       </div>
       <div class="grow" />
       <ui-tooltip direction="top" :text="$strings.LabelClosePlayer">
-        <button :aria-label="$strings.LabelClosePlayer" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl" @click="closePlayer">close</button>
+        <button :aria-label="$strings.LabelClosePlayer" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl text-secondary-text hover:text-primary transition-colors" @click="closePlayer">close</button>
       </ui-tooltip>
     </div>
     <player-ui
@@ -102,7 +102,7 @@ export default {
     },
     cover() {
       if (this.media.coverPath) return this.media.coverPath
-      return 'Logo.png'
+      return this.$branding.logo
     },
     user() {
       return this.$store.state.user.user
@@ -397,7 +397,7 @@ export default {
           album: this.mediaMetadata.seriesName || '',
           artwork: [
             {
-              src: this.$store.getters['globals/getLibraryItemCoverSrc'](this.streamLibraryItem, '/Logo.png', true)
+              src: this.$store.getters['globals/getLibraryItemCoverSrc'](this.streamLibraryItem, this.$branding.logo, true)
             }
           ],
           chapterInfo
@@ -564,8 +564,3 @@ export default {
 }
 </script>
 
-<style>
-#mediaPlayerContainer {
-  box-shadow: 0px -6px 8px #1111113f;
-}
-</style>

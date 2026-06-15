@@ -4,7 +4,7 @@
       <template #header-items>
         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
           <a href="https://www.audiobookshelf.org/guides/send_to_ereader" target="_blank" class="inline-flex">
-            <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+            <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
           </a>
         </ui-tooltip>
       </template>
@@ -92,13 +92,13 @@
         </tr>
         <tr v-for="device in existingEReaderDevices" :key="device.name">
           <td>
-            <p class="text-sm md:text-base text-gray-100">{{ device.name }}</p>
+            <p class="text-sm md:text-base text-black-500">{{ device.name }}</p>
           </td>
           <td class="text-left">
-            <p class="text-sm md:text-base text-gray-100">{{ device.email }}</p>
+            <p class="text-sm md:text-base text-black-500">{{ device.email }}</p>
           </td>
           <td class="text-left">
-            <p class="text-sm md:text-base text-gray-100">{{ getAccessibleBy(device) }}</p>
+            <p class="text-sm md:text-base text-black-500">{{ getAccessibleBy(device) }}</p>
           </td>
           <td class="w-40">
             <div class="flex justify-end items-center h-10">
@@ -109,7 +109,7 @@
         </tr>
       </table>
       <div v-else-if="!loading" class="text-center py-4">
-        <p class="text-lg text-gray-100">{{ $strings.MessageNoDevices }}</p>
+        <p class="text-lg text-black-500">{{ $strings.MessageNoDevices }}</p>
       </div>
     </app-settings-content>
 

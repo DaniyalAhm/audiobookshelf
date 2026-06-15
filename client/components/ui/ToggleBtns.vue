@@ -1,6 +1,14 @@
 <template>
-  <div class="inline-flex toggle-btn-wrapper shadow-md">
-    <button v-for="item in items" :key="item.value" type="button" :disabled="disabled" class="toggle-btn outline-hidden relative border border-gray-600 px-4 py-1" :class="{ selected: item.value === value }" @click.stop="clickBtn(item.value)">
+  <div class="inline-flex overflow-hidden rounded-xl border border-black-200 bg-bg">
+    <button
+      v-for="item in items"
+      :key="item.value"
+      type="button"
+      :disabled="disabled"
+      class="border-r border-black-200 px-4 py-1 text-sm transition-all duration-200 ease-out last:border-r-0 outline-hidden focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-inset disabled:cursor-not-allowed disabled:opacity-60"
+      :class="item.value === value ? 'bg-primary text-black-700' : 'bg-fg text-secondary-text hover:bg-secondary-bg hover:text-black-500'"
+      @click.stop="clickBtn(item.value)"
+    >
       {{ item.text }}
     </button>
   </div>
@@ -34,65 +42,3 @@ export default {
   mounted() {}
 }
 </script>
-
-<style scoped>
-.toggle-btn-wrapper .toggle-btn:first-child {
-  border-top-left-radius: 0.375rem /* 6px */;
-  border-bottom-left-radius: 0.375rem /* 6px */;
-}
-.toggle-btn-wrapper .toggle-btn:last-child {
-  border-top-right-radius: 0.375rem /* 6px */;
-  border-bottom-right-radius: 0.375rem /* 6px */;
-}
-.toggle-btn-wrapper .toggle-btn:first-child::before {
-  border-top-left-radius: 0.375rem /* 6px */;
-  border-bottom-left-radius: 0.375rem /* 6px */;
-}
-.toggle-btn-wrapper .toggle-btn:last-child::before {
-  border-top-right-radius: 0.375rem /* 6px */;
-  border-bottom-right-radius: 0.375rem /* 6px */;
-}
-
-.toggle-btn-wrapper .toggle-btn:not(:first-child) {
-  margin-left: -1px;
-}
-
-.toggle-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0);
-  transition: all 0.1s ease-in-out;
-}
-.toggle-btn:hover:not(:disabled)::before {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.toggle-btn:hover:not(:disabled) {
-  color: white;
-}
-
-.toggle-btn {
-  color: rgba(255, 255, 255, 0.75);
-}
-.toggle-btn.selected {
-  color: white;
-}
-.toggle-btn.selected:disabled {
-  color: white;
-}
-.toggle-btn.selected::before {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-button.toggle-btn.selected:disabled::before {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-button.toggle-btn:disabled::before {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-button.toggle-btn:disabled {
-  cursor: not-allowed;
-}
-</style>

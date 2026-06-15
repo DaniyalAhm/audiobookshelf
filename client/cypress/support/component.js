@@ -12,7 +12,6 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-import '../../assets/app.css'
 import './tailwind.compiled.css'
 // Import commands.js using ES2015 syntax:
 import './commands'

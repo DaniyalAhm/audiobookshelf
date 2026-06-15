@@ -12,8 +12,8 @@
 
     <div class="border border-white/10">
       <template v-for="(genre, index) in genres">
-        <div :key="genre" class="w-full p-2 flex items-center text-gray-400 hover:text-white" :class="{ 'bg-primary/20': index % 2 === 0 }">
-          <p v-if="editingGenre !== genre" class="text-sm md:text-base text-gray-100">{{ genre }}</p>
+        <div :key="genre" class="w-full p-2 flex items-center text-secondary-text hover:text-white" :class="{ 'bg-primary/20': index % 2 === 0 }">
+          <p v-if="editingGenre !== genre" class="text-sm md:text-base text-black-500">{{ genre }}</p>
           <ui-text-input v-else v-model="newGenreName" />
           <div class="grow" />
           <template v-if="editingGenre !== genre">

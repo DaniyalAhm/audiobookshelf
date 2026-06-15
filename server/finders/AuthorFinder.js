@@ -1,18 +1,18 @@
 const fs = require('../libs/fsExtra')
 const Logger = require('../Logger')
 const Path = require('path')
-const Audnexus = require('../providers/Audnexus')
+const OpenLibrary = require('../providers/OpenLibrary')
 
 const { downloadImageFile } = require('../utils/fileUtils')
 
 class AuthorFinder {
   constructor() {
-    this.audnexus = new Audnexus()
+    this.openLibrary = new OpenLibrary()
   }
 
-  findAuthorByASIN(asin, region) {
+  async findAuthorByASIN(asin, region = 'us') {
     if (!asin) return null
-    return this.audnexus.findAuthorByASIN(asin, region)
+    return this.openLibrary.findAuthorByASIN(asin, region)
   }
 
   /**
@@ -20,13 +20,13 @@ class AuthorFinder {
    * @param {string} name 
    * @param {string} region 
    * @param {Object} [options={}] 
-   * @returns {Promise<import('../providers/Audnexus').AuthorSearchObj>}
+   * @returns {Promise<import('../providers/OpenLibrary').AuthorSearchObj>}
    */
   async findAuthorByName(name, region, options = {}) {
     if (!name) return null
     const maxLevenshtein = !isNaN(options.maxLevenshtein) ? Number(options.maxLevenshtein) : 3
 
-    const author = await this.audnexus.findAuthorByName(name, region, maxLevenshtein)
+    const author = await this.openLibrary.findAuthorByName(name, maxLevenshtein)
     if (!author?.name) {
       return null
     }

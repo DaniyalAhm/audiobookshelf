@@ -1,5 +1,5 @@
 <template>
-  <div :id="`lazy-episode-${index}`" class="w-full h-full cursor-pointer" @mouseover="mouseover" @mouseleave="mouseleave">
+  <div :id="`lazy-episode-${index}`" class="episode-item w-full h-full cursor-pointer" @mouseover="mouseover" @mouseleave="mouseleave">
     <div class="flex" @click="clickedEpisode">
       <div class="grow">
         <div dir="auto" class="flex items-center">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="flex items-center pt-2">
-          <button class="h-8 px-4 border border-white/20 hover:bg-white/10 rounded-full flex items-center justify-center cursor-pointer focus:outline-hidden" :class="userIsFinished ? 'text-white/40' : ''" @click.stop="playClick">
+          <button class="pill-action-btn" :class="userIsFinished ? 'text-white/40' : ''" @click.stop="playClick">
             <span class="material-symbols fill text-2xl" aria-hidden="true" :class="streamIsPlaying ? '' : 'text-success'">{{ streamIsPlaying ? 'pause' : 'play_arrow' }}</span>
             <span class="sr-only">{{ streamIsPlaying ? $strings.ButtonPause : $strings.ButtonPlay }}</span>
             <p class="pl-2 pr-1 text-sm font-semibold" aria-hidden="true">{{ timeRemaining }}</p>

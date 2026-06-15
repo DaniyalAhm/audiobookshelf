@@ -1,14 +1,14 @@
 <template>
   <div ref="wrapper" class="relative">
-    <input :id="inputId" :name="inputName" ref="input" v-model="inputValue" :type="actualType" :step="step" :min="min" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :autocomplete="autocomplete" dir="auto" class="rounded-sm bg-primary text-gray-200 focus:bg-bg focus:outline-hidden border h-full w-full" :class="classList" @keyup="keyup" @change="change" @focus="focused" @blur="blurred" />
+    <input :id="inputId" :name="inputName" ref="input" v-model="inputValue" :type="actualType" :step="step" :min="min" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :autocomplete="autocomplete" dir="auto" class="rounded-lg bg-fg text-black-500 placeholder:text-muted focus:bg-secondary-bg focus:outline-hidden border h-full w-full" :class="classList" @keyup="keyup" @change="change" @focus="focused" @blur="blurred" />
     <div v-if="clearable && inputValue" class="absolute top-0 right-0 h-full px-2 flex items-center justify-center">
-      <span class="material-symbols text-gray-300 cursor-pointer" style="font-size: 1.1rem" @click.stop.prevent="clear">close</span>
+      <span class="material-symbols text-muted cursor-pointer" style="font-size: 1.1rem" @click.stop.prevent="clear">close</span>
     </div>
     <div v-if="type === 'password' && isHovering" class="absolute top-0 right-0 h-full px-4 flex items-center justify-center">
-      <span class="material-symbols text-gray-400 cursor-pointer text-lg" @click.stop.prevent="showPassword = !showPassword">{{ !showPassword ? 'visibility' : 'visibility_off' }}</span>
+      <span class="material-symbols text-secondary-text cursor-pointer text-lg" @click.stop.prevent="showPassword = !showPassword">{{ !showPassword ? 'visibility' : 'visibility_off' }}</span>
     </div>
     <div v-else-if="showCopy" class="absolute top-0 right-0 h-full px-2 flex items-center justify-center">
-      <span class="material-symbols cursor-pointer text-lg" :class="hasCopied ? 'text-success' : 'text-gray-400 hover:text-white'" @click.stop.prevent="copyToClipboard">{{ !hasCopied ? 'content_copy' : 'done' }}</span>
+      <span class="material-symbols cursor-pointer text-lg" :class="hasCopied ? 'text-success' : 'text-muted hover:text-primary'" @click.stop.prevent="copyToClipboard">{{ !hasCopied ? 'content_copy' : 'done' }}</span>
     </div>
   </div>
 </template>
@@ -76,7 +76,7 @@ export default {
       if (this.customInputClass) _list.push(this.customInputClass)
 
       if (this.isInvalidDate) _list.push('border-error')
-      else _list.push('focus:border-gray-300 border-gray-600')
+      else _list.push('focus:border-primary border-black-200')
 
       return _list.join(' ')
     },
@@ -146,15 +146,3 @@ export default {
 }
 </script>
 
-<style scoped>
-input {
-  border-style: inherit !important;
-}
-input:read-only {
-  color: #bbb;
-  background-color: #444;
-}
-input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-</style>

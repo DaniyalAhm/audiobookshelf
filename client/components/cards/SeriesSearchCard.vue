@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full px-1 overflow-hidden">
+  <div class="search-card">
     <covers-group-cover :name="name" :book-items="bookItems" :width="60" :height="60" :book-cover-aspect-ratio="bookCoverAspectRatio" />
     <div class="grow px-2 seriesSearchCardContent h-full">
       <p class="truncate text-sm">{{ name }}</p>
@@ -35,12 +35,3 @@ export default {
 }
 </script>
 
-<style>
-.seriesSearchCardContent {
-  width: calc(100% - 80px);
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-</style>

@@ -1,13 +1,13 @@
 <template>
-  <div class="w-full h-16 bg-primary relative">
+  <div class="appbar gradient-primary">
     <div id="appbar" role="toolbar" aria-label="Appbar" class="absolute top-0 bottom-0 left-0 w-full h-full px-2 md:px-6 py-1 z-60">
       <div class="flex h-full items-center">
         <nuxt-link to="/">
-          <img src="~static/icon.svg" :alt="$strings.ButtonHome" class="w-8 min-w-8 h-8 mr-2 sm:w-10 sm:min-w-10 sm:h-10 sm:mr-4" />
+          <img :src="$branding.icon" :alt="$branding.name" class="w-8 min-w-8 h-8 mr-2 sm:w-10 sm:min-w-10 sm:h-10 sm:mr-4" />
         </nuxt-link>
 
         <nuxt-link to="/">
-          <h1 class="text-xl mr-6 hidden lg:block hover:underline">audiobookshelf</h1>
+          <h1 class="text-xl mr-6 hidden lg:block hover:underline">{{ $branding.displayName }}</h1>
         </nuxt-link>
 
         <ui-libraries-dropdown class="mr-2" />
@@ -55,7 +55,7 @@
         <h1 class="text-lg md:text-2xl px-4">{{ $getString('MessageItemsSelected', [numMediaItemsSelected]) }}</h1>
         <div class="grow" />
         <ui-btn v-if="!isPodcastLibrary && selectedMediaItemsArePlayable" color="bg-success" :padding-x="4" small class="flex items-center h-9 mr-2" @click="playSelectedItems">
-          <span class="material-symbols fill text-2xl -ml-2 pr-1 text-white">play_arrow</span>
+          <span class="material-symbols fill text-2xl -ml-2 pr-1 text-white ">play_arrow</span>
           {{ $strings.ButtonPlay }}
         </ui-btn>
         <ui-tooltip v-if="isBookLibrary" :text="selectedIsFinished ? $strings.MessageMarkAsNotFinished : $strings.MessageMarkAsFinished" direction="bottom">
@@ -386,9 +386,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#appbar {
-  box-shadow: 0px 5px 5px #11111155;
-}
-</style>

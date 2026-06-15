@@ -4,6 +4,23 @@ const routerBasePath = process.env.ROUTER_BASE_PATH ?? '/audiobookshelf'
 const serverHostUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3333'
 const serverPaths = ['api/', 'public/', 'hls/', 'auth/', 'feed/', 'status', 'login', 'logout', 'init']
 const proxy = Object.fromEntries(serverPaths.map((path) => [`${routerBasePath}/${path}`, { target: process.env.NODE_ENV !== 'production' ? serverHostUrl : '/' }]))
+const normalizeBrandingPath = (path) => {
+  if (!path) return path
+  if (/^(https?:)?\/\//.test(path) || path.startsWith('data:')) return path
+  return `${routerBasePath}/${path.replace(/^\/+/, '')}`
+}
+const branding = {
+  name: process.env.BRAND_NAME || 'Toddio',
+  shortName: process.env.BRAND_SHORT_NAME || process.env.BRAND_NAME || 'Toddio',
+  displayName: process.env.BRAND_DISPLAY_NAME || process.env.BRAND_SHORT_NAME || process.env.BRAND_NAME || 'Toddio',
+  logo: normalizeBrandingPath(process.env.BRAND_LOGO || '/Logo.png'),
+  icon: normalizeBrandingPath(process.env.BRAND_ICON || '/icon.png'),
+  favicon: normalizeBrandingPath(process.env.BRAND_FAVICON || '/favicon.ico'),
+  appleIcon: normalizeBrandingPath(process.env.BRAND_APPLE_ICON || '/apple_icon.png'),
+  pwaIcon: normalizeBrandingPath(process.env.BRAND_PWA_ICON || process.env.BRAND_ICON || '/icon.svg'),
+  pwaIcon192: normalizeBrandingPath(process.env.BRAND_PWA_ICON_192 || '/icon192.png'),
+  themeColor: process.env.BRAND_THEME_COLOR || '#232323'
+}
 
 module.exports = {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -18,20 +35,21 @@ module.exports = {
 
   publicRuntimeConfig: {
     version: pkg.version,
-    routerBasePath
+    routerBasePath,
+    branding
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Audiobookshelf',
+    title: branding.name,
     htmlAttrs: {
       lang: 'en'
     },
     meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: '' }, { hid: 'robots', name: 'robots', content: 'noindex' }],
     script: [],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: routerBasePath + '/favicon.ico' },
-      { rel: 'apple-touch-icon', href: routerBasePath + '/ios_icon.png' }
+      { rel: 'icon', type: 'image/x-icon', href: branding.favicon },
+      { rel: 'apple-touch-icon', href: branding.appleIcon }
     ]
   },
 
@@ -40,10 +58,10 @@ module.exports = {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/tailwind.css', '@/assets/app.css'],
+  css: ['@/assets/app.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/constants.js', '@/plugins/init.client.js', '@/plugins/axios.js', '@/plugins/toast.js', '@/plugins/utils.js', '@/plugins/i18n.js'],
+  plugins: ['@/plugins/constants.js', '@/plugins/branding.js', '@/plugins/init.client.js', '@/plugins/axios.js', '@/plugins/toast.js', '@/plugins/utils.js', '@/plugins/i18n.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -82,23 +100,23 @@ module.exports = {
     icon: false,
     meta: {
       appleStatusBarStyle: 'black',
-      name: 'Audiobookshelf',
-      theme_color: '#232323',
+      name: branding.name,
+      theme_color: branding.themeColor,
       mobileAppIOS: true,
       nativeUI: true
     },
     manifest: {
-      name: 'Audiobookshelf',
-      short_name: 'Audiobookshelf',
+      name: branding.name,
+      short_name: branding.shortName,
       display: 'standalone',
-      background_color: '#232323',
+      background_color: branding.themeColor,
       icons: [
         {
-          src: routerBasePath + '/icon.svg',
+          src: branding.pwaIcon,
           sizes: 'any'
         },
         {
-          src: routerBasePath + '/icon192.png',
+          src: branding.pwaIcon192,
           type: 'image/png',
           sizes: 'any'
         }

@@ -1,8 +1,8 @@
 <template>
-  <div ref="card" :id="`book-card-${index}`" tabindex="0" :style="{ minWidth: coverWidth + 'px', maxWidth: coverWidth + 'px' }" class="absolute rounded-xs z-10 cursor-pointer" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
-    <div :id="`cover-area-${index}`" class="relative w-full top-0 left-0 rounded-sm overflow-hidden z-10 bg-primary box-shadow-book" :style="{ height: coverHeight + 'px ' }">
+  <div ref="card" :id="`book-card-${index}`" tabindex="0" :style="{ minWidth: coverWidth + 'px', maxWidth: coverWidth + 'px' }" class="entity-card absolute z-10 cursor-pointer group" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
+    <div :id="`cover-area-${index}`" class="book-cover-surface relative w-full top-0 left-0 rounded-xl overflow-hidden z-10 bg-secondary-bg border border-black-200 transition-all duration-300 ease-out group-hover:border-primary/60" :style="{ height: coverHeight + 'px ' }">
       <!-- When cover image does not fill -->
-      <div cy-id="coverBg" v-show="showCoverBg" class="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xs bg-primary">
+      <div cy-id="coverBg" v-show="showCoverBg" class="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl bg-secondary-bg">
         <div class="absolute cover-bg" ref="coverBg" />
       </div>
 
@@ -13,9 +13,9 @@
         <p :style="{ fontSize: 0.8 + 'em' }">{{ booksInSeries }}</p>
       </div>
 
-      <div class="w-full h-full absolute top-0 left-0 rounded-sm overflow-hidden z-10">
+      <div class="w-full h-full absolute top-0 left-0 rounded-xl overflow-hidden z-10">
         <div cy-id="titleImageNotReady" v-show="libraryItem && !imageReady" aria-hidden="true" class="absolute top-0 left-0 w-full h-full flex items-center justify-center" :style="{ padding: 0.5 + 'em' }">
-          <p :style="{ fontSize: 0.8 + 'em' }" class="text-gray-300 text-center">{{ title }}</p>
+          <p :style="{ fontSize: 0.8 + 'em' }" class="text-secondary-text text-center">{{ title }}</p>
         </div>
 
         <!-- Cover Image -->
@@ -35,30 +35,30 @@
         <div cy-id="progressBar" v-if="!isPodcast || episodeProgress" class="absolute bottom-0 left-0 h-1e max-w-full z-20 rounded-b box-shadow-progressbar" :class="itemIsFinished ? 'bg-success' : 'bg-yellow-400'" :style="{ width: coverWidth * userProgressPercent + 'px' }"></div>
 
         <!-- Overlay is not shown if collapsing series in library -->
-        <div cy-id="overlay" v-show="!booksInSeries && libraryItem && (isHovering || isSelectionMode || isMoreMenuOpen) && !processing" class="w-full h-full absolute top-0 left-0 z-10 bg-black rounded-sm md:block" :class="overlayWrapperClasslist">
+        <div cy-id="overlay" v-show="!booksInSeries && libraryItem && (isHovering || isSelectionMode || isMoreMenuOpen) && !processing" class="w-full h-full absolute top-0 left-0 z-10 bg-black/75 rounded-xl md:block animated-overlay" :class="overlayWrapperClasslist">
           <div cy-id="playButton" v-show="showPlayButton" class="h-full flex items-center justify-center pointer-events-none">
-            <div class="hover:text-white text-gray-200 hover:scale-110 transform duration-200 pointer-events-auto" @click.stop.prevent="play">
+            <div class="h-12 w-12 rounded-full bg-primary text-black-700 flex items-center justify-center hover:bg-primary-dark transition-colors pointer-events-auto" @click.stop.prevent="play">
               <span class="material-symbols fill" :style="{ fontSize: playIconFontSize + 'em' }">play_arrow</span>
             </div>
           </div>
 
           <div cy-id="readButton" v-show="showReadButton" class="h-full flex items-center justify-center pointer-events-none">
-            <div class="hover:text-white text-gray-200 hover:scale-110 transform duration-200 pointer-events-auto" @click.stop.prevent="clickReadEBook">
+            <div class="h-12 w-12 rounded-full bg-primary text-black-700 flex items-center justify-center hover:bg-primary-dark transition-colors pointer-events-auto" @click.stop.prevent="clickReadEBook">
               <span class="material-symbols" :style="{ fontSize: playIconFontSize + 'em' }">auto_stories</span>
             </div>
           </div>
 
-          <div cy-id="editButton" v-if="userCanUpdate" v-show="!isSelectionMode" class="absolute cursor-pointer hover:text-yellow-300 hover:scale-125 transform duration-150 top-0 right-0" :style="{ padding: 0.375 + 'em' }" @click.stop.prevent="editClick">
+          <div cy-id="editButton" v-if="userCanUpdate" v-show="!isSelectionMode" class="absolute cursor-pointer text-secondary-text hover:text-primary transition-colors top-0 right-0" :style="{ padding: 0.375 + 'em' }" @click.stop.prevent="editClick">
             <span class="material-symbols" :style="{ fontSize: 1 + 'em' }">edit</span>
           </div>
 
           <!-- Radio button -->
-          <div cy-id="selectedRadioButton" v-if="!isAuthorBookshelfView" class="absolute cursor-pointer hover:text-yellow-300 hover:scale-125 transform duration-100" :style="{ top: 0.375 + 'em', left: 0.375 + 'em' }" @click.stop.prevent="selectBtnClick">
-            <span class="material-symbols" :class="selected ? 'text-yellow-400' : ''" :style="{ fontSize: 1.25 + 'em' }">{{ selected ? 'radio_button_checked' : 'radio_button_unchecked' }}</span>
+          <div cy-id="selectedRadioButton" v-if="!isAuthorBookshelfView" class="absolute cursor-pointer text-secondary-text hover:text-primary transition-colors" :style="{ top: 0.375 + 'em', left: 0.375 + 'em' }" @click.stop.prevent="selectBtnClick">
+            <span class="material-symbols" :class="selected ? 'text-primary' : ''" :style="{ fontSize: 1.25 + 'em' }">{{ selected ? 'radio_button_checked' : 'radio_button_unchecked' }}</span>
           </div>
 
           <!-- More Menu Icon -->
-          <div cy-id="moreButton" ref="moreIcon" v-show="!isSelectionMode && moreMenuItems.length" class="md:block absolute cursor-pointer hover:text-yellow-300 300 hover:scale-125 transform duration-150" :style="{ bottom: 0.375 + 'em', right: 0.375 + 'em' }" @click.stop.prevent="clickShowMore">
+          <div cy-id="moreButton" ref="moreIcon" v-show="!isSelectionMode && moreMenuItems.length" class="md:block absolute cursor-pointer text-secondary-text hover:text-primary transition-colors" :style="{ bottom: 0.375 + 'em', right: 0.375 + 'em' }" @click.stop.prevent="clickShowMore">
             <span class="material-symbols" :style="{ fontSize: 1.2 + 'em' }">more_vert</span>
           </div>
 
@@ -68,13 +68,13 @@
         </div>
 
         <!-- Processing/loading spinner overlay -->
-        <div cy-id="loadingSpinner" v-if="processing" class="w-full h-full absolute top-0 left-0 z-10 bg-black/40 rounded-sm flex items-center justify-center">
+        <div cy-id="loadingSpinner" v-if="processing" class="w-full h-full absolute top-0 left-0 z-10 bg-black/40 rounded-xl flex items-center justify-center animated-overlay">
           <widgets-loading-spinner size="la-lg" />
         </div>
 
         <!-- Series name overlay -->
-        <div cy-id="seriesNameOverlay" v-if="booksInSeries && libraryItem && isHovering" class="w-full h-full absolute top-0 left-0 z-10 bg-black/60 rounded-sm flex items-center justify-center" :style="{ padding: 1 + 'em' }">
-          <p v-if="seriesName" class="text-gray-200 text-center" :style="{ fontSize: 1.1 + 'em' }">{{ seriesName }}</p>
+        <div cy-id="seriesNameOverlay" v-if="booksInSeries && libraryItem && isHovering" class="w-full h-full absolute top-0 left-0 z-10 bg-black/60 rounded-xl flex items-center justify-center animated-overlay" :style="{ padding: 1 + 'em' }">
+          <p v-if="seriesName" class="text-black-500 text-center" :style="{ fontSize: 1.1 + 'em' }">{{ seriesName }}</p>
         </div>
 
         <!-- Error widget -->
@@ -129,8 +129,8 @@
       <ui-tooltip v-if="showSubtitles" :text="displaySubtitle" plaintext :disabled="!displaySubtitleTruncated" direction="bottom" :delayOnShow="500" class="flex items-center">
         <p cy-id="subtitle" class="truncate" ref="displaySubtitle" :style="{ fontSize: 0.6 + 'em' }">{{ displaySubtitle }}</p>
       </ui-tooltip>
-      <p cy-id="line2" class="truncate text-gray-400" :style="{ fontSize: 0.8 + 'em' }">{{ displayLineTwo || '&nbsp;' }}</p>
-      <p cy-id="line3" v-if="displaySortLine" class="truncate text-gray-400" :style="{ fontSize: 0.8 + 'em' }">{{ displaySortLine }}</p>
+      <p cy-id="line2" class="truncate text-secondary-text" :style="{ fontSize: 0.8 + 'em' }">{{ displayLineTwo || '&nbsp;' }}</p>
+      <p cy-id="line3" v-if="displaySortLine" class="truncate text-secondary-text" :style="{ fontSize: 0.8 + 'em' }">{{ displaySortLine }}</p>
     </div>
   </div>
 </template>

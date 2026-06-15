@@ -48,7 +48,7 @@
               <p dir="auto" class="text-sm text-gray-200 mb-4 line-clamp-4" v-html="episode.subtitle || episode.description" />
 
               <div class="flex items-center">
-                <button class="h-8 px-4 border border-white/20 hover:bg-white/10 rounded-full flex items-center justify-center cursor-pointer focus:outline-hidden" :class="episode.progress?.isFinished ? 'text-white/40' : ''" @click.stop="playClick(episode)">
+                <button class="pill-action-btn" :class="episode.progress?.isFinished ? 'text-white/40' : ''" @click.stop="playClick(episode)">
                   <span v-if="episodeIdStreaming === episode.id" class="material-symbols text-2xl" :class="streamIsPlaying ? '' : 'text-success'">{{ streamIsPlaying ? 'pause' : 'play_arrow' }}</span>
                   <span v-else class="material-symbols fill text-2xl text-success">play_arrow</span>
                   <p class="pl-2 pr-1 text-sm font-semibold">{{ getButtonText(episode) }}</p>

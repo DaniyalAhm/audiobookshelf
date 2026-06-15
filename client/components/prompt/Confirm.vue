@@ -153,12 +153,3 @@ export default {
 }
 </script>
 
-<style>
-#confirm-prompt-message code {
-  font-size: 1rem;
-  border-radius: 6px;
-  background-color: rgb(82, 82, 82);
-  color: white;
-  padding: 2px 4px;
-}
-</style>

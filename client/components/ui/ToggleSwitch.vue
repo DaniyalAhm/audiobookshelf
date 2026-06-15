@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <button :aria-labelledby="labeledBy" :aria-label="label" role="checkbox" type="button" class="border rounded-full border-black-100 flex items-center cursor-pointer justify-start" :style="{ width: buttonWidth + 'px' }" :aria-checked="toggleValue" :class="className" @click="clickToggle">
-      <span class="rounded-full border border-black-50 shadow-sm transform transition-transform duration-100" :style="{ width: cursorHeightWidth + 'px', height: cursorHeightWidth + 'px' }" :class="switchClassName"></span>
+  <div class="inline-flex">
+    <button :aria-labelledby="labeledBy" :aria-label="label" role="switch" type="button" class="relative inline-flex shrink-0 items-center rounded-full border transition-colors duration-150 ease-out outline-hidden focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-60" :aria-checked="toggleValue" :disabled="disabled" :class="[sizeClasses.track, trackClass]" @click="clickToggle">
+      <span class="pointer-events-none inline-block rounded-full bg-white transition-transform duration-150 ease-out" :class="[sizeClasses.thumb, thumbClass]" />
     </button>
   </div>
 </template>
@@ -12,11 +12,11 @@ export default {
     value: Boolean,
     onColor: {
       type: String,
-      default: 'success'
+      default: 'primary'
     },
     offColor: {
       type: String,
-      default: 'primary'
+      default: 'secondary'
     },
     disabled: Boolean,
     labeledBy: String,
@@ -35,23 +35,40 @@ export default {
         this.$emit('input', val)
       }
     },
-    className() {
-      if (this.disabled) return this.toggleValue ? `bg-${this.onColor} cursor-not-allowed` : `bg-${this.offColor} cursor-not-allowed`
-      return this.toggleValue ? `bg-${this.onColor}` : `bg-${this.offColor}`
+    sizeClasses() {
+      if (this.size === 'sm') {
+        return {
+          track: 'h-5 w-9',
+          thumb: 'h-4 w-4'
+        }
+      }
+      return {
+        track: 'h-6 w-11',
+        thumb: 'h-5 w-5'
+      }
     },
-    switchClassName() {
-      var bgColor = this.disabled ? 'bg-gray-300' : 'bg-white'
-      return this.toggleValue ? 'translate-x-5 ' + bgColor : bgColor
+    trackClass() {
+      if (this.toggleValue) return this.colorClass(this.onColor, true)
+      return this.colorClass(this.offColor, false)
     },
-    cursorHeightWidth() {
-      if (this.size === 'sm') return 16
-      return 20
-    },
-    buttonWidth() {
-      return this.cursorHeightWidth * 2
+    thumbClass() {
+      if (this.size === 'sm') return this.toggleValue ? 'translate-x-4' : 'translate-x-0.5'
+      return this.toggleValue ? 'translate-x-5' : 'translate-x-0.5'
     }
   },
   methods: {
+    colorClass(color, isOn) {
+      const colors = {
+        primary: 'bg-primary border-primary',
+        accent: 'bg-primary border-primary',
+        success: 'bg-success border-success',
+        error: isOn ? 'bg-error border-error' : 'bg-error/20 border-error/50',
+        warning: 'bg-warning border-warning',
+        secondary: 'bg-secondary-bg border-black-200',
+        bg: 'bg-secondary-bg border-black-200'
+      }
+      return colors[color] || (isOn ? 'bg-primary border-primary' : 'bg-secondary-bg border-black-200')
+    },
     clickToggle() {
       if (this.disabled) return
       this.toggleValue = !this.toggleValue

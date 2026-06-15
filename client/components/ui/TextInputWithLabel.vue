@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <slot>
-      <label :for="identifier" class="px-1 text-sm font-semibold" :class="{ 'text-gray-400': disabled }">
+      <label :for="identifier" class="px-1 text-sm font-semibold" :class="{ 'text-secondary-text': disabled }">
         {{ label }}
         <em v-if="note" class="font-normal text-xs pl-2">{{ note }}</em>
       </label>

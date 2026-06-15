@@ -9,7 +9,7 @@
         </ui-tooltip>
 
         <ui-tooltip v-if="!hideSleepTimer" direction="top" :text="$strings.LabelSleepTimer">
-          <button :aria-label="$strings.LabelSleepTimer" class="text-gray-300 hover:text-white mx-1 lg:mx-2" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showSleepTimer')">
+          <button :aria-label="$strings.LabelSleepTimer" class="text-secondary-text hover:text-primary mx-1 lg:mx-2 transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showSleepTimer')">
             <span v-if="!sleepTimerSet" class="material-symbols text-2xl">snooze</span>
             <div v-else class="flex items-center">
               <span class="material-symbols text-lg text-warning">snooze</span>
@@ -19,25 +19,25 @@
         </ui-tooltip>
 
         <ui-tooltip v-if="!isPodcast && !hideBookmarks" direction="top" :text="$strings.LabelViewBookmarks">
-          <button :aria-label="$strings.LabelViewBookmarks" class="text-gray-300 hover:text-white mx-1 lg:mx-2" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showBookmarks')">
+          <button :aria-label="$strings.LabelViewBookmarks" class="text-secondary-text hover:text-primary mx-1 lg:mx-2 transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showBookmarks')">
             <span class="material-symbols text-2xl">{{ bookmarks.length ? 'bookmarks' : 'bookmark_border' }}</span>
           </button>
         </ui-tooltip>
 
         <ui-tooltip v-if="chapters.length" direction="top" :text="$strings.LabelViewChapters">
-          <button :aria-label="$strings.LabelViewChapters" class="text-gray-300 hover:text-white mx-1 lg:mx-2" @mousedown.prevent @mouseup.prevent @click.stop="showChapters">
+          <button :aria-label="$strings.LabelViewChapters" class="text-secondary-text hover:text-primary mx-1 lg:mx-2 transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="showChapters">
             <span class="material-symbols text-2xl">format_list_bulleted</span>
           </button>
         </ui-tooltip>
 
         <ui-tooltip v-if="playerQueueItems.length" direction="top" :text="$strings.LabelViewQueue">
-          <button :aria-label="$strings.LabelViewQueue" class="outline-hidden text-gray-300 mx-1 lg:mx-2 hover:text-white" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showPlayerQueueItems')">
+          <button :aria-label="$strings.LabelViewQueue" class="outline-hidden text-secondary-text mx-1 lg:mx-2 hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="$emit('showPlayerQueueItems')">
             <span class="material-symbols text-2.5xl sm:text-3xl">playlist_play</span>
           </button>
         </ui-tooltip>
 
         <ui-tooltip direction="top" :text="$strings.LabelViewPlayerSettings">
-          <button :aria-label="$strings.LabelViewPlayerSettings" class="outline-hidden text-gray-300 mx-1 lg:mx-2 hover:text-white" @mousedown.prevent @mouseup.prevent @click.stop="showPlayerSettings">
+          <button :aria-label="$strings.LabelViewPlayerSettings" class="outline-hidden text-secondary-text mx-1 lg:mx-2 hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="showPlayerSettings">
             <span class="material-symbols text-2xl sm:text-2.5xl">settings_slow_motion</span>
           </button>
         </ui-tooltip>
@@ -50,16 +50,16 @@
 
     <div class="relative flex items-center justify-between">
       <div class="grow flex items-center">
-        <p ref="currentTimestamp" class="font-mono text-xxs sm:text-sm text-gray-100 pointer-events-auto">00:00:00</p>
-        <p class="font-mono text-sm hidden sm:block text-gray-100 pointer-events-auto">&nbsp;/&nbsp;{{ progressPercent }}%</p>
+        <p ref="currentTimestamp" class="font-mono text-xxs sm:text-sm text-black-500 pointer-events-auto">00:00:00</p>
+        <p class="font-mono text-sm hidden sm:block text-black-500 pointer-events-auto">&nbsp;/&nbsp;{{ progressPercent }}%</p>
       </div>
       <div class="absolute left-1/2 transform -translate-x-1/2">
-        <p class="text-xs sm:text-sm text-gray-300 pt-0.5 px-2 truncate">
-          {{ currentChapterName }} <span v-if="useChapterTrack" class="text-xs text-gray-400">&nbsp;({{ $getString('LabelPlayerChapterNumberMarker', [currentChapterIndex + 1, chapters.length]) }})</span>
+        <p class="text-xs sm:text-sm text-secondary-text pt-0.5 px-2 truncate">
+          {{ currentChapterName }} <span v-if="useChapterTrack" class="text-xs text-muted">&nbsp;({{ $getString('LabelPlayerChapterNumberMarker', [currentChapterIndex + 1, chapters.length]) }})</span>
         </p>
       </div>
       <div class="grow flex items-center justify-end">
-        <p class="font-mono text-xxs sm:text-sm text-gray-100 pointer-events-auto">{{ timeRemainingPretty }}</p>
+        <p class="font-mono text-xxs sm:text-sm text-black-500 pointer-events-auto">{{ timeRemainingPretty }}</p>
       </div>
     </div>
 
@@ -367,18 +367,3 @@ export default {
 }
 </script>
 
-<style>
-.loadingTrack {
-  animation-name: loadingTrack;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-}
-@keyframes loadingTrack {
-  0% {
-    left: -25%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-</style>

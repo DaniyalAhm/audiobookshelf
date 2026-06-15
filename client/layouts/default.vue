@@ -1,5 +1,5 @@
 <template>
-  <div class="text-white max-h-screen h-screen overflow-hidden bg-bg">
+  <div class="text-black-500 max-h-screen h-screen overflow-hidden bg-bg">
     <app-appbar />
 
     <app-side-rail v-if="isShowingSideRail" class="hidden md:block" />
@@ -639,24 +639,3 @@ export default {
 }
 </script>
 
-<style>
-.Vue-Toastification__toast-body.custom-class-1 {
-  font-size: 14px;
-}
-
-#app-content {
-  width: 100%;
-}
-#app-content.has-siderail {
-  width: calc(100% - 80px);
-  max-width: calc(100% - 80px);
-  margin-left: 80px;
-}
-@media (max-width: 768px) {
-  #app-content.has-siderail {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0px;
-  }
-}
-</style>

@@ -203,37 +203,3 @@ export default {
 }
 </script>
 
-<style>
-#backups {
-  table-layout: fixed;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#backups td,
-#backups th {
-  border: 1px solid #2e2e2e;
-  padding: 8px 8px;
-  text-align: left;
-}
-
-#backups tr.staticrow td {
-  text-align: center;
-}
-
-#backups tr:nth-child(even):not(.bg-error) {
-  background-color: #3a3a3a;
-}
-
-#backups tr:not(.staticrow):not(.bg-error):hover {
-  background-color: #444;
-}
-
-#backups th {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: #333;
-}
-</style>

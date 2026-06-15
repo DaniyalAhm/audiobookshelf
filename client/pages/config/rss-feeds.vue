@@ -4,7 +4,7 @@
       <template #header-items>
         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
           <a href="https://www.audiobookshelf.org/guides/rss_feeds" target="_blank" class="inline-flex">
-            <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+            <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
           </a>
         </ui-tooltip>
       </template>
@@ -52,7 +52,7 @@
             <!--  -->
             <td class="text-center hidden md:table-cell">
               <ui-tooltip v-if="feed.updatedAt" direction="top" :text="$formatDatetime(feed.updatedAt, dateFormat, timeFormat)">
-                <p class="text-gray-200">{{ $dateDistanceFromNow(feed.updatedAt) }}</p>
+                <p class="text-black-500">{{ $dateDistanceFromNow(feed.updatedAt) }}</p>
               </ui-tooltip>
             </td>
             <!--  -->
@@ -125,7 +125,7 @@ export default {
       return this.$strings.LabelUnknown
     },
     coverUrl(feed) {
-      if (!feed.coverPath) return `${this.$config.routerBasePath}/Logo.png`
+      if (!feed.coverPath) return this.$branding.logo
       return `${this.$config.routerBasePath}${feed.feedUrl}/cover`
     },
     async loadFeeds() {
@@ -158,36 +158,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.rssFeedsTable {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 100%;
-  border: 1px solid #474747;
-}
-
-.rssFeedsTable tr:first-child {
-  background-color: #272727;
-}
-
-.rssFeedsTable tr:not(:first-child) {
-  background-color: #373838;
-}
-
-.rssFeedsTable tr:not(:first-child):nth-child(odd) {
-  background-color: #2f2f2f;
-}
-
-.rssFeedsTable tr:hover:not(:first-child) {
-  background-color: #474747;
-}
-
-.rssFeedsTable td {
-  padding: 4px 8px;
-}
-
-.rssFeedsTable th {
-  padding: 4px 8px;
-  font-size: 0.75rem;
-}
-</style>

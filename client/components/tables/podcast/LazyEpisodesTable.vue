@@ -608,18 +608,3 @@ export default {
 }
 </script>
 
-<style>
-.episode-item {
-  transition: all 0.4s ease;
-}
-
-.episode-enter-from,
-.episode-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.episode-leave-active {
-  position: absolute;
-}
-</style>

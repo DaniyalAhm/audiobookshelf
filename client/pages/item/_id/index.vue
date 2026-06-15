@@ -811,27 +811,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#item-description {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  max-height: calc(6 * 1lh);
-}
-
-/* Safari-specific fix for the description clamping */
-@supports (-webkit-touch-callout: none) {
-  #item-description {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    max-height: calc(6 * 1lh);
-  }
-}
-
-#item-description.show-full {
-  -webkit-line-clamp: unset;
-  max-height: 999rem;
-}
-</style>

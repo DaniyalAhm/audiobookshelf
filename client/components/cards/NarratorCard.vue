@@ -1,7 +1,7 @@
 <template>
   <div>
     <nuxt-link :to="`/library/${currentLibraryId}/bookshelf?filter=narrators.${$encode(name)}`">
-      <div cy-id="card" :style="{ width: cardWidth + 'px', height: cardHeight + 'px', fontSize: sizeMultiplier + 'rem' }" class="bg-primary box-shadow-book rounded-md relative overflow-hidden">
+      <div cy-id="card" :style="{ width: cardWidth + 'px', height: cardHeight + 'px', fontSize: sizeMultiplier + 'rem' }" class="entity-card bg-primary box-shadow-book rounded-md relative overflow-hidden">
         <div class="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none opacity-40">
           <span class="material-symbols text-[10em]">&#xe91f;</span>
         </div>

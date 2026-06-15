@@ -1,10 +1,10 @@
 <template>
   <div class="w-full py-2">
     <div class="flex -mb-px">
-      <button type="button" :disabled="disabled" class="w-1/2 h-8 rounded-tl-md relative border border-black-200 flex items-center justify-center disabled:cursor-not-allowed" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
+      <button type="button" :disabled="disabled" class="w-1/2 h-8 rounded-tl-md relative border border-black-200 flex items-center justify-center disabled:cursor-not-allowed" :class="!showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = false">
         <p class="text-sm">{{ $strings.HeaderPresets }}</p>
       </button>
-      <button type="button" :disabled="disabled" class="w-1/2 h-8 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px disabled:cursor-not-allowed" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-gray-400 hover:text-gray-300 bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
+      <button type="button" :disabled="disabled" class="w-1/2 h-8 rounded-tr-md relative border border-black-200 flex items-center justify-center -ml-px disabled:cursor-not-allowed" :class="showAdvancedView ? 'text-white bg-bg hover:bg-bg/60 border-b-bg' : 'text-secondary-text hover:text-secondary-text bg-primary/70 hover:bg-primary/60'" @click="showAdvancedView = true">
         <p class="text-sm">{{ $strings.HeaderAdvanced }}</p>
       </button>
     </div>
@@ -14,21 +14,21 @@
           <div class="flex flex-col items-start gap-2">
             <p class="text-sm w-40">{{ $strings.LabelCodec }}</p>
             <ui-toggle-btns v-model="selectedCodec" :items="codecItems" :disabled="disabled" />
-            <p class="text-xs text-gray-300">
+            <p class="text-xs text-secondary-text">
               {{ $strings.LabelCurrently }} <span class="text-white">{{ currentCodec }}</span> <span v-if="isCodecsDifferent" class="text-warning">(mixed)</span>
             </p>
           </div>
           <div class="flex flex-col items-start gap-2">
             <p class="text-sm w-40">{{ $strings.LabelBitrate }}</p>
             <ui-toggle-btns v-model="selectedBitrate" :items="bitrateItems" :disabled="disabled" />
-            <p class="text-xs text-gray-300">
+            <p class="text-xs text-secondary-text">
               {{ $strings.LabelCurrently }} <span class="text-white">{{ currentBitrate }} KB/s</span>
             </p>
           </div>
           <div class="flex flex-col items-start gap-2">
             <p class="text-sm w-40">{{ $strings.LabelChannels }}</p>
             <ui-toggle-btns v-model="selectedChannels" :items="channelsItems" :disabled="disabled" />
-            <p class="text-xs text-gray-300">
+            <p class="text-xs text-secondary-text">
               {{ $strings.LabelCurrently }} <span class="text-white">{{ currentChannels }} ({{ currentChanelLayout }})</span>
             </p>
           </div>

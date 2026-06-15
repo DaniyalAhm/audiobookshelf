@@ -4,7 +4,7 @@
       <div :key="shelf" :id="`shelf-${shelf - 1}`" class="w-full px-4e sm:px-8e relative" :class="{ bookshelfRow: !isAlternativeBookshelfView }" :style="{ height: shelfHeight + 'px' }">
         <!-- Card skeletons -->
         <template v-for="entityIndex in entitiesInShelf(shelf)">
-          <div :key="entityIndex" class="w-full h-full absolute rounded-sm z-5 top-0 left-0 bg-primary box-shadow-book" :style="{ transform: entityTransform(entityIndex), width: cardWidth + 'px', height: coverHeight + 'px' }" />
+          <div :key="entityIndex" class="w-full h-full absolute rounded-xl z-5 top-0 left-0 bg-secondary-bg border border-black-200 animate-pulse" :style="{ transform: entityTransform(entityIndex), width: cardWidth + 'px', height: coverHeight + 'px' }" />
         </template>
         <div v-if="!isAlternativeBookshelfView" class="bookshelfDivider w-full absolute bottom-0 left-0 right-0 z-20 h-6e" />
       </div>
@@ -23,7 +23,7 @@
         {{ emptyMessageHelp }}
         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
           <a href="https://www.audiobookshelf.org/guides/collections" target="_blank" class="inline-flex">
-            <span class="material-symbols text-xl w-5 text-gray-200">help_outline</span>
+            <span class="material-symbols text-xl w-5 text-black-500">help_outline</span>
           </a>
         </ui-tooltip>
       </div>
@@ -904,14 +904,3 @@ export default {
 }
 </script>
 
-<style>
-.bookshelfRow {
-  background-image: var(--bookshelf-texture-img);
-}
-
-.bookshelfDivider {
-  background: rgb(149, 119, 90);
-  background: var(--bookshelf-divider-bg);
-  box-shadow: 0.125em 0.875em 0.5em #111111aa;
-}
-</style>

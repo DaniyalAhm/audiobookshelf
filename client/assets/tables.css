@@ -1,0 +1,291 @@
+/* ============================================
+   TABLES - All table component styles
+   Extracted from Vue component <style> blocks
+   ============================================ */
+
+/* --- BackupsTable --- */
+#backups {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#backups td,
+#backups th {
+  border: 1px solid var(--color-border);
+  padding: 8px 8px;
+  text-align: left;
+}
+
+#backups tr.staticrow td {
+  text-align: center;
+}
+
+#backups tr:nth-child(even):not(.bg-error) {
+  background-color: var(--color-border);
+}
+
+#backups tr:not(.staticrow):not(.bg-error):hover {
+  background-color: var(--color-elevated);
+}
+
+#backups th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: var(--color-secondary-bg);
+}
+
+/* --- CustomMetadataProviderTable, ApiKeysTable, UsersTable --- */
+#providers,
+#api-keys,
+#accounts {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border);
+  width: 100%;
+}
+
+#providers td,
+#providers th,
+#api-keys td,
+#api-keys th,
+#accounts td,
+#accounts th {
+  padding: 8px 8px;
+  text-align: left;
+}
+
+#providers td.py-0,
+#api-keys td.py-0,
+#accounts td.py-0 {
+  padding: 0px 8px;
+}
+
+#providers tr:nth-child(even),
+#api-keys tr:nth-child(even),
+#accounts tr:nth-child(even) {
+  background-color: var(--color-secondary-bg);
+}
+
+#providers tr:nth-child(odd),
+#api-keys tr:nth-child(odd),
+#accounts tr:nth-child(odd) {
+  background-color: var(--color-card);
+}
+
+#providers tr:hover,
+#api-keys tr:hover,
+#accounts tr:hover {
+  background-color: var(--color-elevated);
+}
+
+#providers th,
+#api-keys th,
+#accounts th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: var(--color-card);
+}
+
+/* --- CustomMetadataProviderTable only --- */
+.custom-provider-api-key {
+  padding: 1px;
+  background-color: var(--color-card);
+  border-radius: 4px;
+  color: transparent;
+  transition: color, background-color 0.5s ease;
+}
+
+.custom-provider-api-key:hover {
+  background-color: var(--color-elevated);
+  color: var(--color-primary);
+}
+
+/* --- User Sessions Table (config/sessions & config/users/_id/sessions) --- */
+.userSessionsTable {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+}
+
+.userSessionsTable tr:first-child {
+  background-color: var(--color-card);
+}
+
+.userSessionsTable tr:not(:first-child):not(.selected) {
+  background-color: var(--color-secondary-bg);
+}
+
+.userSessionsTable tr:not(:first-child):nth-child(odd):not(.selected):not(:hover) {
+  background-color: var(--color-card);
+}
+
+.userSessionsTable tr:hover:not(:first-child) {
+  background-color: var(--color-border);
+}
+
+.userSessionsTable tr.selected {
+  background-color: var(--color-border);
+}
+
+.userSessionsTable td {
+  padding: 4px 8px;
+}
+
+.userSessionsTable th {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
+/* --- RSS Feeds Table (config/rss-feeds) --- */
+.rssFeedsTable {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+}
+
+.rssFeedsTable tr:first-child {
+  background-color: var(--color-card);
+}
+
+.rssFeedsTable tr:not(:first-child) {
+  background-color: var(--color-secondary-bg);
+}
+
+.rssFeedsTable tr:not(:first-child):nth-child(odd) {
+  background-color: var(--color-card);
+}
+
+.rssFeedsTable tr:hover:not(:first-child) {
+  background-color: var(--color-border);
+}
+
+.rssFeedsTable td {
+  padding: 4px 8px;
+}
+
+.rssFeedsTable th {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
+/* --- User Audiobooks Table (config/users/_id/index) --- */
+.userAudiobooksTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid var(--color-border);
+}
+
+.userAudiobooksTable tr:nth-child(even) {
+  background-color: var(--color-border);
+}
+
+.userAudiobooksTable tr:not(:first-child) {
+  background-color: var(--color-secondary-bg);
+}
+
+.userAudiobooksTable tr:hover:not(:first-child) {
+  background-color: var(--color-border);
+}
+
+.userAudiobooksTable tr.isFinished {
+  background-color: color-mix(in srgb, var(--color-success) 10%, transparent);
+}
+
+.userAudiobooksTable td {
+  padding: 4px 8px;
+}
+
+.userAudiobooksTable th {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
+/* --- Episodes Table (rssfeed/ViewFeedModal) --- */
+.episodesTable {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.episodesTable div.header {
+  background-color: var(--color-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4px 8px;
+}
+
+.episodesTable .scroller {
+  display: flex;
+  flex-direction: column;
+  max-height: 250px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.episodesTable .scroller div {
+  background-color: var(--color-secondary-bg);
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 32px;
+  flex: 0 0 32px;
+}
+
+.episodesTable .scroller div:nth-child(even) {
+  background-color: var(--color-card);
+}
+
+/* --- Transition styles for list items in tables --- */
+.episode-item {
+  transition: all 0.4s ease;
+}
+
+.episode-enter-from,
+.episode-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.episode-leave-active {
+  position: absolute;
+}
+
+.collection-book-item {
+  transition: all 0.4s ease;
+}
+
+.collection-book-enter-from,
+.collection-book-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.collection-book-leave-active {
+  position: absolute;
+}
+
+.playlist-item-item {
+  transition: all 0.4s ease;
+}
+
+.playlist-item-enter-from,
+.playlist-item-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.playlist-item-leave-active {
+  position: absolute;
+}

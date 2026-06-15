@@ -1,23 +1,30 @@
 <template>
   <div role="toolbar" aria-orientation="vertical" aria-label="Config Sidebar">
-    <div role="navigation" aria-label="Config Navigation" class="w-44 fixed left-0 top-16 bg-bg/100 md:bg-bg/70 shadow-lg border-r border-white/5 py-3 transform transition-transform mb-12 overflow-y-auto" :class="wrapperClass + ' ' + (streamLibraryItem ? 'h-[calc(100%-270px)]' : 'h-[calc(100%-110px)]')" v-click-outside="clickOutside">
-      <div v-show="isMobilePortrait" class="flex items-center justify-end pb-2 px-4 mb-1" @click="closeDrawer">
-        <span class="material-symbols text-2xl">arrow_back</span>
+    <transition name="drawer-backdrop">
+      <button v-if="isMobilePortrait && isOpen" type="button" class="fixed inset-0 top-16 z-40 bg-black/60 backdrop-blur-xs" :style="{ bottom: streamLibraryItem ? '160px' : '0px' }" :aria-label="$strings.ButtonClose" @click="closeDrawer" />
+    </transition>
+
+    <div role="navigation" aria-label="Config Navigation" class="config-drawer w-48 fixed left-0 top-16 bg-bg border-r border-black-200 py-3 transform transition-all duration-300 ease-out mb-12 overflow-y-auto" :class="wrapperClass + ' ' + (streamLibraryItem ? 'h-[calc(100%-270px)]' : 'h-[calc(100%-110px)]')" v-click-outside="clickOutside">
+      <div v-show="isMobilePortrait" class="flex items-center justify-between pb-2 px-3 mb-1">
+        <p class="text-xs uppercase text-secondary-text tracking-wide">{{ $strings.HeaderSettings }}</p>
+        <button type="button" class="h-9 w-9 rounded-xl border border-black-200 bg-secondary-bg flex items-center justify-center text-secondary-text hover:text-primary hover:border-primary/60 transition-all duration-200 ease-out" :aria-label="$strings.ButtonClose" @click="closeDrawer">
+          <span class="material-symbols text-xl">close</span>
+        </button>
       </div>
 
-      <nuxt-link v-for="route in configRoutes" :key="route.id" :to="route.path" class="w-full px-3 h-12 border-b border-primary/30 flex items-center cursor-pointer relative" :class="routeName === route.id ? 'bg-primary/70' : 'hover:bg-primary/30'">
+      <nuxt-link v-for="route in configRoutes" :key="route.id" :to="route.path" class="config-drawer-link mx-2 px-3 h-11 rounded-xl flex items-center cursor-pointer relative text-secondary-text hover:bg-secondary-bg hover:text-black-500 transition-all duration-200 ease-out" :class="routeName === route.id ? 'bg-secondary-bg text-primary' : ''">
         <p class="leading-4">{{ route.title }}</p>
-        <div v-show="routeName === route.iod" class="h-full w-0.5 bg-yellow-400 absolute top-0 left-0" />
+        <div v-show="routeName === route.id" class="h-7 w-0.5 rounded-full bg-primary absolute top-2 left-0" />
       </nuxt-link>
 
       <modals-changelog-view-modal v-model="showChangelogModal" :versionData="versionData" />
     </div>
 
-    <div class="w-44 h-12 px-4 border-t bg-bg border-black/20 fixed left-0 flex flex-col justify-center" :class="wrapperClass" :style="{ bottom: streamLibraryItem ? '160px' : '0px' }">
+    <div class="w-48 h-12 px-4 border-t bg-bg border-black/20 fixed left-0 flex flex-col justify-center transition-all duration-300 ease-out" :class="wrapperClass" :style="{ bottom: streamLibraryItem ? '160px' : '0px' }">
       <div class="flex items-center justify-between">
         <button type="button" class="underline font-mono text-sm" @click="clickChangelog">v{{ $config.version }}</button>
 
-        <p class="text-xs text-gray-300 italic">{{ Source }}</p>
+        <p class="text-xs text-secondary-text italic">{{ Source }}</p>
       </div>
       <a v-if="hasUpdate" :href="githubTagUrl" target="_blank" class="text-warning text-xs">Latest: {{ versionData.latestVersion }}</a>
     </div>
@@ -135,7 +142,7 @@ export default {
     wrapperClass() {
       var classes = []
       if (this.drawerOpen) classes.push('translate-x-0')
-      else classes.push('-translate-x-44')
+      else classes.push('-translate-x-48')
       if (this.isMobilePortrait) classes.push('z-50')
       else classes.push('z-40')
       return classes.join(' ')
@@ -182,3 +189,4 @@ export default {
   }
 }
 </script>
+

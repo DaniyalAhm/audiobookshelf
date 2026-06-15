@@ -15,7 +15,7 @@
 
 .default-style a {
   text-decoration: none;
-  color: #5985ff;
+  color: var(--color-accent);
 }
 
 .default-style ul {

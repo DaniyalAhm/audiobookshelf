@@ -33,7 +33,7 @@
       </div>
 
       <div v-if="!notifications.length" class="flex justify-center text-center">
-        <p class="text-lg text-gray-200">{{ $strings.MessageNoNotifications }}</p>
+        <p class="text-lg text-black-500">{{ $strings.MessageNoNotifications }}</p>
       </div>
       <template v-for="notification in notifications">
         <cards-notification-card :key="notification.id" :notification="notification" @update="updateSettings" @edit="editNotification" />

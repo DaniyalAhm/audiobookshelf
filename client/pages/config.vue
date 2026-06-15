@@ -2,9 +2,18 @@
   <div id="page-wrapper" class="page p-2 md:p-6 overflow-y-auto relative" :class="streamLibraryItem ? 'streaming' : ''">
     <app-config-side-nav :is-open.sync="sideDrawerOpen" />
     <div class="configContent" :class="`page-${currentPage}`">
-      <div v-show="isMobilePortrait" class="w-full pb-4 px-2 flex border-b border-white/10 mb-2 cursor-pointer" @click.stop.prevent="toggleShowMore">
-        <span class="material-symbols text-2xl cursor-pointer">arrow_forward</span>
-        <p class="pl-3 capitalize">{{ currentPage }}</p>
+      <div v-show="isMobilePortrait" class="w-full pb-4 px-2 flex items-center border-b border-black-200 mb-3">
+        <button type="button" class="hamburger-button group h-11 w-11 rounded-2xl border border-black-200 bg-fg flex items-center justify-center cursor-pointer transition-all duration-200 ease-out hover:border-primary/60 hover:bg-secondary-bg" :aria-label="$strings.HeaderSettings" :aria-expanded="sideDrawerOpen" @click.stop.prevent="toggleShowMore">
+          <span class="hamburger-lines" :class="{ open: sideDrawerOpen }" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </span>
+        </button>
+        <div class="pl-3 min-w-0">
+          <p class="text-xs uppercase text-secondary-text tracking-wide">{{ $strings.HeaderSettings }}</p>
+          <p class="capitalize truncate text-black-500">{{ currentPage }}</p>
+        </div>
       </div>
       <nuxt-child />
     </div>
@@ -76,22 +85,3 @@ export default {
 }
 </script>
 
-<style>
-.configContent {
-  margin: auto;
-  width: 900px;
-  max-width: calc(100% - 176px);
-}
-@media (max-width: 1240px) {
-  .configContent {
-    margin-left: 176px;
-  }
-}
-@media (max-width: 640px) {
-  .configContent {
-    margin-left: 0px;
-    width: 100%;
-    max-width: 100%;
-  }
-}
-</style>

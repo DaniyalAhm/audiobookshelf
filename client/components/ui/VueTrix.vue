@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="trix_container">
     <trix-toolbar :id="toolbarId">
       <div v-show="!disabledEditor" class="trix-button-row">
         <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
@@ -343,25 +343,3 @@ export default {
 }
 </script>
 
-<style lang="css" module>
-.trix_container {
-  max-width: 100%;
-  height: auto;
-}
-.trix_container .trix-button-group {
-  background-color: white;
-}
-.trix_container .trix-content {
-  background-color: white;
-}
-trix-editor {
-  height: calc(4 * 1lh);
-  min-height: calc(4 * 1lh);
-  overflow-y: auto;
-  resize: vertical;
-}
-
-trix-editor * {
-  pointer-events: inherit;
-}
-</style>

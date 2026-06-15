@@ -313,12 +313,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#podcast-wrapper {
-  min-height: 400px;
-  max-height: 80vh;
-}
-#episodes-scroll {
-  max-height: calc(80vh - 200px);
-}
-</style>

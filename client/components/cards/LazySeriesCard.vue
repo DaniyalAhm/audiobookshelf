@@ -1,5 +1,5 @@
 <template>
-  <div cy-id="card" ref="card" :id="`series-card-${index}`" tabindex="0" :style="{ width: cardWidth + 'px' }" class="absolute rounded-xs z-30 cursor-pointer" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
+  <div cy-id="card" ref="card" :id="`series-card-${index}`" tabindex="0" :style="{ width: cardWidth + 'px' }" class="entity-card absolute rounded-xs z-30 cursor-pointer" @mousedown.prevent @mouseup.prevent @mousemove.prevent @mouseover="mouseover" @mouseleave="mouseleave" @click="clickCard">
     <div cy-id="covers-area" class="relative" :style="{ height: coverHeight + 'px' }">
       <div class="absolute top-0 left-0 w-full box-shadow-book shadow-height" />
       <div class="w-full h-full bg-primary relative rounded-sm overflow-hidden z-0">

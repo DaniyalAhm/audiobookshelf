@@ -423,16 +423,3 @@ export default {
 }
 </script>
 
-<style>
-#reader {
-  height: 100%;
-}
-#reader.reader-player-open {
-  height: calc(100% - 164px);
-}
-@media (max-height: 400px) {
-  #reader.reader-player-open {
-    height: 100%;
-  }
-}
-</style>

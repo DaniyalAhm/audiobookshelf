@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-full px-1 overflow-hidden">
+  <div class="search-card items-center">
     <covers-book-cover :library-item="libraryItem" :width="coverWidth" :book-cover-aspect-ratio="bookCoverAspectRatio" />
     <div class="grow px-2 episodeSearchCardContent">
       <p class="truncate text-sm">{{ episodeTitle }}</p>
@@ -49,12 +49,3 @@ export default {
 }
 </script>
 
-<style>
-.episodeSearchCardContent {
-  width: calc(100% - 80px);
-  height: 75px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-</style>

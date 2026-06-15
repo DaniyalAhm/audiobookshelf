@@ -78,13 +78,3 @@ export default {
 }
 </script>
 
-<style>
-#chapter-modal-wrapper .chapter-title {
-  max-width: calc(100% - 120px);
-}
-@media (min-width: 640px) {
-  #chapter-modal-wrapper .chapter-title {
-    max-width: calc(100% - 150px);
-  }
-}
-</style>

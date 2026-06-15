@@ -16,6 +16,13 @@
             </button>
           </div>
 
+          <div v-if="author.wikipediaLink" class="mb-4">
+            <a :href="author.wikipediaLink" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-sm">
+              <span class="material-symbols text-base">open_in_new</span>
+              Wikipedia
+            </a>
+          </div>
+
           <p v-if="author.description" class="text-white/60 uppercase text-xs mb-2">{{ $strings.LabelDescription }}</p>
           <p ref="description" id="author-description" class="text-white max-w-3xl text-base whitespace-pre-wrap" :class="{ 'show-full': showFullDescription }">{{ author.description }}</p>
           <button v-if="isDescriptionClamped" class="py-0.5 flex items-center text-slate-300 hover:text-white" @click="showFullDescription = !showFullDescription">
@@ -127,17 +134,3 @@ export default {
 }
 </script>
 
-<style scoped>
-#author-description {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  max-height: 6.25rem;
-  transition: all 0.3s ease-in-out;
-}
-#author-description.show-full {
-  -webkit-line-clamp: unset;
-  max-height: 999rem;
-}
-</style>

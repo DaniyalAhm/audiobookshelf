@@ -1,0 +1,25 @@
+/* ============================================
+   INPUTS - Form input, textarea, range, select
+   Extracted from Vue component <style> blocks
+   ============================================ */
+
+/* --- TextInput, TextareaInput, MultiSelect, MultiSelectQueryInput, EditableText --- */
+input,
+textarea {
+  border-style: inherit !important;
+}
+
+input:read-only,
+textarea:read-only {
+  color: var(--color-muted);
+  background-color: var(--color-elevated);
+}
+
+input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* --- TimePicker --- */
+.digit-focused {
+  background-color: color-mix(in srgb, var(--color-elevated) 78%, var(--color-primary) 22%);
+}

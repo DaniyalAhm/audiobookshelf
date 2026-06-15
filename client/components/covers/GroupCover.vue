@@ -109,7 +109,7 @@ export default {
 
       if (showCoverBg) {
         var coverbgwrapper = document.createElement('div')
-        coverbgwrapper.className = 'absolute top-0 left-0 w-full h-full overflow-hidden rounded-xs bg-primary'
+        coverbgwrapper.className = 'cover-bg-wrapper'
 
         var coverbg = document.createElement('div')
         coverbg.className = 'absolute cover-bg'

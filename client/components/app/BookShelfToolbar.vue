@@ -1,41 +1,41 @@
 <template>
   <div class="w-full h-20 md:h-10 relative">
     <div class="flex md:hidden h-10 items-center">
-      <nuxt-link :to="`/library/${currentLibraryId}`" class="grow h-full flex justify-center items-center" :class="isHomePage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link :to="`/library/${currentLibraryId}`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isHomePage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isHomePage || isPodcastLibrary" class="text-sm">{{ $strings.ButtonHome }}</p>
         <span v-else class="material-symbols text-lg">home</span>
       </nuxt-link>
-      <nuxt-link :to="`/library/${currentLibraryId}/bookshelf`" class="grow h-full flex justify-center items-center" :class="isLibraryPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link :to="`/library/${currentLibraryId}/bookshelf`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isLibraryPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isLibraryPage || isPodcastLibrary" class="text-sm">{{ $strings.ButtonLibrary }}</p>
         <span v-else class="material-symbols text-lg">import_contacts</span>
       </nuxt-link>
-      <nuxt-link v-if="isPodcastLibrary" :to="`/library/${currentLibraryId}/podcast/latest`" class="grow h-full flex justify-center items-center" :class="isPodcastLatestPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isPodcastLibrary" :to="`/library/${currentLibraryId}/podcast/latest`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isPodcastLatestPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p class="text-sm">{{ $strings.ButtonLatest }}</p>
       </nuxt-link>
-      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/series`" class="grow h-full flex justify-center items-center" :class="isSeriesPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/series`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isSeriesPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isSeriesPage" class="text-sm">{{ $strings.ButtonSeries }}</p>
         <span v-else class="material-symbols text-lg">view_column</span>
       </nuxt-link>
-      <nuxt-link v-if="showPlaylists" :to="`/library/${currentLibraryId}/bookshelf/playlists`" class="grow h-full flex justify-center items-center" :class="isPlaylistsPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="showPlaylists" :to="`/library/${currentLibraryId}/bookshelf/playlists`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isPlaylistsPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isPlaylistsPage || isPodcastLibrary" class="text-sm">{{ $strings.ButtonPlaylists }}</p>
         <span v-else class="material-symbols text-lg">&#xe03d;</span>
       </nuxt-link>
-      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/collections`" class="grow h-full flex justify-center items-center" :class="isCollectionsPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/collections`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isCollectionsPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isCollectionsPage" class="text-sm">{{ $strings.ButtonCollections }}</p>
         <span v-else class="material-symbols text-lg">&#xe431;</span>
       </nuxt-link>
-      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/authors`" class="grow h-full flex justify-center items-center" :class="isAuthorsPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isBookLibrary" :to="`/library/${currentLibraryId}/bookshelf/authors`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isAuthorsPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p v-if="isAuthorsPage" class="text-sm">{{ $strings.ButtonAuthors }}</p>
         <span v-else class="material-symbols text-lg">groups</span>
       </nuxt-link>
-      <nuxt-link v-if="isPodcastLibrary && userIsAdminOrUp" :to="`/library/${currentLibraryId}/podcast/search`" class="grow h-full flex justify-center items-center" :class="isPodcastSearchPage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isPodcastLibrary && userIsAdminOrUp" :to="`/library/${currentLibraryId}/podcast/search`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isPodcastSearchPage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p class="text-sm">{{ $strings.ButtonAdd }}</p>
       </nuxt-link>
-      <nuxt-link v-if="isPodcastLibrary && userIsAdminOrUp" :to="`/library/${currentLibraryId}/podcast/download-queue`" class="grow h-full flex justify-center items-center" :class="isPodcastDownloadQueuePage ? 'bg-primary/80' : 'bg-primary/40'">
+      <nuxt-link v-if="isPodcastLibrary && userIsAdminOrUp" :to="`/library/${currentLibraryId}/podcast/download-queue`" class="grow h-full flex justify-center items-center text-secondary-text hover:text-primary hover:bg-secondary-bg transition-colors" :class="isPodcastDownloadQueuePage ? 'bg-secondary-bg text-primary' : 'bg-bg'">
         <p class="text-sm">{{ $strings.ButtonDownloadQueue }}</p>
       </nuxt-link>
     </div>
-    <div id="toolbar" role="toolbar" aria-label="Library Toolbar" class="absolute top-10 md:top-0 left-0 w-full h-10 md:h-full z-40 flex items-center justify-end md:justify-start px-2 md:px-8">
+    <div id="toolbar" role="toolbar" aria-label="Library Toolbar" class="absolute top-10 md:top-0 left-0 w-full h-10 md:h-full z-40 flex items-center justify-end md:justify-start px-2 md:px-8 bg-bg border-b border-black-200">
       <!-- Series books page -->
       <template v-if="selectedSeries">
         <p class="pl-2 text-base md:text-lg">
@@ -633,9 +633,3 @@ export default {
 }
 </script>
 
-
-<style>
-#toolbar {
-  box-shadow: 0px 8px 6px #111111aa;
-}
-</style>

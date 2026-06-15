@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full px-1 overflow-hidden">
+  <div class="search-card">
     <div class="overflow-hidden bg-primary rounded-sm" style="height: 50px; width: 40px">
       <covers-author-image :author="author" />
     </div>
@@ -34,12 +34,3 @@ export default {
 }
 </script>
 
-<style>
-.authorSearchCardContent {
-  width: calc(100% - 80px);
-  height: 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-</style>

@@ -1,0 +1,543 @@
+/* ============================================
+   COMPONENTS - All component-specific styles
+   Extracted from Vue component <style> blocks
+   ============================================ */
+
+/* --- defaults layout --- */
+.Vue-Toastification__toast-body.custom-class-1 {
+  font-size: 14px;
+}
+
+#app-content {
+  width: 100%;
+}
+
+#app-content.has-siderail {
+  width: calc(100% - 80px);
+  max-width: calc(100% - 80px);
+  margin-left: 80px;
+}
+
+@media (max-width: 768px) {
+  #app-content.has-siderail {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0px;
+  }
+}
+/* --- Library item cover hover effects --- */
+.animated-overlay {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent) !important;
+}
+
+.animated-overlay .bg-primary:hover {
+  animation: wiggle 0.35s ease-in-out;
+  background: color-mix(in srgb, var(--color-secondary-bg) 72%, var(--color-accent-dark) 28%) !important;
+  color: var(--color-primary) !important;
+}
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+/* --- Appbar --- */
+#appbar .bg-secondary-bg:hover {
+  background: linear-gradient(
+    180deg,
+    var(--color-secondary-bg) 0%,
+    var(--color-card) 100%
+  );
+  color: var(--color-primary);
+}
+/* --- MediaPlayerContainer --- */
+#mediaPlayerContainer {
+  box-shadow: 0px -6px 8px color-mix(in srgb, var(--color-card) 25%, transparent);
+}
+
+/* --- BookShelfToolbar --- */
+#toolbar {
+  box-shadow: 0px 8px 6px color-mix(in srgb, var(--color-card) 67%, transparent);
+}
+
+/* --- SideRail --- */
+#siderail-buttons-container {
+  max-height: calc(100vh - 64px - 48px);
+}
+
+#siderail-buttons-container.player-open {
+  max-height: calc(100vh - 64px - 48px - 160px);
+}
+
+/* --- LazyBookshelf --- */
+.bookshelfRow {
+  background: var(--abs-bg);
+}
+
+.bookshelfDivider {
+  height: 1px;
+  background: var(--abs-border);
+}
+
+/* --- BookShelfRow --- */
+.categorizedBookshelfRow {
+  scroll-behavior: smooth;
+  background: var(--abs-bg);
+}
+
+.bookshelfDividerCategorized {
+  height: 1px;
+  background: var(--abs-border);
+}
+
+.book-shelf-arrow-right {
+  height: calc(100% - 1.5em);
+  background: var(--color-elevated);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-elevated) 0%, transparent) 0%, color-mix(in srgb, var(--color-secondary-bg) 25%, transparent) 8%, color-mix(in srgb, var(--color-card) 40%, transparent) 28%, color-mix(in srgb, var(--color-card) 60%, transparent) 71%, color-mix(in srgb, var(--color-bg) 60%, transparent) 86%, color-mix(in srgb, var(--color-bg) 70%, transparent) 100%);
+}
+
+.book-shelf-arrow-left {
+  height: calc(100% - 1.5em);
+  background: var(--color-elevated);
+  background: linear-gradient(-90deg, color-mix(in srgb, var(--color-elevated) 0%, transparent) 0%, color-mix(in srgb, var(--color-secondary-bg) 25%, transparent) 8%, color-mix(in srgb, var(--color-card) 40%, transparent) 28%, color-mix(in srgb, var(--color-card) 60%, transparent) 71%, color-mix(in srgb, var(--color-bg) 60%, transparent) 86%, color-mix(in srgb, var(--color-bg) 70%, transparent) 100%);
+}
+
+/* --- ConfigSideNav --- */
+.config-drawer {
+  border-top-right-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+}
+
+.config-drawer-link:hover {
+  transform: translateX(3px);
+}
+
+.drawer-backdrop-enter-active,
+.drawer-backdrop-leave-active {
+  transition: opacity 220ms ease-out;
+}
+
+.drawer-backdrop-enter,
+.drawer-backdrop-leave-to {
+  opacity: 0;
+}
+
+/* --- Reader --- */
+#reader {
+  height: 100%;
+}
+
+#reader.reader-player-open {
+  height: calc(100% - 164px);
+}
+
+@media (max-height: 400px) {
+  #reader.reader-player-open {
+    height: 100%;
+  }
+}
+
+/* --- MobiReader --- */
+.ebook-viewer {
+  height: calc(100% - 96px);
+}
+
+/* --- ComicReader --- */
+.pagemenu {
+  max-height: calc(100% - 48px);
+}
+
+/* --- NotificationWidget --- */
+.globalTaskRunningMenu {
+  max-height: 80vh;
+}
+
+/* --- GlobalSearch --- */
+.globalSearchMenu {
+  max-height: calc(100vh - 75px);
+}
+
+/* --- LibraryFilterSelect --- */
+.libraryFilterMenu {
+  max-height: calc(100vh - 125px);
+}
+
+/* --- LibrarySortSelect --- */
+.librarySortMenu {
+  max-height: calc(100vh - 125px);
+}
+
+/* --- LibrariesDropdown --- */
+.librariesDropdownMenu {
+  max-height: calc(100vh - 75px);
+}
+
+/* --- Confirm --- */
+#confirm-prompt-message code {
+  font-size: 1rem;
+  border-radius: 6px;
+  background-color: var(--color-elevated);
+  color: var(--color-primary);
+  padding: 2px 4px;
+}
+
+/* --- SettingsContent --- */
+#settings-description a {
+  color: var(--color-accent);
+}
+
+#settings-description a:hover {
+  color: var(--color-primary-dark);
+  text-decoration-line: underline;
+}
+
+#settings-description code {
+  font-size: 0.875rem;
+  border-radius: 6px;
+  background-color: var(--color-elevated);
+  color: var(--color-primary);
+  padding: 2px 4px;
+}
+
+/* --- IconBtn --- */
+button.icon-btn:disabled span {
+  color: var(--color-muted);
+}
+
+/* --- ReadIconBtn --- */
+button.icon-btn::before {
+  content: '';
+  position: absolute;
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  transition: all 0.1s ease-in-out;
+}
+
+button.icon-btn:hover:not(:disabled)::before {
+  background-color: var(--color-overlay-soft);
+}
+
+button.icon-btn:disabled::before {
+  background-color: color-mix(in srgb, var(--color-bg) 20%, transparent);
+}
+
+/* --- Tab styles (libraries/EditModal, item/EditModal, podcast/EditEpisode) --- */
+.tab {
+  height: 40px;
+}
+
+.tab.tab-selected {
+  height: 41px;
+}
+
+/* --- EditLibrary --- */
+.folders-container {
+  max-height: calc(80vh - 192px);
+}
+
+@media (max-device-width: 768px) {
+  .folders-container {
+    max-height: calc(80vh - 292px);
+  }
+}
+
+/* --- LazyFolderChooser --- */
+.dir-item.dir-selected {
+  background-color: var(--color-overlay-soft);
+}
+
+.dir-item.dir-used {
+  background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
+}
+
+.folder-container {
+  max-height: calc(100% - 130px);
+  height: calc(100% - 130px);
+  min-height: calc(100% - 130px);
+}
+
+/* --- QueueItemRow --- */
+.queue-item-row-content {
+  max-width: calc(100% - 48px - 128px);
+}
+
+/* --- ChaptersModal --- */
+#chapter-modal-wrapper .chapter-title {
+  max-width: calc(100% - 120px);
+}
+
+@media (min-width: 640px) {
+  #chapter-modal-wrapper .chapter-title {
+    max-width: calc(100% - 150px);
+  }
+}
+
+/* --- Podcast NewModal / EpisodeFeed --- */
+#podcast-wrapper {
+  min-height: 400px;
+  max-height: 80vh;
+}
+
+#episodes-scroll {
+  max-height: calc(80vh - 200px);
+}
+
+/* --- item/tabs/Details --- */
+#formWrapper {
+  height: calc(100% - 80px);
+  max-height: calc(100% - 80px);
+}
+
+/* --- item/tabs/Schedule --- */
+#scheduleWrapper {
+  height: calc(100% - 80px);
+  max-height: calc(100% - 80px);
+}
+
+/* --- item/tabs/Match --- */
+.matchListWrapper {
+  height: calc(100% - 124px);
+}
+
+@media (min-width: 768px) {
+  .matchListWrapper {
+    height: calc(100% - 80px);
+  }
+}
+
+/* --- Search card content widths --- */
+.audiobookSearchCardContent {
+  width: calc(100% - 80px);
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.episodeSearchCardContent {
+  width: calc(100% - 80px);
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.authorSearchCardContent {
+  width: calc(100% - 80px);
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seriesSearchCardContent {
+  width: calc(100% - 80px);
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tagSearchCardContent {
+  width: calc(100% - 40px);
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.narratorSearchCardContent {
+  width: calc(100% - 40px);
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.taskRunningCardContent {
+  width: calc(100% - 84px);
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- VueTrix --- */
+.trix_container {
+  max-width: 100%;
+  height: auto;
+}
+
+.trix_container .trix-button-group {
+  background-color: var(--color-primary);
+}
+
+.trix_container .trix-content {
+  background-color: var(--color-primary);
+}
+
+trix-editor {
+  height: calc(4 * 1lh);
+  min-height: calc(4 * 1lh);
+  overflow-y: auto;
+  resize: vertical;
+}
+
+trix-editor * {
+  pointer-events: inherit;
+}
+
+/* --- Page: config --- */
+.hamburger-button:hover {
+  transform: translateY(-1px) scale(1.015);
+}
+
+.hamburger-button:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.hamburger-lines {
+  width: 18px;
+  height: 14px;
+  position: relative;
+  display: inline-block;
+}
+
+.hamburger-lines span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--abs-text);
+  transition: transform var(--abs-motion), opacity var(--abs-motion), top var(--abs-motion), background-color var(--abs-motion);
+}
+
+.hamburger-lines span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger-lines span:nth-child(2) {
+  top: 6px;
+}
+
+.hamburger-lines span:nth-child(3) {
+  top: 12px;
+}
+
+.hamburger-button:hover .hamburger-lines span,
+.hamburger-lines.open span {
+  background: var(--abs-primary);
+}
+
+.hamburger-lines.open span:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+
+.hamburger-lines.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
+.hamburger-lines.open span:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+.configContent {
+  margin: auto;
+  width: 900px;
+  max-width: calc(100% - 192px);
+}
+
+@media (max-width: 1240px) {
+  .configContent {
+    margin-left: 192px;
+  }
+}
+
+@media (max-width: 640px) {
+  .configContent {
+    margin-left: 0px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* --- Page: config/log --- */
+#log-container {
+  height: calc(100vh - 285px);
+}
+
+.logmessage {
+  width: calc(100% - 208px);
+}
+
+/* --- Page: config/authentication --- */
+#authentication-settings code {
+  font-size: 0.8rem;
+  border-radius: 6px;
+  background-color: var(--color-elevated);
+  color: var(--color-primary);
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+/* --- Page: author/_id --- */
+#author-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  max-height: 6.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+#author-description.show-full {
+  -webkit-line-clamp: unset;
+  max-height: 999rem;
+}
+
+/* --- Page: item/_id/index --- */
+#item-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  max-height: calc(6 * 1lh);
+}
+
+@supports (-webkit-touch-callout: none) {
+  #item-description {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    max-height: calc(6 * 1lh);
+  }
+}
+
+#item-description.show-full {
+  -webkit-line-clamp: unset;
+  max-height: 999rem;
+}
+
+/* --- Page: batch/index - slide transitions --- */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.2s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-100%);
+  transition: all 150ms ease-in 0s;
+}

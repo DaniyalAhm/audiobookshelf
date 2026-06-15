@@ -95,8 +95,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.queue-item-row-content {
-  max-width: calc(100% - 48px - 128px);
-}
-</style>
