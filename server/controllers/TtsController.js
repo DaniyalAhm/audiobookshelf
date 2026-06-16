@@ -142,6 +142,22 @@ function normalizeChapters(chapters) {
   }))
 }
 
+
+function moveFileSafeSync(src, dest) {
+  fs.mkdirSync(path.dirname(dest), { recursive: true })
+
+  try {
+    fs.renameSync(src, dest)
+  } catch (err) {
+    if (err.code === 'EXDEV') {
+      fs.copyFileSync(src, dest)
+      fs.unlinkSync(src)
+    } else {
+      throw err
+    }
+  }
+}
+
 async function synthesizeTextToMp3(text, outputPath, options = {}) {
   const tempPath = await textToSpeech(text, {
     jobId: options.jobId,
@@ -149,7 +165,7 @@ async function synthesizeTextToMp3(text, outputPath, options = {}) {
     timeout: Number(process.env.TTS_TIMEOUT_MS || 1800000)
   })
 
-  fs.renameSync(tempPath, outputPath)
+  moveFileSafeSync(tempPath, outputPath)
   return outputPath
 }
 
