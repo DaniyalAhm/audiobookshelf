@@ -1,7 +1,6 @@
 const fs = require('fs')
 const Path = require('path')
 const os = require('os')
-const { execFile } = require('child_process')
 const Logger = require('../Logger')
 const SocketAuthority = require('../SocketAuthority')
 const { xmlToJSON } = require('../utils/index')
@@ -12,6 +11,7 @@ const { getFileTimestampsWithIno, filePathToPOSIX } = require('../utils/fileUtil
 const { parseDocument, DomUtils } = require('htmlparser2')
 const { probe } = require('../utils/prober')
 const MIN_CHAPTER_CHARS = 2000
+const fsPromises = fs.promises
 
 
 async function getAudioDuration(audioPath) {
@@ -144,7 +144,7 @@ function normalizeChapters(chapters) {
 
 
 async function moveFileSafe(src, dest) {
-  await fsPromises.mkdir(path.dirname(dest), { recursive: true })
+  await fsPromises.mkdir(Path.dirname(dest), { recursive: true })
 
   try {
     await fsPromises.rename(src, dest)
@@ -165,8 +165,13 @@ async function synthesizeTextToMp3(text, outputPath, options = {}) {
     timeout: Number(process.env.TTS_TIMEOUT_MS || 1800000)
   })
 
-  moveFileSafeSync(tempPath, outputPath)
-  return outputPath
+  try {
+    await moveFileSafe(tempPath, outputPath)
+    return outputPath
+  } catch (error) {
+    fs.unlink(tempPath, () => {})
+    throw error
+  }
 }
 
 function getReadableSpineItems(packageJson) {
@@ -479,6 +484,10 @@ class TtsController {
     const ebookFile = libraryItem?.media?.ebookFile
     if (!ebookFile) {
       return res.status(404).send('No ebook file found')
+    }
+
+    if (isTtsGenerationActive(libraryItem.id)) {
+      return res.status(409).send('TTS generation is already running for this item')
     }
 
     setTtsGenerationActive(libraryItem.id, true)
