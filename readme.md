@@ -24,6 +24,92 @@ To personalize the frontend:
 
 The app follows the operating system theme (dark/light) automatically via `prefers-color-scheme`.
 
+### Text-to-Speech (TTS)
+
+This fork adds AI-powered text-to-speech for ebooks (EPUB/PDF). Two modes are available:
+
+#### On-Demand Chapter Playback (E-Reader)
+
+When reading an ebook in the built-in e-reader, click the speaker icon to have the current chapter read aloud. Controls allow play/pause, skip to the next/previous chapter, and stop. Each chapter is synthesized on demand via the external TTS API and streamed back as audio.
+
+**Requirements:** The library item must have an EPUB or PDF ebook file and no existing audio tracks.
+
+#### Batch Generation ("Listen" Button)
+
+On an ebook's detail page, a **"Listen"** button appears when the book has no audio tracks but has an ebook file. Clicking it generates MP3 audio files for every chapter, saving them permanently as audio tracks on the library item. The generated tracks are labeled with `generatedBy: 'tts'` and appear alongside traditionally imported audiobooks. Progress is shown per-chapter and via server-sent socket events.
+
+**Requirements:** EPUB or PDF file, no existing audio tracks. Generation is single-instance per item (concurrent generation is blocked).
+
+#### Setting Up the TTS Backend
+
+TTS requires an external speech synthesis server. The default configuration expects one at `http://tts_server:5005/tts`. A reference implementation is available at [github.com/DaniyalAhm/tts_server](https://github.com/DaniyalAhm/tts_server).
+
+**Environment variables:**
+
+| Variable | Default | Description |
+|---|---|---|
+| `TTS_ENDPOINT` | `http://tts_server:5005/tts` | URL of the external TTS API |
+| `TTS_REF_AUDIO` | `./ref.wav` | Path to reference audio for voice cloning |
+| `TTS_REF_TEXT` | `Transcription of the reference audio.` | Transcription of the reference audio |
+| `TTS_TIMEOUT_MS` | `1800000` (30 min) | Timeout per synthesis request |
+| `FFMPEG_PATH` | `ffmpeg` | Path to FFmpeg binary |
+
+**API contract** (the TTS endpoint must):
+
+1. Accept `POST` requests with `Content-Type: application/json`
+2. Read a JSON body with `{ "text": "...", "format": "mp3" }`
+3. Return `audio/mpeg` binary data on success
+
+For custom voice cloning, the endpoint also supports `multipart/form-data` with fields `text`, `format`, `ref_audio` (file), and `ref_text`.
+
+**Example with Docker Compose (Coqui TTS):**
+
+```yaml
+services:
+  tts_server:
+    image: ghcr.io/coqui-ai/tts:latest
+    ports:
+      - "5005:5005"
+    command: python3 -m TTS.server.server --port 5005
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    ports:
+      - "13378:80"
+    environment:
+      - TTS_ENDPOINT=http://tts_server:5005/tts
+    volumes:
+      - ./audiobookshelf/config:/config
+      - ./audiobookshelf/metadata:/metadata
+      - ./audiobookshelf/books:/books
+```
+
+#### Architecture
+
+```
+Client (Reader.vue / item/_id/index.vue)
+  │
+  ├─ GET  /api/items/:id/tts/chapters        → Extract ebook chapters
+  ├─ POST /api/items/:id/tts/synthesize       → Synthesize arbitrary text
+  ├─ POST /api/items/:id/tts/synthesize-chapter → Synthesize one chapter
+  ├─ POST /api/items/:id/tts/generate          → Batch-generate all chapters
+  └─ GET  /api/items/:id/tts/status            → Poll generation state
+       │
+       └─ External TTS API (default: http://tts_server:5005/tts)
+            └─ Returns MP3 audio data
+```
+
+Chapters shorter than 2000 characters are automatically merged into the previous chapter for better narration flow. Generated files are saved as `{libraryItem.path}/tts/{INDEX}-{TITLE}.mp3`.
+
+#### TTS API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/items/:id/tts/chapters` | Returns extracted chapter list with text length estimates |
+| `GET` | `/api/items/:id/tts/status` | Returns `{ libraryItemId, isGenerating }` |
+| `POST` | `/api/items/:id/tts/synthesize` | Body: `{ text }` — streams back `audio/mpeg` |
+| `POST` | `/api/items/:id/tts/synthesize-chapter` | Body: `{ chapterIndex }` — synthesizes a single chapter |
+| `POST` | `/api/items/:id/tts/generate` | Batch-generates audio for all chapters and saves permanently |
+
 ## Disclaimer
 
 These modifications were made with the assistance of AI. I do not have the time nor energy to maintain this without it — it takes a while, and I must put my personal life and mental health first. Use at your own risk; no guarantees of upstream compatibility or long-term support are implied.
