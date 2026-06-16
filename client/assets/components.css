@@ -154,6 +154,68 @@
   }
 }
 
+/* --- EpubReader --- */
+.epub-reader {
+  box-sizing: border-box;
+  padding: 4.75rem 1rem 1.5rem;
+}
+
+.epub-reader-layout {
+  gap: 1.5rem;
+}
+
+.epub-reader-nav {
+  align-items: center;
+  display: none;
+  flex: 0 0 5rem;
+  height: 100%;
+  justify-content: center;
+  opacity: 0.45;
+  overflow-x: hidden;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.epub-reader-nav:hover {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.epub-page-frame {
+  background: color-mix(in srgb, currentColor 4%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 1rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+  height: 100%;
+  max-height: min(860px, 100%);
+  max-width: 75%;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+.epub-page-viewer,
+.epub-page-frame iframe {
+  max-width: 100% !important;
+}
+
+@media (min-width: 640px) {
+  .epub-reader-nav {
+    display: flex;
+  }
+}
+
+@media (max-width: 639px) {
+  .epub-reader {
+    padding: 3.75rem 1rem 1rem;
+  }
+
+  .epub-page-frame {
+    border-radius: 0.75rem;
+    max-width: 100%;
+  }
+}
+
 /* --- MobiReader --- */
 .ebook-viewer {
   height: calc(100% - 96px);

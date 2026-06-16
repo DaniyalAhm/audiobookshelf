@@ -1,13 +1,13 @@
 <template>
-  <div id="epub-reader" class="h-full w-full">
-    <div class="h-full flex items-center justify-center">
-      <button type="button" aria-label="Previous page" class="w-24 max-w-24 h-full hidden sm:flex items-center overflow-x-hidden justify-center opacity-50 hover:opacity-100">
+  <div id="epub-reader" class="epub-reader h-full w-full overflow-x-hidden">
+    <div class="epub-reader-layout h-full flex items-center justify-center">
+      <button type="button" aria-label="Previous page" class="epub-reader-nav epub-reader-nav-prev">
         <span v-if="hasPrev" class="material-symbols text-6xl" @mousedown.prevent @click="prev">chevron_left</span>
       </button>
-      <div id="frame" class="epub-page-frame w-full max-w-2xl overflow-hidden rounded-lg border border-current/20 shadow-2xl" style="height: 90%">
-        <div id="viewer" class="h-full w-full"></div>
+      <div id="frame" class="epub-page-frame" :style="readerFrameStyle">
+        <div id="viewer" class="epub-page-viewer h-full w-full"></div>
       </div>
-      <button type="button" aria-label="Next page" class="w-24 max-w-24 h-full hidden sm:flex items-center justify-center overflow-x-hidden opacity-50 hover:opacity-100">
+      <button type="button" aria-label="Next page" class="epub-reader-nav epub-reader-nav-next">
         <span v-if="hasNext" class="material-symbols text-6xl" @mousedown.prevent @click="next">chevron_right</span>
       </button>
     </div>
@@ -85,12 +85,19 @@ export default {
       return `ebookLocations-${this.libraryItemId}`
     },
     readerWidth() {
-      if (this.windowWidth < 640) return this.windowWidth
-      return Math.min(this.windowWidth - 400, 800)
+      if (this.windowWidth < 640) return Math.max(this.windowWidth - 32, 280)
+      return Math.max(Math.floor(this.windowWidth * 0.75), 360)
     },
     readerHeight() {
-      if (this.windowHeight < 400 || !this.playerOpen) return this.windowHeight
-      return this.windowHeight - 100
+      const playerOffset = this.playerOpen && this.windowHeight >= 400 ? 100 : 0
+      const chromeOffset = this.windowWidth < 640 ? 76 : 100
+      return Math.max(this.windowHeight - playerOffset - chromeOffset, 280)
+    },
+    readerFrameStyle() {
+      return {
+        height: this.readerHeight + 'px',
+        width: this.readerWidth + 'px'
+      }
     },
     ebookUrl() {
       if (this.fileId) {
@@ -107,16 +114,27 @@ export default {
       const lineSpacing = this.ereaderSettings.lineSpacing / 100
       const fontScale   = this.ereaderSettings.fontScale   / 100
       const textStroke  = this.ereaderSettings.textStroke  / 100
-
+      const contentPadding = this.windowWidth < 640 ? '1.5rem' : '3rem 4rem'
       return {
-        '*': {
+        body: {
           color: `${fontColor}!important`,
           'background-color': `${backgroundColor}!important`,
           'line-height': `${lineSpacing * fontScale}rem!important`,
           '-webkit-text-stroke': `${textStroke}px ${fontColor}!important`,
           'word-wrap': 'break-word!important',
           'overflow-wrap': 'break-word!important',
-          'hyphens': 'auto!important'
+          'hyphens': 'auto!important',
+          'padding': contentPadding + '!important',
+          'box-sizing': 'border-box!important',
+          'text-rendering': 'optimizeLegibility!important'
+        },
+        img: {
+          'max-width': '100%!important',
+          'height': 'auto!important'
+        },
+        svg: {
+          'max-width': '100%!important',
+          'height': 'auto!important'
         },
         a: {
           color: `${fontColor}!important`
@@ -326,7 +344,7 @@ export default {
       /** @type {ePub.Book} */
       reader.book = new ePub(reader.ebookUrl, {
         width: this.readerWidth,
-        height: this.readerHeight - 30,
+        height: this.readerHeight,
         openAs: 'epub',
         requestMethod: customRequest
       })
@@ -334,7 +352,7 @@ export default {
       /** @type {ePub.Rendition} */
       reader.rendition = reader.book.renderTo('viewer', {
         width: this.readerWidth,
-        height: this.readerHeight * 0.9,
+        height: this.readerHeight,
         allowScriptedContent: this.allowScriptedContent,
         spread: 'none',
         snap: true,
@@ -453,7 +471,7 @@ export default {
     resize() {
       this.windowWidth = window.innerWidth
       this.windowHeight = window.innerHeight
-      this.rendition?.resize(this.readerWidth, this.readerHeight * 0.9)
+      this.rendition?.resize(this.readerWidth, this.readerHeight)
     },
     applyTheme() {
       if (!this.rendition) return
