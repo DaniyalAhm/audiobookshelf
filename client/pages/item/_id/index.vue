@@ -96,6 +96,11 @@
               {{ $strings.ButtonRead }}
             </ui-btn>
 
+            <ui-btn v-if="showListenButton" color="bg-success" :padding-x="4" small class="flex items-center h-9 mr-2" :loading="ttsGenerating" :disabled="ttsGenerating" @click="listenToEbook">
+              <span class="material-symbols text-2xl -ml-2 pr-2 text-white" aria-hidden="true">record_voice_over</span>
+              {{ ttsGenerating ? $strings.LabelGeneratingSpeech : $strings.ButtonListen }}
+            </ui-btn>
+
             <ui-tooltip v-if="showQueueBtn" :text="isQueued ? $strings.ButtonQueueRemoveItem : $strings.ButtonQueueAddItem" direction="top">
               <ui-icon-btn :icon="isQueued ? 'playlist_add_check' : 'playlist_play'" :bg-color="isQueued ? 'bg-primary' : 'bg-success/60'" class="mx-0.5" :class="isQueued ? 'text-success' : ''" @click="queueBtnClick" />
             </ui-tooltip>
@@ -128,7 +133,8 @@
             <button v-if="isDescriptionClamped" class="py-0.5 flex items-center text-slate-300 hover:text-white" @click="showFullDescription = !showFullDescription">{{ showFullDescription ? $strings.ButtonReadLess : $strings.ButtonReadMore }} <span class="material-symbols text-xl pl-1" v-html="showFullDescription ? 'expand_less' : '&#xe313;'" /></button>
           </div>
 
-          <tables-chapters-table v-if="chapters.length" :library-item="libraryItem" class="mt-6" />
+          <tables-chapters-table v-if="chapters.length || ttsChapters.length" :library-item="libraryItem" :tts-chapters="ttsChapters" :tts-chapter-progress="ttsChapterProgress" class="mt-6" />
+
 
           <tables-tracks-table v-if="tracks.length" :title="$strings.LabelStatsAudioTracks" :tracks="tracksWithAudioFile" :is-file="isFile" :library-item-id="libraryItemId" class="mt-6" />
 
@@ -182,7 +188,11 @@ export default {
       episodeDownloadsQueued: [],
       showBookmarksModal: false,
       isDescriptionClamped: false,
-      showFullDescription: false
+      showFullDescription: false,
+      ttsGenerating: false,
+      ttsGeneratingPollId: null,
+      ttsChapters: [],
+      ttsChapterProgress: []
     }
   },
   computed: {
@@ -235,6 +245,12 @@ export default {
     },
     showReadButton() {
       return this.ebookFile
+    },
+    showListenButton() {
+      if (typeof this.media.hasSourceAudioTracks === 'boolean') {
+        return this.showReadButton && !this.media.hasSourceAudioTracks
+      }
+      return this.showReadButton && !this.tracks.length
     },
     libraryId() {
       return this.libraryItem.libraryId
@@ -434,6 +450,44 @@ export default {
     }
   },
   methods: {
+    startTtsGeneratingPoll() {
+      if (process.server || this.ttsGeneratingPollId) return
+
+      this.ttsGeneratingPollId = window.setInterval(() => {
+        this.refreshTtsGenerationState()
+      }, 5000)
+    },
+    stopTtsGeneratingPoll() {
+      if (!this.ttsGeneratingPollId || typeof window === "undefined") return
+
+      window.clearInterval(this.ttsGeneratingPollId)
+      this.ttsGeneratingPollId = null
+    },
+    async refreshTtsGenerationState() {
+      try {
+        const status = await this.$axios.$get('/api/items/' + this.libraryItemId + '/tts/status')
+        const isGenerating = !!status?.isGenerating
+
+        this.ttsGenerating = isGenerating
+        if (isGenerating) {
+          this.startTtsGeneratingPoll()
+        } else {
+          this.stopTtsGeneratingPoll()
+          this.ttsChapters = []
+          this.ttsChapterProgress = []
+        }
+      } catch (error) {
+        console.error('Failed to refresh TTS generation state', error)
+      }
+    },
+    onTtsGenerationProgress(data) {
+      if (data.libraryItemId === this.libraryItemId && this.ttsChapterProgress.length > data.chapterIndex) {
+        this.$set(this.ttsChapterProgress, data.chapterIndex, data.chapterProgress)
+      }
+    },
+    syncTtsGeneratingState() {
+      this.refreshTtsGenerationState()
+    },
     selectBookmark(bookmark) {
       if (!bookmark) return
       if (this.isStreaming) {
@@ -499,6 +553,34 @@ export default {
     },
     openEbook() {
       this.$store.commit('showEReader', { libraryItem: this.libraryItem, keepProgress: true })
+    },
+    async listenToEbook() {
+      this.ttsGenerating = true
+      this.ttsChapters = []
+      this.ttsChapterProgress = []
+
+      try {
+        const chaptersRes = await this.$axios.$get('/api/items/' + this.libraryItemId + '/tts/chapters')
+        this.ttsChapters = chaptersRes.chapters || []
+        this.ttsChapterProgress = (chaptersRes.chapters || []).map(() => 0)
+      } catch (error) {
+        console.error('Failed to fetch TTS chapters', error)
+      }
+
+      try {
+        const result = await this.$axios.$post('/api/items/' + this.libraryItemId + '/tts/generate')
+        this.$toast.success('Speech generated: ' + (result.audioFilesGenerated || 1) + ' audio file' + ((result.audioFilesGenerated || 1) === 1 ? '' : 's') + ' (' + Math.round(result.totalDuration) + 's)')
+        if (result.item) {
+          this.libraryItem = result.item
+        } else {
+          this.$nuxt.refresh()
+        }
+      } catch (error) {
+        console.error('TTS generation failed', error)
+        this.$toast.error(error.response?.data || 'TTS generation failed')
+      } finally {
+        this.refreshTtsGenerationState()
+      }
     },
     toggleFinished(confirmed = false) {
       if (!this.userIsFinished && this.progressPercent > 0 && !confirmed) {
@@ -596,6 +678,7 @@ export default {
       if (libraryItem.id === this.libraryItemId) {
         console.log('Item was updated', libraryItem)
         this.libraryItem = libraryItem
+        this.refreshTtsGenerationState()
         this.$nextTick(this.checkDescriptionClamped)
       }
     },
@@ -784,9 +867,11 @@ export default {
 
     this.episodeDownloadsQueued = this.libraryItem.episodeDownloadsQueued || []
     this.episodesDownloading = this.libraryItem.episodesDownloading || []
+    this.refreshTtsGenerationState()
 
     this.$eventBus.$on(`${this.libraryItem.id}_updated`, this.libraryItemUpdated)
     this.$root.socket.on('item_updated', this.libraryItemUpdated)
+    this.$root.socket.on('tts_generation_progress', this.onTtsGenerationProgress)
     this.$root.socket.on('rss_feed_open', this.rssFeedOpen)
     this.$root.socket.on('rss_feed_closed', this.rssFeedClosed)
     this.$root.socket.on('share_open', this.shareOpen)
@@ -797,8 +882,10 @@ export default {
     this.$root.socket.on('episode_download_queue_cleared', this.episodeDownloadQueueCleared)
   },
   beforeDestroy() {
+    this.stopTtsGeneratingPoll()
     this.$eventBus.$off(`${this.libraryItem.id}_updated`, this.libraryItemUpdated)
     this.$root.socket.off('item_updated', this.libraryItemUpdated)
+    this.$root.socket.off('tts_generation_progress', this.onTtsGenerationProgress)
     this.$root.socket.off('rss_feed_open', this.rssFeedOpen)
     this.$root.socket.off('rss_feed_closed', this.rssFeedClosed)
     this.$root.socket.off('share_open', this.shareOpen)

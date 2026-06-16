@@ -19,6 +19,7 @@ export const state = () => ({
   showEReader: false,
   ereaderKeepProgress: false,
   ereaderFileId: null,
+  ttsActiveOnOpen: false,
   selectedLibraryItem: null,
   developerMode: false,
   processingBatch: false,
@@ -219,10 +220,11 @@ export const mutations = {
   setEditPodcastModalTab(state, tab) {
     state.editPodcastModalTab = tab
   },
-  showEReader(state, { libraryItem, keepProgress, fileId }) {
+  showEReader(state, { libraryItem, keepProgress, fileId, ttsActiveOnOpen }) {
     state.selectedLibraryItem = libraryItem
     state.ereaderKeepProgress = keepProgress
     state.ereaderFileId = fileId
+    state.ttsActiveOnOpen = !!ttsActiveOnOpen
 
     state.showEReader = true
   },

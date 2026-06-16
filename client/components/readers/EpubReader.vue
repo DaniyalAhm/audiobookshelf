@@ -4,8 +4,8 @@
       <button type="button" aria-label="Previous page" class="w-24 max-w-24 h-full hidden sm:flex items-center overflow-x-hidden justify-center opacity-50 hover:opacity-100">
         <span v-if="hasPrev" class="material-symbols text-6xl" @mousedown.prevent @click="prev">chevron_left</span>
       </button>
-      <div id="frame" class="w-full" style="height: 80%">
-        <div id="viewer"></div>
+      <div id="frame" class="epub-page-frame w-full max-w-2xl overflow-hidden rounded-lg border border-current/20 shadow-2xl" style="height: 90%">
+        <div id="viewer" class="h-full w-full"></div>
       </div>
       <button type="button" aria-label="Next page" class="w-24 max-w-24 h-full hidden sm:flex items-center justify-center overflow-x-hidden opacity-50 hover:opacity-100">
         <span v-if="hasNext" class="material-symbols text-6xl" @mousedown.prevent @click="next">chevron_right</span>
@@ -46,7 +46,7 @@ export default {
         font: 'serif',
         fontScale: 100,
         lineSpacing: 115,
-        spread: 'auto',
+        spread: 'none',
         textStroke: 0
       }
     }
@@ -86,11 +86,11 @@ export default {
     },
     readerWidth() {
       if (this.windowWidth < 640) return this.windowWidth
-      return this.windowWidth - 200
+      return Math.min(this.windowWidth - 400, 800)
     },
     readerHeight() {
       if (this.windowHeight < 400 || !this.playerOpen) return this.windowHeight
-      return this.windowHeight - 164
+      return this.windowHeight - 100
     },
     ebookUrl() {
       if (this.fileId) {
@@ -101,19 +101,8 @@ export default {
     themeRules() {
       const theme = this.ereaderSettings.theme
       const isDark = theme === 'dark'
-      const isSepia = theme === 'sepia'
-
-      const fontColor = isDark
-        ? '#fff'
-        : isSepia
-        ? '#5b4636'
-        : '#000'
-
-      const backgroundColor = isDark
-        ? 'rgb(35 35 35)'
-        : isSepia
-        ? 'rgb(244, 236, 216)'
-        : 'rgb(255, 255, 255)'
+      const fontColor = isDark ? '#fff' : '#000'
+      const backgroundColor = isDark ? '#000' : '#fff'
 
       const lineSpacing = this.ereaderSettings.lineSpacing / 100
       const fontScale   = this.ereaderSettings.fontScale   / 100
@@ -124,7 +113,10 @@ export default {
           color: `${fontColor}!important`,
           'background-color': `${backgroundColor}!important`,
           'line-height': `${lineSpacing * fontScale}rem!important`,
-          '-webkit-text-stroke': `${textStroke}px ${fontColor}!important`
+          '-webkit-text-stroke': `${textStroke}px ${fontColor}!important`,
+          'word-wrap': 'break-word!important',
+          'overflow-wrap': 'break-word!important',
+          'hyphens': 'auto!important'
         },
         a: {
           color: `${fontColor}!important`
@@ -143,7 +135,10 @@ export default {
       const fontScale = settings.fontScale || 100
       this.rendition.themes.fontSize(`${fontScale}%`)
       this.rendition.themes.font(settings.font)
-      this.rendition.spread(settings.spread || 'auto')
+      this.rendition.spread('none')
+      this.rendition.themes.set('hyphens', 'auto')
+      this.rendition.themes.set('word-wrap', 'break-word')
+      this.rendition.themes.set('overflow-wrap', 'break-word')
     },
     prev() {
       if (!this.rendition?.manager) return
@@ -331,7 +326,7 @@ export default {
       /** @type {ePub.Book} */
       reader.book = new ePub(reader.ebookUrl, {
         width: this.readerWidth,
-        height: this.readerHeight - 50,
+        height: this.readerHeight - 30,
         openAs: 'epub',
         requestMethod: customRequest
       })
@@ -339,12 +334,17 @@ export default {
       /** @type {ePub.Rendition} */
       reader.rendition = reader.book.renderTo('viewer', {
         width: this.readerWidth,
-        height: this.readerHeight * 0.8,
+        height: this.readerHeight * 0.9,
         allowScriptedContent: this.allowScriptedContent,
-        spread: 'auto',
+        spread: 'none',
         snap: true,
         manager: 'continuous',
-        flow: 'paginated'
+        flow: 'paginated',
+        hyphens: 'auto',
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word',
+        hyphenateLimitChars: { before: 2, after: 2 },
+        hyphenateLimitLines: 2
       })
 
       // load saved progress
@@ -453,7 +453,7 @@ export default {
     resize() {
       this.windowWidth = window.innerWidth
       this.windowHeight = window.innerHeight
-      this.rendition?.resize(this.readerWidth, this.readerHeight * 0.8)
+      this.rendition?.resize(this.readerWidth, this.readerHeight * 0.9)
     },
     applyTheme() {
       if (!this.rendition) return

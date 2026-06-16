@@ -258,7 +258,15 @@ class Book extends Model {
   }
 
   get includedAudioFiles() {
-    return this.audioFiles.filter((af) => !af.exclude)
+    return (this.audioFiles || []).filter((af) => !af.exclude)
+  }
+
+  get sourceAudioFiles() {
+    return (this.audioFiles || []).filter((af) => !af.exclude && !af.generatedBy && !af.metadata?.relPath?.startsWith('tts/'))
+  }
+
+  get hasSourceAudioTracks() {
+    return !!this.sourceAudioFiles.length
   }
 
   get hasMediaFiles() {
@@ -662,6 +670,7 @@ class Book extends Model {
       tags: [...(this.tags || [])],
       numTracks: this.includedAudioFiles.length,
       numAudioFiles: this.audioFiles?.length || 0,
+      hasSourceAudioTracks: this.hasSourceAudioTracks,
       numChapters: this.chapters?.length || 0,
       duration: this.duration,
       size: this.size,
@@ -689,6 +698,7 @@ class Book extends Model {
       audioFiles: structuredClone(this.audioFiles),
       chapters: structuredClone(this.chapters),
       ebookFile: structuredClone(this.ebookFile),
+      hasSourceAudioTracks: this.hasSourceAudioTracks,
       duration: this.duration,
       size: this.size,
       tracks: this.getTracklist(libraryItemId)

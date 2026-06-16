@@ -1,6 +1,15 @@
 <template>
   <div class="chapters-table w-full my-2">
-    <div class="tables__bar chapters-table__bar w-full bg-primary px-6 py-2 flex items-center cursor-pointer" @click.stop="clickBar">
+    <div v-if="showTts" class="tables__bar chapters-table__bar w-full bg-primary px-6 py-2 flex items-center cursor-pointer" @click.stop="clickBar">
+      <p class="chapters-table__title pr-4">{{ $strings.HeaderChapters }}</p>
+      <span class="chapters-table__count bg-black-400 rounded-xl py-1 px-2 text-sm font-mono">{{ ttsChapters.length }}</span>
+      <div class="chapters-table__spacer grow" />
+      <p class="text-sm text-gray-300">{{ $strings.LabelGeneratingSpeech }}</p>
+      <div v-if="!keepOpen" class="chapters-table__toggle cursor-pointer h-10 w-10 rounded-full hover:bg-black-400 flex justify-center items-center duration-500" :class="expanded ? 'transform rotate-180' : ''">
+        <span class="chapters-table__toggle-icon material-symbols text-4xl">&#xe313;</span>
+      </div>
+    </div>
+    <div v-else class="tables__bar chapters-table__bar w-full bg-primary px-6 py-2 flex items-center cursor-pointer" @click.stop="clickBar">
       <p class="chapters-table__title pr-4">{{ $strings.HeaderChapters }}</p>
       <span class="chapters-table__count bg-black-400 rounded-xl py-1 px-2 text-sm font-mono">{{ chapters.length }}</span>
       <div class="chapters-table__spacer grow" />
@@ -11,26 +20,47 @@
     </div>
     <transition name="slide">
       <table class="chapters-table__table text-sm tracksTable" v-show="expanded || keepOpen">
-        <tr>
-          <th class="text-left w-16"><span class="px-4">Id</span></th>
-          <th class="text-left">{{ $strings.LabelTitle }}</th>
-          <th class="text-center">{{ $strings.LabelStart }}</th>
-          <th class="text-center">{{ $strings.LabelDuration }}</th>
-        </tr>
-        <tr v-for="chapter in chapters" :key="chapter.id">
-          <td class="text-left">
-            <p class="px-4">{{ chapter.id }}</p>
-          </td>
-          <td dir="auto">
-            {{ chapter.title }}
-          </td>
-          <td class="chapters-table__timestamp font-mono text-center hover:underline cursor-pointer" @click.stop="goToTimestamp(chapter.start)">
-            {{ $secondsToTimestamp(chapter.start) }}
-          </td>
-          <td class="chapters-table__duration font-mono text-center">
-            {{ $secondsToTimestamp(Math.max(0, chapter.end - chapter.start)) }}
-          </td>
-        </tr>
+        <template v-if="showTts">
+          <tr>
+            <th class="text-left"><span class="px-4">#</span></th>
+            <th class="text-left">{{ $strings.LabelTitle }}</th>
+            <th class="text-center" style="width: 40%">{{ $strings.LabelProgress }}</th>
+          </tr>
+          <tr v-for="(chapter, index) in ttsChapters" :key="index">
+            <td class="text-left">
+              <p class="px-4">{{ index + 1 }}</p>
+            </td>
+            <td dir="auto">{{ chapter.title }}</td>
+            <td class="px-4">
+              <div class="flex items-center gap-2">
+                <div class="flex-1 h-2 bg-black-400 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-300" :class="(ttsChapterProgress[index] || 0) === 100 ? 'bg-success' : 'bg-yellow-400'" :style="{ width: (ttsChapterProgress[index] || 0) + '%' }"></div>
+                </div>
+                <span class="font-mono text-xs whitespace-nowrap">{{ ttsChapterProgress[index] || 0 }}%</span>
+              </div>
+            </td>
+          </tr>
+        </template>
+        <template v-else>
+          <tr>
+            <th class="text-left w-16"><span class="px-4">Id</span></th>
+            <th class="text-left">{{ $strings.LabelTitle }}</th>
+            <th class="text-center">{{ $strings.LabelStart }}</th>
+            <th class="text-center">{{ $strings.LabelDuration }}</th>
+          </tr>
+          <tr v-for="chapter in chapters" :key="chapter.id">
+            <td class="text-left">
+              <p class="px-4">{{ chapter.id }}</p>
+            </td>
+            <td dir="auto">{{ chapter.title }}</td>
+            <td class="chapters-table__timestamp font-mono text-center hover:underline cursor-pointer" @click.stop="goToTimestamp(chapter.start)">
+              {{ $secondsToTimestamp(chapter.start) }}
+            </td>
+            <td class="chapters-table__duration font-mono text-center">
+              {{ $secondsToTimestamp(Math.max(0, chapter.end - chapter.start)) }}
+            </td>
+          </tr>
+        </template>
       </table>
     </transition>
   </div>
@@ -43,7 +73,15 @@ export default {
       type: Object,
       default: () => {}
     },
-    keepOpen: Boolean
+    keepOpen: Boolean,
+    ttsChapters: {
+      type: Array,
+      default: () => []
+    },
+    ttsChapterProgress: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -51,6 +89,9 @@ export default {
     }
   },
   computed: {
+    showTts() {
+      return this.ttsChapters.length > 0
+    },
     libraryItemId() {
       return this.libraryItem.id
     },

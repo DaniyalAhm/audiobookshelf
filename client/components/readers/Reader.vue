@@ -1,11 +1,14 @@
 <template>
-  <div v-if="show" id="reader" :data-theme="ereaderTheme" class="group absolute top-0 left-0 w-full z-60 data-[theme=dark]:bg-primary data-[theme=dark]:text-white data-[theme=light]:bg-white data-[theme=light]:text-black data-[theme=sepia]:bg-[rgb(244,236,216)] data-[theme=sepia]:text-[#5b4636]" :class="{ 'reader-player-open': !!streamLibraryItem }">
+  <div v-if="show" id="reader" :data-theme="ereaderTheme" class="group absolute top-0 left-0 w-full z-60 data-[theme=dark]:bg-black data-[theme=dark]:text-white data-[theme=light]:bg-white data-[theme=light]:text-black" :class="{ 'reader-player-open': !!streamLibraryItem }">
     <div class="absolute top-4 left-4 z-20 flex items-center">
       <button v-if="isEpub" @click="toggleToC" type="button" aria-label="Table of contents menu" class="inline-flex opacity-80 hover:opacity-100">
         <span class="material-symbols text-2xl">menu</span>
       </button>
       <button v-if="hasSettings" @click="openSettings" type="button" aria-label="Ereader settings" class="mx-4 inline-flex opacity-80 hover:opacity-100">
         <span class="material-symbols text-1.5xl">settings</span>
+      </button>
+      <button v-if="isEpub || isPdf" @click="toggleTts" type="button" aria-label="Text to speech" class="inline-flex opacity-80 hover:opacity-100" :class="{ 'text-yellow-400': ttsActive }">
+        <span class="material-symbols text-1.5xl">headphones</span>
       </button>
     </div>
 
@@ -26,10 +29,10 @@
     <component v-if="componentName" ref="readerComponent" :is="componentName" :library-item="selectedLibraryItem" :player-open="!!streamLibraryItem" :keep-progress="keepProgress" :file-id="ebookFileId" @touchstart="touchstart" @touchend="touchend" @hook:mounted="readerMounted" />
 
     <!-- TOC side nav -->
-    <div v-if="tocOpen" class="w-full h-full overflow-y-scroll absolute inset-0 bg-black/20 z-20" @click.stop.prevent="toggleToC"></div>
+    <div v-if="tocOpen" class="w-full h-full overflow-y-scroll absolute inset-0 bg-transparent backdrop-blur-sm z-20" @click.stop.prevent="toggleToC"></div>
     <div
       v-if="isEpub"
-      class="w-96 h-full max-h-full absolute top-0 left-0 shadow-xl transition-transform z-30 group-data-[theme=dark]:bg-primary group-data-[theme=dark]:text-white group-data-[theme=light]:bg-white group-data-[theme=light]:text-black group-data-[theme=sepia]:bg-[rgb(244,236,216)] group-data-[theme=sepia]:text-[#5b4636]"
+      class="w-96 h-full max-h-full absolute top-0 left-0 shadow-xl transition-transform z-30 group-data-[theme=dark]:bg-black/80 group-data-[theme=dark]:text-white group-data-[theme=light]:bg-white/80 group-data-[theme=light]:text-black backdrop-blur-md"
       :class="tocOpen ? 'translate-x-0' : '-translate-x-96'"
       @click.stop.prevent
     >
@@ -71,6 +74,26 @@
       </div>
     </div>
 
+    <!-- TTS Controls -->
+    <div v-if="ttsActive" id="tts-controls" class="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-center gap-3 px-4 py-2">
+      <button @click="ttsPrevChapter" type="button" :disabled="ttsLoading || ttsChapterIndex <= 0" class="inline-flex items-center justify-center w-9 h-9 rounded-full opacity-70 hover:opacity-100 hover:bg-[color-mix(in_srgb,var(--color-text)_12%,transparent)] disabled:opacity-25">
+        <span class="material-symbols text-xl">skip_previous</span>
+      </button>
+      <button @click="ttsPlayPause" type="button" :disabled="ttsLoading" class="inline-flex items-center justify-center w-10 h-10 rounded-full opacity-80 hover:opacity-100 hover:bg-[color-mix(in_srgb,var(--color-text)_12%,transparent)] disabled:opacity-25">
+        <span class="material-symbols text-2xl">{{ ttsLoading ? 'hourglass_empty' : (ttsPlaying ? 'pause' : 'play_arrow') }}</span>
+      </button>
+      <button @click="ttsStop" type="button" :disabled="ttsLoading" class="inline-flex items-center justify-center w-9 h-9 rounded-full opacity-70 hover:opacity-100 hover:bg-[color-mix(in_srgb,var(--color-text)_12%,transparent)] disabled:opacity-25">
+        <span class="material-symbols text-xl">stop</span>
+      </button>
+      <button @click="ttsNextChapter" type="button" :disabled="ttsLoading || ttsChapterIndex >= ttsTotalChapters - 1" class="inline-flex items-center justify-center w-9 h-9 rounded-full opacity-70 hover:opacity-100 hover:bg-[color-mix(in_srgb,var(--color-text)_12%,transparent)] disabled:opacity-25">
+        <span class="material-symbols text-xl">skip_next</span>
+      </button>
+      <span v-if="ttsLoading" class="flex items-center gap-1 ml-1">
+        <span class="material-symbols text-sm animate-spin">refresh</span>
+        <span class="text-xs opacity-60">Generating...</span>
+      </span>
+    </div>
+
     <!-- ereader settings modal -->
     <modals-modal v-model="showSettings" name="ereader-settings-modal" :width="500" :height="'unset'" :processing="false">
       <template #outer>
@@ -109,12 +132,6 @@
           </div>
           <ui-range-input v-model="ereaderSettings.textStroke" :min="0" :max="300" :step="5" @input="settingsUpdated" />
         </div>
-        <div class="flex items-center">
-          <div class="w-40">
-            <p class="text-lg">{{ $strings.LabelLayout }}:</p>
-          </div>
-          <ui-toggle-btns v-model="ereaderSettings.spread" :items="spreadItems" @input="settingsUpdated" />
-        </div>
       </div>
     </modals-modal>
   </div>
@@ -142,9 +159,16 @@ export default {
         fontScale: 100,
         lineSpacing: 115,
         fontBoldness: 100,
-        spread: 'auto',
+        spread: 'none',
         textStroke: 0
-      }
+      },
+      ttsActive: false,
+      ttsPlaying: false,
+      ttsLoading: false,
+      ttsChapterIndex: 0,
+      ttsTotalChapters: 0,
+      ttsAudio: null,
+      ttsChapterList: []
     }
   },
   watch: {
@@ -167,28 +191,12 @@ export default {
       if (this.isEpub) return this.ereaderSettings.theme
       return 'dark'
     },
-    spreadItems() {
-      return [
-        {
-          text: this.$strings.LabelLayoutSinglePage,
-          value: 'none'
-        },
-        {
-          text: this.$strings.LabelLayoutSplitPage,
-          value: 'auto'
-        }
-      ]
-    },
     themeItems() {
       return {
         theme: [
           {
             text: this.$strings.LabelThemeDark,
             value: 'dark'
-          },
-          {
-            text: this.$strings.LabelThemeSepia,
-            value: 'sepia'
           },
           {
             text: this.$strings.LabelThemeLight,
@@ -281,11 +289,99 @@ export default {
     ebookFileId() {
       return this.$store.state.ereaderFileId
     },
+    ttsAutoStart() {
+      return this.$store.state.ttsActiveOnOpen
+    },
     isDarkTheme() {
       return this.ereaderSettings.theme === 'dark'
     }
   },
   methods: {
+    async ttsLoadChapters() {
+      if (!this.selectedLibraryItem?.id) return
+      try {
+        const data = await this.$axios.$get(`/api/items/${this.selectedLibraryItem.id}/tts/chapters`)
+        this.ttsChapterList = data.chapters || []
+        this.ttsTotalChapters = this.ttsChapterList.length
+      } catch (error) {
+        console.error('Failed to load TTS chapters', error)
+      }
+    },
+    async ttsSynthesizeChapter(index) {
+      if (!this.selectedLibraryItem?.id) return
+      this.ttsLoading = true
+      this.ttsPlaying = false
+      try {
+        const response = await this.$axios.$post(
+          `/api/items/${this.selectedLibraryItem.id}/tts/synthesize-chapter`,
+          { chapterIndex: index },
+          { responseType: 'blob' }
+        )
+        this.ttsChapterIndex = index
+        this.playTtsAudio(response)
+      } catch (error) {
+        console.error('TTS synthesis failed', error)
+      } finally {
+        this.ttsLoading = false
+      }
+    },
+    playTtsAudio(blob) {
+      if (this.ttsAudio) {
+        this.ttsAudio.pause()
+        URL.revokeObjectURL(this.ttsAudio.src)
+      }
+      const url = URL.createObjectURL(blob)
+      this.ttsAudio = new Audio(url)
+      this.ttsAudio.onended = () => {
+        this.ttsPlaying = false
+        if (this.ttsChapterIndex < this.ttsTotalChapters - 1) {
+          this.ttsNextChapter()
+        }
+      }
+      this.ttsAudio.onplay = () => { this.ttsPlaying = true }
+      this.ttsAudio.onpause = () => { this.ttsPlaying = false }
+      this.ttsAudio.play().catch(console.error)
+    },
+    toggleTts() {
+      if (this.ttsActive) {
+        this.ttsStop()
+      } else {
+        this.ttsStart()
+      }
+    },
+    async ttsStart() {
+      this.ttsActive = true
+      await this.ttsLoadChapters()
+      this.ttsChapterIndex = this.$refs.readerComponent?.book?.locations?.currentLocation?.start?.index || 0
+      await this.ttsSynthesizeChapter(this.ttsChapterIndex)
+    },
+    ttsPlayPause() {
+      if (!this.ttsAudio) return
+      if (this.ttsAudio.paused) {
+        this.ttsAudio.play().catch(console.error)
+      } else {
+        this.ttsAudio.pause()
+      }
+    },
+    ttsStop() {
+      if (this.ttsAudio) {
+        this.ttsAudio.pause()
+        this.ttsAudio = null
+      }
+      this.ttsActive = false
+      this.ttsPlaying = false
+      this.ttsChapterIndex = 0
+    },
+    ttsNextChapter() {
+      if (this.ttsChapterIndex < this.ttsTotalChapters - 1) {
+        this.ttsSynthesizeChapter(this.ttsChapterIndex + 1)
+      }
+    },
+    ttsPrevChapter() {
+      if (this.ttsChapterIndex > 0) {
+        this.ttsSynthesizeChapter(this.ttsChapterIndex - 1)
+      }
+    },
     goToChapter(uri) {
       this.toggleToC()
       this.$refs.readerComponent.goToChapter(uri)
@@ -293,6 +389,9 @@ export default {
     readerMounted() {
       if (this.isEpub) {
         this.loadEreaderSettings()
+      }
+      if (this.ttsAutoStart) {
+        this.ttsStart()
       }
     },
     settingsUpdated() {
@@ -398,6 +497,8 @@ export default {
               this.ereaderSettings[key] = _ereaderSettings[key]
             }
           }
+          this.ereaderSettings.theme = this.ereaderSettings.theme === 'dark' ? 'dark' : 'light'
+          this.ereaderSettings.spread = 'none'
           this.settingsUpdated()
         }
       } catch (error) {
@@ -408,6 +509,7 @@ export default {
       this.registerListeners()
     },
     close() {
+      this.ttsStop()
       this.unregisterListeners()
       this.isSearching = false
       this.searchQuery = ''

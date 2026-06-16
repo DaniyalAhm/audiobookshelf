@@ -35,6 +35,7 @@ const MiscController = require('../controllers/MiscController')
 const ShareController = require('../controllers/ShareController')
 const StatsController = require('../controllers/StatsController')
 const ApiKeyController = require('../controllers/ApiKeyController')
+const TtsController = require('../controllers/TtsController')
 
 class ApiRouter {
   constructor(Server) {
@@ -126,6 +127,11 @@ class ApiRouter {
     this.router.get('/items/:id/file/:fileid/download', LibraryItemController.middleware.bind(this), LibraryItemController.downloadLibraryFile.bind(this))
     this.router.get('/items/:id/ebook/:fileid?', LibraryItemController.middleware.bind(this), LibraryItemController.getEBookFile.bind(this))
     this.router.patch('/items/:id/ebook/:fileid/status', LibraryItemController.middleware.bind(this), LibraryItemController.updateEbookFileStatus.bind(this))
+    this.router.get('/items/:id/tts/chapters', LibraryItemController.middleware.bind(this), TtsController.getChapters.bind(TtsController))
+    this.router.get('/items/:id/tts/status', LibraryItemController.middleware.bind(this), TtsController.getGenerationStatus.bind(TtsController))
+    this.router.post('/items/:id/tts/synthesize', LibraryItemController.middleware.bind(this), TtsController.synthesize.bind(TtsController))
+    this.router.post('/items/:id/tts/synthesize-chapter', LibraryItemController.middleware.bind(this), TtsController.synthesizeChapter.bind(TtsController))
+    this.router.post('/items/:id/tts/generate', LibraryItemController.middleware.bind(this), TtsController.generateTtsAudioFiles.bind(TtsController))
 
     //
     // User Routes

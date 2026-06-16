@@ -1,3 +1,5 @@
+
+
 const Path = require('path')
 const packageJson = require('../../../package.json')
 const { BookshelfView } = require('../../utils/constants')
@@ -84,6 +86,12 @@ class ServerSettings {
     this.authOpenIDAdvancedPermsClaim = ''
     this.authOpenIDSubfolderForRedirectURLs = undefined
 
+    // TTS
+    this.ttsEndpoint = null
+    this.ttsApiKey = null
+    this.ttsVoice = null
+    this.ttsLanguage = 'en-us'
+
     if (settings) {
       this.construct(settings)
     }
@@ -162,6 +170,11 @@ class ServerSettings {
     if (!Array.isArray(this.authActiveAuthMethods) || this.authActiveAuthMethods.length == 0) {
       this.authActiveAuthMethods = ['local']
     }
+
+    this.ttsEndpoint = settings.ttsEndpoint || null
+    this.ttsApiKey = settings.ttsApiKey || null
+    this.ttsVoice = settings.ttsVoice || null
+    this.ttsLanguage = settings.ttsLanguage || 'en-us'
 
     // Migrations
     if (settings.storeCoverWithBook != undefined) {
@@ -256,7 +269,11 @@ class ServerSettings {
       authOpenIDMobileRedirectURIs: this.authOpenIDMobileRedirectURIs, // Do not return to client
       authOpenIDGroupClaim: this.authOpenIDGroupClaim, // Do not return to client
       authOpenIDAdvancedPermsClaim: this.authOpenIDAdvancedPermsClaim, // Do not return to client
-      authOpenIDSubfolderForRedirectURLs: this.authOpenIDSubfolderForRedirectURLs
+      authOpenIDSubfolderForRedirectURLs: this.authOpenIDSubfolderForRedirectURLs,
+      ttsEndpoint: this.ttsEndpoint,
+      ttsApiKey: this.ttsApiKey,
+      ttsVoice: this.ttsVoice,
+      ttsLanguage: this.ttsLanguage
     }
   }
 
@@ -268,6 +285,7 @@ class ServerSettings {
     delete json.authOpenIDMobileRedirectURIs
     delete json.authOpenIDGroupClaim
     delete json.authOpenIDAdvancedPermsClaim
+    delete json.ttsApiKey
     return json
   }
 

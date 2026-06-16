@@ -164,6 +164,14 @@
   max-height: calc(100% - 48px);
 }
 
+/* --- TTS Controls --- */
+#tts-controls {
+  background-color: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
+}
+
 /* --- NotificationWidget --- */
 .globalTaskRunningMenu {
   max-height: 80vh;

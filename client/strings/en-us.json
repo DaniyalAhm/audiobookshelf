@@ -75,6 +75,8 @@
   "ButtonQuickMatch": "Quick Match",
   "ButtonReScan": "Re-Scan",
   "ButtonRead": "Read",
+  "ButtonListen": "Generate With A.I",
+  "LabelGeneratingSpeech": "Generating...",
   "ButtonReadLess": "Read less",
   "ButtonReadMore": "Read more",
   "ButtonRefresh": "Refresh",

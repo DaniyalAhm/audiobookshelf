@@ -922,6 +922,17 @@ class LibraryItem extends Model {
     }
   }
 
+  hasSourceAudioTracks() {
+    if (!this.media) {
+      Logger.error(`[LibraryItem] hasSourceAudioTracks: Library item "${this.id}" does not have media`)
+      return false
+    }
+    if (!this.isBook || typeof this.media.hasSourceAudioTracks !== 'function') {
+      return false
+    }
+    return this.media.hasSourceAudioTracks()
+  }
+
   /**
    *
    * @param {string} ino
