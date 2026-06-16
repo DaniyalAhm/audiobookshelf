@@ -1,5 +1,5 @@
-const Path = require('path')
 const fs = require('fs')
+const Path = require('path')
 const os = require('os')
 const { execFile } = require('child_process')
 const Logger = require('../Logger')
@@ -143,15 +143,15 @@ function normalizeChapters(chapters) {
 }
 
 
-function moveFileSafeSync(src, dest) {
-  fs.mkdirSync(path.dirname(dest), { recursive: true })
+async function moveFileSafe(src, dest) {
+  await fsPromises.mkdir(path.dirname(dest), { recursive: true })
 
   try {
-    fs.renameSync(src, dest)
+    await fsPromises.rename(src, dest)
   } catch (err) {
     if (err.code === 'EXDEV') {
-      fs.copyFileSync(src, dest)
-      fs.unlinkSync(src)
+      await fsPromises.copyFile(src, dest)
+      await fsPromises.unlink(src)
     } else {
       throw err
     }
