@@ -1,27 +1,27 @@
 <template>
-  <div class="flex justify-center pt-4 pb-2 lg:pt-0 lg:pb-2">
+  <div class="player-playback-controls flex justify-center pt-2 pb-2 lg:pt-0 lg:pb-2">
     <div class="flex items-center justify-center grow">
       <template v-if="!loading">
         <ui-tooltip direction="top" :text="$strings.ButtonPreviousChapter" class="mr-4 lg:mr-8">
-          <button :aria-label="$strings.ButtonPreviousChapter" class="text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="prevChapter">
+          <button :aria-label="$strings.ButtonPreviousChapter" class="player-control-btn text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="prevChapter">
             <span class="material-symbols text-2xl sm:text-3xl">first_page</span>
           </button>
         </ui-tooltip>
         <ui-tooltip direction="top" :text="jumpBackwardText">
-          <button :aria-label="jumpBackwardText" class="text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="jumpBackward">
+          <button :aria-label="jumpBackwardText" class="player-control-btn text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="jumpBackward">
             <span class="material-symbols text-2xl sm:text-3xl">replay</span>
           </button>
         </ui-tooltip>
-        <button :aria-label="paused ? $strings.ButtonPlay : $strings.ButtonPause" class="p-2 bg-primary flex items-center justify-center rounded-full text-black-700 mx-4 lg:mx-8 hover:bg-primary-dark transition-colors" :class="seekLoading ? 'animate-spin' : ''" @mousedown.prevent @mouseup.prevent @click.stop="playPause">
+        <button :aria-label="paused ? $strings.ButtonPlay : $strings.ButtonPause" class="player-play-btn p-2 bg-primary flex items-center justify-center rounded-full text-black-700 mx-4 lg:mx-8 hover:bg-primary-dark transition-colors" :class="seekLoading ? 'animate-spin' : ''" @mousedown.prevent @mouseup.prevent @click.stop="playPause">
           <span class="material-symbols fill text-2xl">{{ seekLoading ? 'autorenew' : paused ? 'play_arrow' : 'pause' }}</span>
         </button>
         <ui-tooltip direction="top" :text="jumpForwardText">
-          <button :aria-label="jumpForwardText" class="text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="jumpForward">
+          <button :aria-label="jumpForwardText" class="player-control-btn text-secondary-text hover:text-primary transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="jumpForward">
             <span class="material-symbols text-2xl sm:text-3xl">forward_media</span>
           </button>
         </ui-tooltip>
         <ui-tooltip direction="top" :text="hasNextLabel" class="ml-4 lg:ml-8">
-          <button :aria-label="hasNextLabel" :disabled="!hasNext" class="text-secondary-text hover:text-primary disabled:text-muted disabled:opacity-50 transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="next">
+          <button :aria-label="hasNextLabel" :disabled="!hasNext" class="player-control-btn text-secondary-text hover:text-primary disabled:text-muted disabled:opacity-50 transition-colors" @mousedown.prevent @mouseup.prevent @click.stop="next">
             <span class="material-symbols text-2xl sm:text-3xl">last_page</span>
           </button>
         </ui-tooltip>

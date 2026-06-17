@@ -9,6 +9,15 @@
 @import './animations.css';
 @import './components.css';
 
+/*
+   Device breakpoints reference (CC BY-SA 3.0):
+   https://stackoverflow.com/a/26420218
+   Smartphones (portrait & landscape): 320px - 480px
+   Tablet (portrait & landscape): 768px - 1024px
+   Desktops & laptops: >= 1224px
+   Large screens: >= 1824px
+*/
+
 :root {
   --abs-bg: var(--color-bg);
   --abs-secondary-bg: var(--color-secondary-bg);
@@ -73,7 +82,8 @@ body {
   width: calc(100vw - (100vw - 100%));
 }
 
-@media (max-width: 768px) {
+/* Smartphones & tablets */
+@media (max-device-width: 1024px) {
   #bookshelf {
     height: calc(100% - 80px);
   }
@@ -83,8 +93,28 @@ body {
   }
 }
 
+/* Smartphones */
+@media (max-device-width: 639px) {
+  .bookshelf-row {
+    width: 100vw;
+  }
+}
+
+/* Large screens */
+@media (min-device-width: 1824px) {
+  .page {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
 #page-wrapper {
   background: var(--abs-bg);
+}
+
+#page-wrapper.item-page {
+  max-width: none;
+  margin: 0;
 }
 
 /* Modern scrollbars */

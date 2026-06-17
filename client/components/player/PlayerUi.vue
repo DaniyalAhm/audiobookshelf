@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full -mt-6">
-    <div class="w-full relative mb-1">
-      <div class="absolute -top-10 lg:top-0 right-0 lg:right-2 flex items-center h-full">
+  <div class="w-full player-ui">
+    <div class="player-control-stack w-full relative mb-3 lg:mb-1">
+      <div class="player-actions absolute -top-1 lg:top-0 right-0 lg:right-2 flex items-center h-full">
         <controls-playback-speed-control v-model="playbackRate" @input="setPlaybackRate" @change="playbackRateChanged" :playbackRateIncrementDecrement="playbackRateIncrementDecrement" class="mx-2 block" />
 
         <ui-tooltip direction="bottom" :text="$strings.LabelVolume">
@@ -50,16 +50,16 @@
 
     <div class="relative flex items-center justify-between">
       <div class="grow flex items-center">
-        <p ref="currentTimestamp" class="font-mono text-xxs sm:text-sm text-black-500 pointer-events-auto">00:00:00</p>
-        <p class="font-mono text-sm hidden sm:block text-black-500 pointer-events-auto">&nbsp;/&nbsp;{{ progressPercent }}%</p>
+        <p ref="currentTimestamp" class="font-mono text-xs sm:text-sm text-secondary-text pointer-events-auto">00:00:00</p>
+        <p class="font-mono text-sm hidden sm:block text-secondary-text pointer-events-auto">&nbsp;/&nbsp;{{ progressPercent }}%</p>
       </div>
       <div class="absolute left-1/2 transform -translate-x-1/2">
-        <p class="text-xs sm:text-sm text-secondary-text pt-0.5 px-2 truncate">
+        <p class="text-xs sm:text-sm text-secondary-text pt-0.5 px-2 truncate max-w-[56vw] sm:max-w-none">
           {{ currentChapterName }} <span v-if="useChapterTrack" class="text-xs text-muted">&nbsp;({{ $getString('LabelPlayerChapterNumberMarker', [currentChapterIndex + 1, chapters.length]) }})</span>
         </p>
       </div>
       <div class="grow flex items-center justify-end">
-        <p class="font-mono text-xxs sm:text-sm text-black-500 pointer-events-auto">{{ timeRemainingPretty }}</p>
+        <p class="font-mono text-xs sm:text-sm text-secondary-text pointer-events-auto">{{ timeRemainingPretty }}</p>
       </div>
     </div>
 

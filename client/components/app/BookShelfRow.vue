@@ -1,33 +1,33 @@
 <template>
   <div class="relative">
-    <div ref="shelf" class="w-full max-w-full bookshelf-row categorizedBookshelfRow relative overflow-x-scroll no-scroll overflow-y-hidden z-10" :style="{ paddingLeft: paddingLeft + 'em' }" @scroll="scrolled">
-      <div class="w-full h-full pt-6e">
-        <div v-if="shelf.type === 'book' || shelf.type === 'podcast'" class="flex items-center">
+    <div ref="shelf" class="w-full max-w-full bookshelf-row categorizedBookshelfRow relative overflow-x-hidden md:overflow-x-scroll no-scroll md:overflow-y-hidden z-10" :style="{ paddingLeft: paddingLeft + 'em' }" @scroll="scrolled">
+      <div class="w-full pt-6e">
+        <div v-if="shelf.type === 'book' || shelf.type === 'podcast'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="(entity, index) in shelf.entities">
             <cards-lazy-book-card :key="entity.id" :ref="`shelf-book-${entity.id}`" :index="index" :book-mount="entity" :continue-listening-shelf="continueListeningShelf" class="relative mx-2e" @hook:updated="updatedBookCard" @select="selectItem" @edit="editItem" />
           </template>
         </div>
-        <div v-if="shelf.type === 'episode'" class="flex items-center">
+        <div v-if="shelf.type === 'episode'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="(entity, index) in shelf.entities">
             <cards-lazy-book-card :key="entity.recentEpisode.id" :ref="`shelf-episode-${entity.recentEpisode.id}`" :index="index" :book-mount="entity" :continue-listening-shelf="continueListeningShelf" class="relative mx-2e" @hook:updated="updatedBookCard" @select="selectItem" @editPodcast="editItem" @edit="editEpisode" />
           </template>
         </div>
-        <div v-if="shelf.type === 'series'" class="flex items-center">
+        <div v-if="shelf.type === 'series'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="entity in shelf.entities">
             <cards-lazy-series-card :key="entity.name" :series-mount="entity" class="relative mx-2e" @hook:updated="updatedBookCard" />
           </template>
         </div>
-        <div v-if="shelf.type === 'tags'" class="flex items-center">
+        <div v-if="shelf.type === 'tags'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="entity in shelf.entities">
             <cards-group-card :key="entity.name" :group="entity" class="relative mx-2e" @hook:updated="updatedBookCard" />
           </template>
         </div>
-        <div v-if="shelf.type === 'authors'" class="flex items-center">
+        <div v-if="shelf.type === 'authors'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="entity in shelf.entities">
             <cards-author-card :key="entity.id" :authorMount="entity" @hook:updated="updatedBookCard" class="mx-2e" @edit="editAuthor" />
           </template>
         </div>
-        <div v-if="shelf.type === 'narrators'" class="flex items-center">
+        <div v-if="shelf.type === 'narrators'" class="flex flex-wrap md:flex-nowrap items-center gap-y-4e">
           <template v-for="entity in shelf.entities">
             <cards-narrator-card :key="entity.name" :narrator="entity" @hook:updated="updatedBookCard" class="mx-2e" />
           </template>

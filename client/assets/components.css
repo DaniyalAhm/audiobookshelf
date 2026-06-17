@@ -72,6 +72,80 @@
   box-shadow: 0px -6px 8px color-mix(in srgb, var(--color-card) 25%, transparent);
 }
 
+@media (max-width: 1023px) {
+  #mediaPlayerContainer.mobile-fullscreen {
+    top: 0;
+    bottom: auto;
+    height: 100dvh;
+    min-height: 100vh;
+    overflow-y: auto;
+    border-top: 0;
+    padding: calc(env(safe-area-inset-top) + 0.75rem) 1rem calc(env(safe-area-inset-bottom) + 1rem);
+    display: flex;
+    flex-direction: column;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .mobile-player-backdrop {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 34%), var(--color-bg);
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .player-cover-wrap {
+    cursor: default;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .player-cover-wrap-fullscreen {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 1rem auto 1.25rem;
+    padding: 0 0.5rem;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .media-player-header {
+    padding-left: 0 !important;
+    margin-bottom: 0.5rem;
+    align-items: flex-start;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .media-player-header .min-w-0 {
+    text-align: center;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .media-player-header .min-w-0 > .flex {
+    justify-content: center;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .media-player-header .text-secondary-text {
+    justify-content: center;
+    width: 100%;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .player-ui {
+    position: relative;
+    margin-top: auto;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .player-control-stack {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  #mediaPlayerContainer.mobile-fullscreen .player-actions {
+    position: static;
+    justify-content: center;
+    height: auto;
+    margin-bottom: 0.5rem;
+  }
+}
+
+
 /* --- BookShelfToolbar --- */
 #toolbar {
   box-shadow: 0px 8px 6px color-mix(in srgb, var(--color-card) 67%, transparent);
@@ -144,20 +218,20 @@
   height: 100%;
 }
 
-#reader.reader-player-open {
-  height: calc(100% - 164px);
-}
-
-@media (max-height: 400px) {
-  #reader.reader-player-open {
-    height: 100%;
-  }
-}
-
 /* --- EpubReader --- */
 .epub-reader {
   box-sizing: border-box;
-  padding: 4.75rem 1rem 1.5rem;
+  padding: 4.75rem 1.5rem 1.5rem;
+}
+
+@media (max-width: 999px) {
+  .epub-reader {
+    padding: 4.75rem 0 1.5rem;
+  }
+
+  .epub-reader-layout {
+    gap: 0;
+  }
 }
 
 .epub-reader-layout {
@@ -187,8 +261,7 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
   height: 100%;
   max-height: min(860px, 100%);
-  max-width: 75%;
-  min-width: 0;
+  min-width: 50%;
   overflow: hidden;
   padding: 0;
   width: 100%;
@@ -199,7 +272,7 @@
   max-width: 100% !important;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1000px) {
   .epub-reader-nav {
     display: flex;
   }
@@ -207,7 +280,11 @@
 
 @media (max-width: 639px) {
   .epub-reader {
-    padding: 3.75rem 1rem 1rem;
+    padding: 3.75rem 0 1rem;
+  }
+
+  .epub-reader-layout {
+    gap: 0;
   }
 
   .epub-page-frame {

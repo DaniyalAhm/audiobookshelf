@@ -1,17 +1,18 @@
 <template>
-  <div v-if="streamLibraryItem" id="mediaPlayerContainer" class="w-full fixed bottom-0 left-0 right-0 h-48 lg:h-40 z-50 bg-fg border-t border-black-200 px-2 lg:px-4 pb-1 lg:pb-4 pt-2">
-    <div class="absolute left-2 top-2 lg:left-4 cursor-pointer">
+  <div v-if="streamLibraryItem" id="mediaPlayerContainer" class="w-full fixed bottom-0 left-0 right-0 z-50 bg-fg border-t border-black-200 px-4 lg:px-4 pb-3 lg:pb-4 pt-4 lg:pt-2" :class="{ 'mobile-fullscreen': isFullscreen }">
+    <div class="mobile-player-backdrop lg:hidden" aria-hidden="true"></div>
+    <div class="cursor-pointer player-cover-wrap" :class="isFullscreen ? 'player-cover-wrap-fullscreen' : 'absolute left-4 top-4 lg:left-4 lg:top-2'">
       <covers-book-cover expand-on-click :library-item="streamLibraryItem" :width="bookCoverWidth" :book-cover-aspect-ratio="coverAspectRatio" />
     </div>
-    <div class="flex items-start mb-6 lg:mb-0" :class="isSquareCover ? 'pl-18 sm:pl-24' : 'pl-12 sm:pl-16'">
+    <div class="relative flex items-start mb-5 lg:mb-0 media-player-header" :class="isSquareCover ? 'pl-24 sm:pl-24' : 'pl-18 sm:pl-16'">
       <div class="min-w-0 w-full">
         <div class="flex items-center">
-          <nuxt-link :to="`/item/${streamLibraryItem.id}`" class="hover:underline cursor-pointer text-sm sm:text-lg block truncate">
+          <nuxt-link :to="`/item/${streamLibraryItem.id}`" class="hover:underline cursor-pointer text-base sm:text-lg block truncate font-semibold leading-tight">
             {{ title }}
           </nuxt-link>
           <widgets-explicit-indicator v-if="isExplicit" />
         </div>
-        <div class="text-secondary-text flex items-center w-1/2 sm:w-4/5 lg:w-2/5">
+        <div class="text-secondary-text flex items-center w-full sm:w-4/5 lg:w-2/5 mt-1">
           <span class="material-symbols text-sm">person</span>
           <div v-if="podcastAuthor" class="pl-1 sm:pl-1.5 text-xs sm:text-base truncate">{{ podcastAuthor }}</div>
           <div v-else-if="authors.length" class="pl-1 sm:pl-1.5 text-xs sm:text-base truncate">
@@ -20,12 +21,15 @@
           <div v-else class="text-xs sm:text-base cursor-pointer pl-1 sm:pl-1.5">{{ $strings.LabelUnknown }}</div>
         </div>
 
-        <div class="text-secondary-text flex items-center">
+        <div class="text-secondary-text flex items-center mt-1">
           <span class="material-symbols text-xs">schedule</span>
           <p class="font-mono text-xs sm:text-sm pl-1 sm:pl-1.5 pb-px">{{ totalDurationPretty }}</p>
         </div>
       </div>
       <div class="grow" />
+      <ui-tooltip v-if="isMobile" direction="top" :text="isFullscreen ? 'Minimize' : 'Full screen'">
+        <button :aria-label="isFullscreen ? 'Minimize' : 'Full screen'" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl text-secondary-text hover:text-primary transition-colors" @click="toggleFullscreen">{{ isFullscreen ? 'keyboard_arrow_down' : 'open_in_full' }}</button>
+      </ui-tooltip>
       <ui-tooltip direction="top" :text="$strings.LabelClosePlayer">
         <button :aria-label="$strings.LabelClosePlayer" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl text-secondary-text hover:text-primary transition-colors" @click="closePlayer">close</button>
       </ui-tooltip>
@@ -86,7 +90,8 @@ export default {
       currentPlaybackRate: 1,
       syncFailedToast: null,
       coverAspectRatio: 1,
-      lastChapterId: null
+      lastChapterId: null,
+      playerWindowWidth: 0
     }
   },
   computed: {
@@ -96,9 +101,16 @@ export default {
     isMobile() {
       return this.$store.state.globals.isMobile
     },
+    isFullscreen() {
+      return this.$store.state.playerIsFullscreen
+    },
+    isPhonePlayer() {
+      return this.playerWindowWidth ? this.playerWindowWidth < 640 : this.$store.state.globals.isMobilePortrait
+    },
     bookCoverWidth() {
-      if (this.isMobile) return 64 / this.coverAspectRatio
-      return 77 / this.coverAspectRatio
+      if (this.isFullscreen && this.isMobile) return Math.min(280, Math.max(220, this.playerWindowWidth - 96)) / this.coverAspectRatio
+      if (this.isPhonePlayer) return 64 / this.coverAspectRatio
+      return 92 / this.coverAspectRatio
     },
     cover() {
       if (this.media.coverPath) return this.media.coverPath
@@ -181,6 +193,12 @@ export default {
     }
   },
   methods: {
+    updatePlayerViewportWidth() {
+      if (process.client) this.playerWindowWidth = window.innerWidth
+    },
+    toggleFullscreen() {
+      this.$store.commit('setPlayerIsFullscreen', !this.isFullscreen)
+    },
     mediaFinished(libraryItemId, episodeId) {
       // Play next item in queue
       if (!this.playerQueueItems.length || !this.$store.state.playerQueueAutoPlay) {
@@ -291,6 +309,7 @@ export default {
     setPlaybackRate(playbackRate) {
       this.currentPlaybackRate = playbackRate
       this.playerHandler.setPlaybackRate(playbackRate)
+      this.updateMediaSessionPositionState()
     },
     seek(time) {
       this.playerHandler.seek(time)
@@ -305,6 +324,8 @@ export default {
         this.$refs.audioPlayer.setCurrentTime(time)
       }
 
+      this.updateMediaSessionPositionState()
+
       if (this.sleepTimerType === this.$constants.SleepTimerTypes.CHAPTER && this.sleepTimerSet) {
         this.checkChapterEnd()
       }
@@ -314,6 +335,7 @@ export default {
       if (this.$refs.audioPlayer) {
         this.$refs.audioPlayer.setDuration(duration)
       }
+      this.updateMediaSessionPositionState()
     },
     setBufferTime(buffertime) {
       if (this.$refs.audioPlayer) {
@@ -329,6 +351,7 @@ export default {
       this.showBookmarksModal = false
     },
     closePlayer() {
+      this.$store.commit('setPlayerIsFullscreen', false)
       this.playerHandler.closePlayer()
       this.$store.commit('setMediaPlaying', null)
     },
@@ -344,13 +367,15 @@ export default {
       console.log('Media session stop')
       this.playerHandler.pause()
     },
-    mediaSessionSeekBackward() {
-      console.log('Media session seek backward')
-      this.playerHandler.jumpBackward()
+    mediaSessionSeekBackward(e = {}) {
+      console.log('Media session seek backward', e)
+      const offset = Number(e.seekOffset) || this.$store.getters['user/getUserSetting']('jumpBackwardAmount') || 10
+      this.playerHandler.seek(Math.max(this.currentTime - offset, 0))
     },
-    mediaSessionSeekForward() {
-      console.log('Media session seek forward')
-      this.playerHandler.jumpForward()
+    mediaSessionSeekForward(e = {}) {
+      console.log('Media session seek forward', e)
+      const offset = Number(e.seekOffset) || this.$store.getters['user/getUserSetting']('jumpForwardAmount') || 10
+      this.playerHandler.seek(Math.min(this.currentTime + offset, this.totalDuration || this.currentTime + offset))
     },
     mediaSessionSeekTo(e) {
       console.log('Media session seek to', e)
@@ -371,6 +396,31 @@ export default {
     updateMediaSessionPlaybackState() {
       if ('mediaSession' in navigator) {
         navigator.mediaSession.playbackState = this.isPlaying ? 'playing' : 'paused'
+      }
+      this.updateMediaSessionPositionState()
+    },
+    updateMediaSessionPositionState() {
+      if (!('mediaSession' in navigator) || !navigator.mediaSession.setPositionState) return
+      const duration = Number(this.totalDuration) || 0
+      if (duration <= 0) return
+      const position = Math.min(Math.max(Number(this.currentTime) || 0, 0), duration)
+      const playbackRate = Number(this.currentPlaybackRate) || 1
+      try {
+        navigator.mediaSession.setPositionState({
+          duration,
+          playbackRate,
+          position
+        })
+      } catch (error) {
+        console.warn('Failed to update media session position state', error)
+      }
+    },
+    setMediaSessionActionHandler(action, handler) {
+      if (!('mediaSession' in navigator) || !navigator.mediaSession.setActionHandler) return
+      try {
+        navigator.mediaSession.setActionHandler(action, handler)
+      } catch (error) {
+        console.warn(`Media session action "${action}" is not supported`, error)
       }
     },
     setMediaSession() {
@@ -404,14 +454,15 @@ export default {
         })
         console.log('Set media session metadata', navigator.mediaSession.metadata)
 
-        navigator.mediaSession.setActionHandler('play', this.mediaSessionPlay)
-        navigator.mediaSession.setActionHandler('pause', this.mediaSessionPause)
-        navigator.mediaSession.setActionHandler('stop', this.mediaSessionStop)
-        navigator.mediaSession.setActionHandler('seekbackward', this.mediaSessionSeekBackward)
-        navigator.mediaSession.setActionHandler('seekforward', this.mediaSessionSeekForward)
-        navigator.mediaSession.setActionHandler('seekto', this.mediaSessionSeekTo)
-        navigator.mediaSession.setActionHandler('previoustrack', this.mediaSessionSeekBackward)
-        navigator.mediaSession.setActionHandler('nexttrack', this.mediaSessionSeekForward)
+        this.setMediaSessionActionHandler('play', this.mediaSessionPlay)
+        this.setMediaSessionActionHandler('pause', this.mediaSessionPause)
+        this.setMediaSessionActionHandler('stop', this.mediaSessionStop)
+        this.setMediaSessionActionHandler('seekbackward', this.mediaSessionSeekBackward)
+        this.setMediaSessionActionHandler('seekforward', this.mediaSessionSeekForward)
+        this.setMediaSessionActionHandler('seekto', this.mediaSessionSeekTo)
+        this.setMediaSessionActionHandler('previoustrack', this.mediaSessionSeekBackward)
+        this.setMediaSessionActionHandler('nexttrack', this.mediaSessionSeekForward)
+        this.updateMediaSessionPlaybackState()
       } else {
         console.warn('Media session not available')
       }
@@ -546,20 +597,25 @@ export default {
     }
   },
   mounted() {
+    this.updatePlayerViewportWidth()
+    if (process.client) window.addEventListener('resize', this.updatePlayerViewportWidth)
     this.$eventBus.$on('cast-session-active', this.castSessionActive)
     this.$eventBus.$on('playback-seek', this.seek)
     this.$eventBus.$on('playback-time-update', this.playbackTimeUpdate)
     this.$eventBus.$on('play-queue-item', this.playQueueItem)
     this.$eventBus.$on('play-item', this.playLibraryItem)
     this.$eventBus.$on('pause-item', this.pauseItem)
+    this.$eventBus.$on('toggle-playback', this.playPause)
   },
   beforeDestroy() {
+    if (process.client) window.removeEventListener('resize', this.updatePlayerViewportWidth)
     this.$eventBus.$off('cast-session-active', this.castSessionActive)
     this.$eventBus.$off('playback-seek', this.seek)
     this.$eventBus.$off('playback-time-update', this.playbackTimeUpdate)
     this.$eventBus.$off('play-queue-item', this.playQueueItem)
     this.$eventBus.$off('play-item', this.playLibraryItem)
     this.$eventBus.$off('pause-item', this.pauseItem)
+    this.$eventBus.$off('toggle-playback', this.playPause)
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" id="reader" :data-theme="ereaderTheme" class="group absolute top-0 left-0 w-full z-60 data-[theme=dark]:bg-black data-[theme=dark]:text-white data-[theme=light]:bg-white data-[theme=light]:text-black" :class="{ 'reader-player-open': !!streamLibraryItem }">
+  <div v-if="show" id="reader" :data-theme="ereaderTheme" class="group absolute top-0 left-0 w-full z-60 data-[theme=dark]:bg-black data-[theme=dark]:text-white data-[theme=light]:bg-white data-[theme=light]:text-black">
     <div class="absolute top-4 left-4 z-20 flex items-center">
       <button v-if="isEpub" @click="toggleToC" type="button" aria-label="Table of contents menu" class="inline-flex opacity-80 hover:opacity-100">
         <span class="material-symbols text-2xl">menu</span>
@@ -7,9 +7,17 @@
       <button v-if="hasSettings" @click="openSettings" type="button" aria-label="Ereader settings" class="mx-4 inline-flex opacity-80 hover:opacity-100">
         <span class="material-symbols text-1.5xl">settings</span>
       </button>
-      <button v-if="isEpub || isPdf" @click="toggleTts" type="button" aria-label="Text to speech" class="inline-flex opacity-80 hover:opacity-100" :class="{ 'text-yellow-400': ttsActive }">
-        <span class="material-symbols text-1.5xl">headphones</span>
+      <button v-if="isEpub || isPdf" @click="streamLibraryItem ? playerPlayPause() : toggleTts()" type="button" :aria-label="streamLibraryItem ? 'Play or pause' : 'Text to speech'" class="inline-flex opacity-80 hover:opacity-100" :class="{ 'text-yellow-400': !streamLibraryItem && ttsActive }">
+        <span class="material-symbols text-1.5xl">{{ streamLibraryItem ? (streamIsPlaying ? 'pause' : 'play_arrow') : 'headphones' }}</span>
       </button>
+      <template v-if="streamLibraryItem">
+        <button @click="playerPrev" type="button" aria-label="Previous chapter" class="inline-flex opacity-80 hover:opacity-100 ml-2">
+          <span class="material-symbols text-1.5xl">skip_previous</span>
+        </button>
+        <button @click="playerNext" type="button" aria-label="Next chapter" class="inline-flex opacity-80 hover:opacity-100">
+          <span class="material-symbols text-1.5xl">skip_next</span>
+        </button>
+      </template>
     </div>
 
     <div class="absolute top-4 left-1/2 transform -translate-x-1/2">
@@ -225,6 +233,9 @@ export default {
     streamLibraryItem() {
       return this.$store.state.streamLibraryItem
     },
+    streamIsPlaying() {
+      return this.$store.state.streamIsPlaying
+    },
     hasSettings() {
       return this.isEpub
     },
@@ -393,6 +404,15 @@ export default {
       if (this.ttsAutoStart) {
         this.ttsStart()
       }
+    },
+    playerPlayPause() {
+      this.$eventBus.$emit('toggle-playback')
+    },
+    playerPrev() {
+      this.$eventBus.$emit('playback-seek', -10)
+    },
+    playerNext() {
+      this.$eventBus.$emit('playback-seek', 30)
     },
     settingsUpdated() {
       this.$refs.readerComponent?.updateSettings?.(this.ereaderSettings)

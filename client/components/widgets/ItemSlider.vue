@@ -10,8 +10,8 @@
         <span class="material-symbols" :style="{ fontSize: 1.5 + 'em' }">chevron_right</span>
       </button>
     </div>
-    <div cy-id="slider" ref="slider" class="w-full overflow-y-hidden overflow-x-auto no-scroll" style="scroll-behavior: smooth" @scroll="scrolled">
-      <div class="flex space-x-4e">
+    <div cy-id="slider" ref="slider" class="w-full overflow-x-hidden md:overflow-y-hidden md:overflow-x-auto no-scroll" style="scroll-behavior: smooth" @scroll="scrolled">
+      <div class="flex flex-wrap md:flex-nowrap gap-4e">
         <template v-for="(item, index) in items">
           <div cy-id="item" ref="item" :key="itemKeyFunc(item)">
             <component :is="componentName" :ref="itemRefFunc(item)" :index="index" :[itemPropName]="item" :bookshelf-view="bookshelfView" :continue-listening-shelf="continueListeningShelf" class="relative" @edit="editFunc" @editPodcast="editItem" @select="selectItem" @hook:updated="setScrollVars" />

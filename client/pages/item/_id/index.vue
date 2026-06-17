@@ -1,5 +1,5 @@
 <template>
-  <div id="page-wrapper" class="bg-bg page overflow-hidden" :class="streamLibraryItem ? 'streaming' : ''">
+  <div id="page-wrapper" class="bg-bg page item-page overflow-hidden" :class="streamLibraryItem ? 'streaming' : ''">
     <div id="item-page-wrapper" class="w-full h-full overflow-y-auto px-2 py-6 lg:p-8">
       <div class="flex flex-col lg:flex-row max-w-6xl mx-auto">
         <div class="w-full flex justify-center lg:block lg:w-52" style="min-width: 208px">
