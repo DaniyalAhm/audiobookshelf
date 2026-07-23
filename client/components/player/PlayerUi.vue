@@ -144,7 +144,7 @@ export default {
     },
     progressPercent() {
       const duration = this.useChapterTrack ? this.currentChapterDuration : this.duration
-      const time = this.useChapterTrack ? Math.max(this.currentTime - this.currentChapterStart) : this.currentTime
+      const time = this.useChapterTrack ? Math.max(0, this.currentTime - this.currentChapterStart) : this.currentTime
 
       if (!duration) return 0
       return Math.round((100 * time) / duration)
@@ -245,17 +245,17 @@ export default {
       this.showChaptersModal = false
     },
     setUseChapterTrack() {
-      this.useChapterTrack = !this.useChapterTrack
-      if (this.$refs.trackbar) this.$refs.trackbar.setUseChapterTrack(this.useChapterTrack)
+      const newValue = !this.useChapterTrack
+      if (this.$refs.trackbar) this.$refs.trackbar.setUseChapterTrack(newValue)
 
-      this.$store.dispatch('user/updateUserSettings', { useChapterTrack: this.useChapterTrack })
+      this.$store.dispatch('user/updateUserSettings', { useChapterTrack: newValue })
       this.updateTimestamp()
     },
     checkUpdateChapterTrack() {
       // Changing media in player may not have chapters
       if (!this.chapters.length && this.useChapterTrack) {
-        this.useChapterTrack = false
-        if (this.$refs.trackbar) this.$refs.trackbar.setUseChapterTrack(this.useChapterTrack)
+        if (this.$refs.trackbar) this.$refs.trackbar.setUseChapterTrack(false)
+        this.$store.dispatch('user/updateUserSettings', { useChapterTrack: false })
       }
     },
     seek(time) {

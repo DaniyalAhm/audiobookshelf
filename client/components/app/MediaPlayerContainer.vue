@@ -460,15 +460,15 @@ export default {
         this.setMediaSessionActionHandler('seekbackward', this.mediaSessionSeekBackward)
         this.setMediaSessionActionHandler('seekforward', this.mediaSessionSeekForward)
         this.setMediaSessionActionHandler('seekto', this.mediaSessionSeekTo)
-        this.setMediaSessionActionHandler('previoustrack', this.mediaSessionSeekBackward)
-        this.setMediaSessionActionHandler('nexttrack', this.mediaSessionSeekForward)
+        this.setMediaSessionActionHandler('previoustrack', this.mediaSessionPreviousTrack)
+        this.setMediaSessionActionHandler('nexttrack', this.mediaSessionNextTrack)
         this.updateMediaSessionPlaybackState()
       } else {
         console.warn('Media session not available')
       }
     },
     streamProgress(data) {
-      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentStreamId === data.stream) {
+      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentSessionId === data.stream) {
         if (!data.numSegments) return
         var chunks = data.chunks
         console.log(`[MediaPlayerContainer] Stream Progress ${data.percent}`)
@@ -492,7 +492,7 @@ export default {
     },
     streamClosed(streamId) {
       // Stream was closed from the server
-      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentStreamId === streamId) {
+      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentSessionId === streamId) {
         console.warn('[MediaPlayerContainer] Closing stream due to request from server')
         this.playerHandler.closePlayer()
       }
@@ -507,7 +507,7 @@ export default {
     },
     streamError(streamId) {
       // Stream had critical error from the server
-      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentStreamId === streamId) {
+      if (this.playerHandler.isPlayingLocalItem && this.playerHandler.currentSessionId === streamId) {
         console.warn('[MediaPlayerContainer] Closing stream due to stream error from server')
         this.playerHandler.closePlayer()
       }

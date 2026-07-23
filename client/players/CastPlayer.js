@@ -100,11 +100,11 @@ export default class CastPlayer extends EventEmitter {
   }
 
   play() {
-    if (this.playerController) this.playerController.playOrPause()
+    if (this.playerController) this.playerController.play()
   }
 
   pause() {
-    if (this.playerController) this.playerController.playOrPause()
+    if (this.playerController) this.playerController.pause()
   }
 
   getCurrentTime() {
