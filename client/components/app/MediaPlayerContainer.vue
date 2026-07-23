@@ -4,7 +4,7 @@
     <div class="cursor-pointer player-cover-wrap" :class="isFullscreen ? 'player-cover-wrap-fullscreen' : 'absolute left-4 top-4 lg:left-4 lg:top-2'">
       <covers-book-cover expand-on-click :library-item="streamLibraryItem" :width="bookCoverWidth" :book-cover-aspect-ratio="coverAspectRatio" />
     </div>
-    <div class="relative flex items-start mb-5 lg:mb-0 media-player-header" :class="isSquareCover ? 'pl-24 sm:pl-24' : 'pl-18 sm:pl-16'">
+    <div class="relative flex items-start mb-5 lg:mb-0 media-player-header" :style="headerPaddingStyle">
       <div class="min-w-0 w-full">
         <div class="flex items-center">
           <nuxt-link :to="`/item/${streamLibraryItem.id}`" class="hover:underline cursor-pointer text-base sm:text-lg block truncate font-semibold leading-tight">
@@ -27,10 +27,10 @@
         </div>
       </div>
       <div class="grow" />
-      <ui-tooltip v-if="isMobile" direction="top" :text="isFullscreen ? 'Minimize' : 'Full screen'">
+      <ui-tooltip v-if="isMobile" direction="top" :text="isFullscreen ? 'Minimize' : 'Full screen'" class="flex-shrink-0">
         <button :aria-label="isFullscreen ? 'Minimize' : 'Full screen'" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl text-secondary-text hover:text-primary transition-colors" @click="toggleFullscreen">{{ isFullscreen ? 'keyboard_arrow_down' : 'open_in_full' }}</button>
       </ui-tooltip>
-      <ui-tooltip direction="top" :text="$strings.LabelClosePlayer">
+      <ui-tooltip direction="top" :text="$strings.LabelClosePlayer" class="flex-shrink-0">
         <button :aria-label="$strings.LabelClosePlayer" class="material-symbols sm:px-2 py-1 lg:p-4 cursor-pointer text-xl sm:text-2xl text-secondary-text hover:text-primary transition-colors" @click="closePlayer">close</button>
       </ui-tooltip>
     </div>
@@ -94,6 +94,11 @@ export default {
       playerWindowWidth: 0
     }
   },
+  watch: {
+    streamLibraryItem(newVal) {
+      if (newVal) this.$nextTick(() => this.updatePlayerHeight())
+    }
+  },
   computed: {
     isSquareCover() {
       return this.coverAspectRatio === 1
@@ -111,6 +116,10 @@ export default {
       if (this.isFullscreen && this.isMobile) return Math.min(280, Math.max(220, this.playerWindowWidth - 96)) / this.coverAspectRatio
       if (this.isPhonePlayer) return 64 / this.coverAspectRatio
       return 92 / this.coverAspectRatio
+    },
+    headerPaddingStyle() {
+      // Dynamic padding to match the absolutely-positioned cover width + 16px gap
+      return { paddingLeft: this.bookCoverWidth + 16 + 'px' }
     },
     cover() {
       if (this.media.coverPath) return this.media.coverPath
@@ -194,7 +203,15 @@ export default {
   },
   methods: {
     updatePlayerViewportWidth() {
-      if (process.client) this.playerWindowWidth = window.innerWidth
+      if (process.client) {
+        this.playerWindowWidth = window.innerWidth
+        this.updatePlayerHeight()
+      }
+    },
+    updatePlayerHeight() {
+      if (this.$el && this.$el.offsetHeight) {
+        document.documentElement.style.setProperty('--player-height', this.$el.offsetHeight + 'px')
+      }
     },
     toggleFullscreen() {
       this.$store.commit('setPlayerIsFullscreen', !this.isFullscreen)

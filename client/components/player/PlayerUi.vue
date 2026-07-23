@@ -1,7 +1,7 @@
 <template>
   <div class="w-full player-ui">
     <div class="player-control-stack w-full relative mb-3 lg:mb-1">
-      <div class="player-actions absolute -top-1 lg:top-0 right-0 lg:right-2 flex items-center h-full">
+      <div class="player-actions absolute -top-1 lg:top-0 right-0 lg:right-2 flex items-center h-full gap-1 sm:gap-0 flex-wrap sm:flex-nowrap">
         <controls-playback-speed-control v-model="playbackRate" @input="setPlaybackRate" @change="playbackRateChanged" :playbackRateIncrementDecrement="playbackRateIncrementDecrement" class="mx-2 block" />
 
         <ui-tooltip direction="bottom" :text="$strings.LabelVolume">
